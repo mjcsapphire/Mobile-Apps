@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "838883376854",
+    "project_id": "rise-pathway",
+    "storage_bucket": "rise-pathway.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838883376854:android:373f378df04037d79e5377",
+        "android_client_info": {
+          "package_name": "com.example.rise_app_emotivating_minds_2023"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEDuwbm6Asbn7DAGY-0ieUL2EAke21gD8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
