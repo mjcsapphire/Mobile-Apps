@@ -38,8 +38,8 @@ app.*.symbols
 app.*.map.json
 
 # Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+/rise_pathway_2024/android/app/debug
+/rise_pathway_2024/android/app/profile
+/rise_pathway_2024/android/app/release
 
 
