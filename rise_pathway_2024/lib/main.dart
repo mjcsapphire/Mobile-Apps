@@ -5,7 +5,7 @@ import 'package:rise_pathway/config/helpers/dependencies_injector.dart';
 import 'package:rise_pathway/config/routes/router.dart';
 import 'package:rise_pathway/config/utils/theme.dart';
 
-// Code Commiting
+// Code  --- nnew Changes
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
