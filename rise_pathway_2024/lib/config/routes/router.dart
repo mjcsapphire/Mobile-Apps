@@ -1,0 +1,95 @@
+import 'package:rise_pathway/config/routes/routes.dart';
+import 'package:rise_pathway/src/app.dart';
+import 'package:rise_pathway/src/views/auth/login_page.dart';
+import 'package:rise_pathway/src/views/auth/sign_up_page.dart';
+import 'package:rise_pathway/src/views/callenges/challenge_page.dart';
+import 'package:rise_pathway/src/views/chat/chat_page.dart';
+import 'package:rise_pathway/src/views/home/home.dart';
+import 'package:rise_pathway/src/views/home/profile/change_password.dart';
+import 'package:rise_pathway/src/views/home/profile_page.dart';
+import 'package:rise_pathway/src/views/home/schedule_page.dart';
+import 'package:rise_pathway/src/views/journal/add_new_journal.dart';
+import 'package:rise_pathway/src/views/mood/select_mood.dart';
+import 'package:rise_pathway/src/views/rise_pathway/quiz/quiz_page.dart';
+import 'package:rise_pathway/src/views/rise_pathway/rise_pathway.dart';
+import 'package:rise_pathway/src/views/splash/splash_page.dart';
+
+import '../constants/package_export.dart';
+
+class CustomRouter {
+  static GoRouter goRouter = GoRouter(
+    navigatorKey: Get.key,
+    initialLocation: initialRoute,
+    routes: <RouteBase>[
+      GoRoute(
+          path: initialRoute, builder: (context, state) => const SplashPage()),
+      GoRoute(
+          path: selectMood, builder: (context, state) => const SelectMood()),
+      GoRoute(path: login, builder: (context, state) => const LoginPage()),
+      GoRoute(path: signUp, builder: (context, state) => const SignUpPage()),
+      GoRoute(
+        path: app,
+        builder: (context, state) => const App(),
+        routes: [
+          GoRoute(
+            path: 'chat_page',
+            builder: (context, state) => const ChatPage(),
+          ),
+          GoRoute(
+            path: 'home_page',
+            builder: (context, state) => const HomePage(),
+          ),
+          GoRoute(
+            path: 'rise_pathway',
+            builder: (context, state) => const RisePathWay(),
+          ),
+          GoRoute(
+            path: 'add_new_journal',
+            builder: (context, state) => const AddNewJournal(),
+          ),
+          GoRoute(
+            path: 'login',
+            builder: (context, state) => const LoginPage(),
+          ),
+          GoRoute(
+            path: 'sign_up',
+            builder: (context, state) => const SignUpPage(),
+          ),
+          GoRoute(
+            path: 'quiz_page',
+            builder: (context, state) {
+              final title = ((state.extra ?? {'title': 'None'})
+                  as Map<String, dynamic>)['title'];
+              return QuizPage(title: title);
+            },
+          ),
+          GoRoute(
+            path: 'schedule_page',
+            builder: (context, state) {
+              return const SchedulePage();
+            },
+          ),
+          GoRoute(
+            path: 'profile_page',
+            builder: (context, state) {
+              return const ProfilePage();
+            },
+            routes: [
+              GoRoute(
+                path: 'change_password',
+                builder: (context, state) {
+                  return const ChangePassword();
+                },
+              ),
+            ],
+          ),
+
+          GoRoute(
+            path: 'challenge_page',
+            builder: (context, state) => const ChallengePage(),
+          ),
+        ],
+      ),
+    ],
+  );
+}
