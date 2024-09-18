@@ -31,6 +31,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 SvgPicture.asset(
                   'assets/svg/login_svgs/signin.svg',
+                  height: 25.h,
                 ),
                 RiseText('Sign In', style: theme.headlineMedium),
                 SizedBox(height: 2.h),
@@ -49,6 +50,18 @@ class _LoginPageState extends State<LoginPage> {
                   suffixIcon: FluentIcons.lock_closed_48_regular,
                   isPassword: true,
                   keyboardType: TextInputType.visiblePassword,
+                ),
+                SizedBox(height: 1.h),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () => context.go(forgotPassword),
+                    child: RiseText('Forgot Password?',
+                        style: theme.bodySmall!.copyWith(
+                          color: AppColors.primaryColor,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
                 ),
                 SizedBox(height: 2.h),
                 const Spacer(),

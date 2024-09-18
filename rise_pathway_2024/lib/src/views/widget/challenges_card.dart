@@ -10,6 +10,7 @@ class ChallengesCard extends StatelessWidget {
   final double height;
   final EdgeInsets? margin;
   final Function()? onTap;
+  final bool isCompleted;
   const ChallengesCard({
     super.key,
     required this.title,
@@ -17,6 +18,7 @@ class ChallengesCard extends StatelessWidget {
     this.margin,
     required this.height,
     this.onTap,
+    required this.isCompleted,
   });
 
   @override
@@ -43,16 +45,43 @@ class ChallengesCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 12.h,
-                width: 100.w,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(26),
-                  child: Image.asset(
-                    'assets/imgs/callenges.png',
-                    fit: BoxFit.cover,
+              Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  SizedBox(
+                    height: 12.h,
+                    width: 100.w,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(24),
+                      child: Image.asset(
+                        'assets/imgs/callenges.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
-                ),
+                  Container(
+                    height: 4.h,
+                    width: isCompleted ? 30.w : 35.w,
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topRight: Radius.circular(24),
+                        bottomLeft: Radius.circular(10),
+                      ),
+                      gradient: isCompleted
+                          ? AppColorsGredients.quizYesButton
+                          : AppColorsGredients.quizNoButton,
+                    ),
+                    child: RiseText(
+                      isCompleted ? 'Completed' : 'Not Completed',
+                      style: theme.labelSmall!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.white,
+                      ),
+                    ),
+                  )
+                ],
               ),
               SizedBox(height: 2.w),
               Column(

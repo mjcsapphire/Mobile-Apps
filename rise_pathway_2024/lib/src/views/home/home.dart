@@ -142,6 +142,7 @@ class BuildDailyCallengesList extends StatelessWidget {
                   horizontal: 1.h,
                   vertical: 2.w,
                 ),
+                isCompleted: index % 2 == 0,
               );
             },
           ),

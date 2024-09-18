@@ -1,6 +1,9 @@
 import 'package:rise_pathway/config/routes/routes.dart';
 import 'package:rise_pathway/src/app.dart';
+import 'package:rise_pathway/src/views/auth/create_new_password.dart';
+import 'package:rise_pathway/src/views/auth/forget_password.dart';
 import 'package:rise_pathway/src/views/auth/login_page.dart';
+import 'package:rise_pathway/src/views/auth/otp_verify.dart';
 import 'package:rise_pathway/src/views/auth/sign_up_page.dart';
 import 'package:rise_pathway/src/views/callenges/challenge_page.dart';
 import 'package:rise_pathway/src/views/chat/chat_page.dart';
@@ -55,6 +58,18 @@ class CustomRouter {
           GoRoute(
             path: 'sign_up',
             builder: (context, state) => const SignUpPage(),
+          ),
+          GoRoute(
+            path: 'forgot_password',
+            builder: (context, state) => const ForgetPassword(),
+          ),
+          GoRoute(
+            path: 'otp_verify',
+            builder: (context, state) => const OtpVerify(),
+          ),
+          GoRoute(
+            path: 'create_new_password',
+            builder: (context, state) => const CreateNewPassword(),
           ),
           GoRoute(
               path: 'quiz_page',

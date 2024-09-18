@@ -29,30 +29,31 @@ class _RiseButtonState extends State<RiseButton> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-    return Container(
-      width: widget.width ?? 100.w,
-      height: 6.4.h,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        gradient: widget.gradient ?? AppColorsGredients.primaryRightToLeft,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (widget.preffix ?? false)
-            SvgPicture.asset(
-                widget.svgPath ?? 'assets/svg/success_complete.svg'),
-          TextButton(
-            onPressed: widget.onTap,
-            child: RiseText(
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: Container(
+        width: widget.width ?? 100.w,
+        height: 6.4.h,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          gradient: widget.gradient ?? AppColorsGredients.primaryRightToLeft,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (widget.preffix ?? false)
+              SvgPicture.asset(
+                widget.svgPath ?? 'assets/svg/success_complete.svg',
+              ),
+            RiseText(
               widget.title,
               style: theme.bodyMedium!.copyWith(
                 color: AppColors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

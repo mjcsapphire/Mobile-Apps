@@ -54,6 +54,7 @@ class _ChallengesState extends State<Challenges> {
               title: challengeList[index]['title'],
               description: challengeList[index]['description'],
               onTap: () => context.go(challengePage),
+              isCompleted: index % 3 == 0,
             ),
           )),
     );

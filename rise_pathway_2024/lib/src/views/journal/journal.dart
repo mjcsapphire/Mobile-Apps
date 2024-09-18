@@ -77,7 +77,7 @@ class _JournalState extends State<Journal> {
           child: Container(
             width: 30.w,
             height: 5.h,
-            margin: EdgeInsets.only(bottom: 24.h),
+            margin: EdgeInsets.only(bottom: 14.h),
             padding: EdgeInsets.symmetric(horizontal: 2.w),
             decoration: BoxDecoration(
               border: Border.all(width: 1, color: AppColors.primaryColor),
