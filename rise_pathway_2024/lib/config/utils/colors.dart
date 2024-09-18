@@ -29,6 +29,8 @@ class AppColors {
   static const Color darkBlue = Color(0xFF046dc5);
   static const Color veryDarkBlue = Color(0xFF05579f);
 
+  static const Color green = Color(0xFF5FB135);
+
   static const Color blackBlue = Color(0xFF0d3f6d);
   static const Color blackestBlue = Color(0xFF092848);
 
@@ -113,6 +115,17 @@ class AppColorsGredients {
     begin: Alignment.bottomCenter,
     end: Alignment.topCenter,
     colors: [
+      Color(0xFF08477D),
+      Color(0xFF0F81E3),
+    ],
+  );
+  static const LinearGradient quizSummary = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFF08477D),
+      Color(0xFF08477D),
+      Color(0xFF08477D),
       Color(0xFF08477D),
       Color(0xFF0F81E3),
     ],

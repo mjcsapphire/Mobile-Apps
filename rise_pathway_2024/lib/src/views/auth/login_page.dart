@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/config/constants/package_export.dart';
+import 'package:rise_pathway/config/helpers/helpers.dart';
 import 'package:rise_pathway/config/routes/routes.dart';
 import 'package:rise_pathway/config/utils/colors.dart';
 import 'package:rise_pathway/src/views/widget/rise_button.dart';
@@ -31,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
                 SvgPicture.asset(
                   'assets/svg/login_svgs/signin.svg',
                 ),
-                Text('Sign In', style: theme.headlineMedium),
+                RiseText('Sign In', style: theme.headlineMedium),
                 SizedBox(height: 2.h),
                 RiseTextField(
                   title: 'Email',
@@ -59,14 +60,14 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    RiseText(
                       'Already have an account? ',
                       style: theme.bodySmall!
                           .copyWith(color: AppColors.textFieldColor),
                     ),
                     TextButton(
                       onPressed: () => context.go(signUp),
-                      child: Text(
+                      child: RiseText(
                         'Sign Up',
                         style: theme.bodySmall!.copyWith(
                           color: AppColors.primaryColor,

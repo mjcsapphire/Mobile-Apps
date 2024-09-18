@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/config/constants/package_export.dart';
+import 'package:rise_pathway/config/helpers/helpers.dart';
 import 'package:rise_pathway/config/utils/colors.dart';
 import 'package:rise_pathway/src/views/widget/gradient_border_card.dart';
 
@@ -57,9 +58,8 @@ class ChallengesCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  RiseText(
                     title,
-                    textScaler: TextScaler.noScaling,
                     style: theme.titleMedium!.copyWith(
                       color: AppColors.darkSkyBlue,
                       fontWeight: FontWeight.w600,
@@ -70,9 +70,8 @@ class ChallengesCard extends StatelessWidget {
                     children: [
                       SizedBox(
                         width: 50.w,
-                        child: Text(
+                        child: RiseText(
                           description,
-                          textScaler: TextScaler.noScaling,
                           style: theme.labelSmall!.copyWith(
                             color: AppColors.challengesCardSubtitle,
                             // fontWeight: FontWeight.w600,

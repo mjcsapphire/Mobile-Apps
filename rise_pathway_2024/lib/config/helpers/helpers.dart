@@ -16,13 +16,13 @@ class Helpers {
       ]
     },
     {
-      'title': 'Introduction',
+      'title': 'Purpose',
       'description': [
         'The goal of this challenge is to help you connect with others, which can improve your mood and give you a sense of belonging. Even if you\'re feeling low or neutral, having a conversation with someone can break isolation and help create positive energy.'
       ]
     },
     {
-      'title': 'Introduction',
+      'title': 'Goals',
       'description': [
         'Engage in meaningful conversations.',
         'Build or strengthen a connection with someone.',
@@ -30,7 +30,7 @@ class Helpers {
       ]
     },
     {
-      'title': 'Introduction',
+      'title': 'Activity',
       'description': [
         'Reach out to a friend or family member you haven’t spoken to in a while and catch up.',
         'Introduce yourself to someone new or talk to a colleague/classmate about their day.',
@@ -38,7 +38,7 @@ class Helpers {
       ]
     },
     {
-      'title': 'Introduction',
+      'title': 'Challenge',
       'description': [
         'Your personal coach encourages you to have at least three conversations today. The challenge is to go beyond small talk. Ask people how they’re really doing, share something about your own day or mood, and actively engage in the conversation. Notice how it affects your mood and reflect on it at the end of the day.'
       ]
@@ -138,6 +138,29 @@ class Helpers {
           ),
         ],
       ),
+    );
+  }
+}
+
+class RiseText extends StatelessWidget {
+  const RiseText(
+    this.data, {
+    super.key,
+    this.textAlign,
+    required this.style,
+    this.maxLines,
+  });
+  final String data;
+  final TextAlign? textAlign;
+  final TextStyle? style;
+  final int? maxLines;
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      data,
+      textScaler: TextScaler.noScaling,
+      textAlign: textAlign,
+      style: style,
     );
   }
 }

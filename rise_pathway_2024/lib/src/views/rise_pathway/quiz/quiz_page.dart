@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/config/constants/package_export.dart';
+import 'package:rise_pathway/config/helpers/helpers.dart';
+import 'package:rise_pathway/config/routes/routes.dart';
 import 'package:rise_pathway/config/utils/colors.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 import 'package:rise_pathway/src/views/widget/rise_button.dart';
@@ -69,7 +71,6 @@ class _QuizPageState extends State<QuizPage> {
                                 curve: Curves.easeInOut,
                                 duration: 300.ms,
                               );
-                              print(currentQuiz.value);
                               if (currentQuiz.value > 1) {
                                 currentQuiz.value -= 1;
                               }
@@ -80,7 +81,7 @@ class _QuizPageState extends State<QuizPage> {
                                   Icons.arrow_left_rounded,
                                   color: AppColors.primaryColor,
                                 ),
-                                Text(
+                                RiseText(
                                   'Prev',
                                   style: theme.labelSmall!.copyWith(
                                     color: AppColors.primaryColor,
@@ -90,7 +91,7 @@ class _QuizPageState extends State<QuizPage> {
                               ],
                             ),
                           ),
-                          Obx(() => Text(
+                          Obx(() => RiseText(
                                 'Question ${currentQuiz.value} of 10',
                                 style: theme.titleSmall!.copyWith(
                                   color: AppColors.darkSkyBlue,
@@ -102,14 +103,13 @@ class _QuizPageState extends State<QuizPage> {
                                 curve: Curves.easeInOut,
                                 duration: 300.ms,
                               );
-                              print(currentQuiz.value);
                               if (currentQuiz.value < 10) {
                                 currentQuiz.value += 1;
                               }
                             },
                             child: Row(
                               children: [
-                                Text(
+                                RiseText(
                                   'Next',
                                   style: theme.labelSmall!.copyWith(
                                     color: AppColors.primaryColor,
@@ -140,7 +140,7 @@ class _QuizPageState extends State<QuizPage> {
                       SizedBox(height: 2.h),
                       RiseButton(
                         title: 'Yes',
-                        onTap: () {},
+                        onTap: () => context.go(quizSummary),
                         gradient: AppColorsGredients.quizYesButton,
                       ),
                       SizedBox(height: 2.h),
@@ -160,8 +160,8 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  Text _buildQuizField(int index, TextTheme theme) {
-    return Text(
+  _buildQuizField(int index, TextTheme theme) {
+    return RiseText(
       'I think before I speak ${index + 1}',
       style: theme.titleMedium!.copyWith(
         color: AppColors.primaryColor,

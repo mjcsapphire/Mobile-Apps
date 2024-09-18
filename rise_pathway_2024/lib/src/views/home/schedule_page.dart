@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/config/constants/package_export.dart';
+import 'package:rise_pathway/config/helpers/helpers.dart';
 import 'package:rise_pathway/config/utils/colors.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 import 'package:rise_pathway/src/views/widget/rise_button.dart';
@@ -41,9 +42,9 @@ class _SchedulePageState extends State<SchedulePage> {
                 rowHeight: 45,
                 daysOfWeekHeight: 45,
                 onDaySelected: (selectedDay, focusedDay) {
-                  print(selectedDay);
+                
                   focusDate.value = selectedDay;
-                  print(focusDate.value);
+        
                 },
                 selectedDayPredicate: (day) {
                   return isSameDay(day, focusDate.value);
@@ -97,7 +98,7 @@ class _SchedulePageState extends State<SchedulePage> {
             SizedBox(height: 2.h),
             Align(
               alignment: Alignment.centerLeft,
-              child: Text(
+              child: RiseText(
                 'Available Times',
                 style: theme.bodyMedium!.copyWith(
                   fontWeight: FontWeight.w600,
@@ -127,7 +128,7 @@ class _SchedulePageState extends State<SchedulePage> {
                     )
                   ],
                 ),
-                child: Text(
+                child: RiseText(
                   '${1 + index}:${15 + index} AM',
                   style: theme.bodySmall!.copyWith(
                     color: index == 5 ? AppColors.white : AppColors.blue400,

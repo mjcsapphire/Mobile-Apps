@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/config/constants/package_export.dart';
+import 'package:rise_pathway/config/helpers/helpers.dart';
 import 'package:rise_pathway/config/utils/colors.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
 import 'package:rise_pathway/src/views/callenges/challenges.dart';
@@ -98,9 +99,8 @@ class _AppState extends State<App> {
                                 children: [
                                   Row(
                                     children: [
-                                      Text(
+                                      RiseText(
                                         'Out of my mine',
-                                        textScaler: TextScaler.noScaling,
                                         style: theme.bodySmall!.copyWith(
                                           color: AppColors.primaryColor,
                                           fontWeight: FontWeight.bold,
@@ -113,9 +113,8 @@ class _AppState extends State<App> {
                                       )
                                     ],
                                   ),
-                                  Text(
+                                  RiseText(
                                     'Some Feeling',
-                                    textScaler: TextScaler.noScaling,
                                     style: theme.labelSmall!.copyWith(
                                       color: AppColors.primaryColor,
                                       fontSize: 9.sp,
@@ -359,9 +358,8 @@ class BottomNavBarCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: 1.w),
-          Text(
+          RiseText(
             label,
-            textScaler: TextScaler.noScaling,
             style: index == homeIndex
                 ? theme.labelSmall!.copyWith(
                     color: AppColors.primaryColor,

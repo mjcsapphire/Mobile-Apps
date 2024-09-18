@@ -3,6 +3,8 @@ import 'package:rise_pathway/config/constants/package_export.dart';
 import 'package:rise_pathway/config/routes/routes.dart';
 import 'package:rise_pathway/config/utils/colors.dart';
 
+import '../../../config/helpers/helpers.dart';
+
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
@@ -24,7 +26,7 @@ class _SplashPageState extends State<SplashPage> {
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
       body: Center(
-        child: Text(
+        child: RiseText(
           'Rise Pathway',
           style: theme.headlineMedium!.copyWith(
             fontWeight: FontWeight.bold,

@@ -50,10 +50,9 @@ class _ReflectionState extends State<Reflection> {
                     width: 80.w,
                     height: 6.h,
                     alignment: Alignment.bottomRight,
-                    child: Text(
+                    child: RiseText(
                       'View all of your key rise information for the day, week and month',
                       textAlign: TextAlign.center,
-                      textScaler: TextScaler.noScaling,
                       style: theme.bodySmall,
                     ),
                   ),
@@ -86,9 +85,8 @@ class _ReflectionState extends State<Reflection> {
                                   scale: 4,
                                 ),
                                 SizedBox(height: 0.8.h),
-                                Text(
+                                RiseText(
                                   'Adaptation',
-                                  textScaler: TextScaler.noScaling,
                                   style: theme.labelSmall!.copyWith(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 9.sp,
@@ -120,9 +118,8 @@ class _ReflectionState extends State<Reflection> {
                                   scale: 4,
                                 ),
                                 SizedBox(height: 0.8.h),
-                                Text(
+                                RiseText(
                                   'Communication',
-                                  textScaler: TextScaler.noScaling,
                                   style: theme.labelSmall!.copyWith(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 9.sp,
@@ -151,9 +148,8 @@ class _ReflectionState extends State<Reflection> {
                                   scale: 4,
                                 ),
                                 SizedBox(height: 0.8.h),
-                                Text(
+                                RiseText(
                                   'Relationship',
-                                  textScaler: TextScaler.noScaling,
                                   style: theme.labelSmall!.copyWith(
                                     fontWeight: FontWeight.w700,
                                     fontSize: 9.sp,
@@ -169,9 +165,8 @@ class _ReflectionState extends State<Reflection> {
                     ),
                   ),
                   SizedBox(height: 12.h),
-                  Text(
+                  RiseText(
                     'Mood Throughout the week',
-                    textScaler: TextScaler.noScaling,
                     textAlign: TextAlign.center,
                     style: theme.titleSmall!.copyWith(
                       fontWeight: FontWeight.bold,
@@ -198,9 +193,8 @@ class _ReflectionState extends State<Reflection> {
                                       scale: 9,
                                     ),
                                     SizedBox(height: 1.h),
-                                    Text(
+                                    RiseText(
                                       emojiTitles[index],
-                                      textScaler: TextScaler.noScaling,
                                       style: theme.bodySmall!.copyWith(
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -279,9 +273,8 @@ class RelectionStatusCard extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            RiseText(
               title,
-              textScaler: TextScaler.noScaling,
               style: theme.titleSmall!.copyWith(
                 fontWeight: FontWeight.w500,
                 color: AppColors.primaryColor,
@@ -301,17 +294,15 @@ class RelectionStatusCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(
+                      RiseText(
                         firstValue,
-                        textScaler: TextScaler.noScaling,
                         style: theme.displayMedium!.copyWith(
                           fontWeight: FontWeight.w500,
                           color: AppColors.white,
                         ),
                       ),
-                      Text(
+                      RiseText(
                         firstTitle,
-                        textScaler: TextScaler.noScaling,
                         style: theme.labelSmall!.copyWith(
                           fontWeight: FontWeight.w500,
                           color: AppColors.white,
@@ -326,17 +317,15 @@ class RelectionStatusCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(26),
                         ),
                       ),
-                      Text(
+                      RiseText(
                         secondValue,
-                        textScaler: TextScaler.noScaling,
                         style: theme.displayMedium!.copyWith(
                           fontWeight: FontWeight.w500,
                           color: AppColors.white,
                         ),
                       ),
-                      Text(
+                      RiseText(
                         secondTitle,
-                        textScaler: TextScaler.noScaling,
                         style: theme.labelSmall!.copyWith(
                           fontWeight: FontWeight.w500,
                           color: AppColors.white,

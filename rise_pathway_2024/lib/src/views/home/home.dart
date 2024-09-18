@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/config/constants/package_export.dart';
+import 'package:rise_pathway/config/helpers/helpers.dart';
 import 'package:rise_pathway/config/routes/routes.dart';
 import 'package:rise_pathway/config/utils/colors.dart';
 import 'package:rise_pathway/config/utils/widget.dart';
@@ -22,7 +23,6 @@ class _HomePageState extends State<HomePage> {
   final _dailyChallengePageController = PageController();
   @override
   Widget build(BuildContext context) {
-    // final dobl
     final theme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
@@ -62,7 +62,9 @@ class _HomePageState extends State<HomePage> {
                     axisDirection: Axis.horizontal,
                   ),
                   SizedBox(height: 2.h),
-                  BuildRisePathwayList(theme: theme),
+                  BuildRisePathwayList(
+                    theme: theme,
+                  ),
                   SizedBox(height: 5.h),
                 ],
               ),
@@ -92,25 +94,22 @@ class BuildDailyCallengesList extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            print('obx');
             homeController.navIndex.value = 1;
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Row(
               children: [
-                Text(
+                RiseText(
                   'Daily Challenges',
-                  textScaler: TextScaler.noScaling,
                   style: theme.titleMedium!.copyWith(
                     color: AppColors.primaryColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const Spacer(),
-                Text(
+                RiseText(
                   'See All (10)',
-                  textScaler: TextScaler.noScaling,
                   style: theme.labelSmall!.copyWith(
                     color: AppColors.darkGrey,
                     fontSize: 9.sp,
@@ -181,16 +180,14 @@ class BuildHomeAppBar extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  RiseText(
                     "Hello There,",
-                    textScaler: TextScaler.noScaling,
                     style: theme.bodySmall!.copyWith(
                       color: AppColors.white,
                     ),
                   ),
-                  Text(
+                  RiseText(
                     "Adarsh Gachha",
-                    textScaler: TextScaler.noScaling,
                     style: theme.titleMedium!.copyWith(
                       color: AppColors.white,
                       fontWeight: FontWeight.bold,
@@ -274,9 +271,8 @@ class BuildHomeAppBar extends StatelessWidget {
                       gradient: AppColorsGredients.primaryRightToLeft,
                       borderRadius: BorderRadius.circular(50),
                     ),
-                    child: Text(
+                    child: RiseText(
                       'Now I’m feeling excited',
-                      textScaler: TextScaler.noScaling,
                       style: theme.bodySmall!.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -286,9 +282,8 @@ class BuildHomeAppBar extends StatelessWidget {
                   SizedBox(height: 1.5.h),
                   GestureDetector(
                     onTap: () => context.go(splash),
-                    child: Text(
+                    child: RiseText(
                       'Change Mood',
-                      textScaler: TextScaler.noScaling,
                       style: theme.labelSmall!.copyWith(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -338,9 +333,8 @@ class BuildAnalysisAndCoachDetails extends StatelessWidget {
                         width: 1,
                         color: AppColors.black.withOpacity(0.1),
                       )),
-                  child: Text(
+                  child: RiseText(
                     'Your Reflection',
-                    textScaler: TextScaler.noScaling,
                     style: theme.labelSmall!.copyWith(fontSize: 5.sp),
                   )),
               GestureDetector(
@@ -434,9 +428,8 @@ class BuildAnalysisAndCoachDetails extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 1.w),
-                  Text(
+                  RiseText(
                     'Coach',
-                    textScaler: TextScaler.noScaling,
                     style: theme.bodySmall!.copyWith(
                       color: AppColors.primaryColor,
                       fontWeight: FontWeight.bold,
@@ -448,9 +441,8 @@ class BuildAnalysisAndCoachDetails extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
+                  RiseText(
                     'Stephen Allen',
-                    textScaler: TextScaler.noScaling,
                     style: theme.titleSmall!.copyWith(
                       color: AppColors.primaryColor,
                       fontWeight: FontWeight.bold,
@@ -502,9 +494,8 @@ class BuildRisePathwayList extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Row(
             children: [
-              Text(
+              RiseText(
                 'Rise Pathways',
-                textScaler: TextScaler.noScaling,
                 style: theme.titleMedium!.copyWith(
                   color: AppColors.primaryColor,
                   fontWeight: FontWeight.bold,
@@ -515,9 +506,8 @@ class BuildRisePathwayList extends StatelessWidget {
                 onTap: () => context.go(risePathway),
                 child: Row(
                   children: [
-                    Text(
+                    RiseText(
                       'See All (10)',
-                      textScaler: TextScaler.noScaling,
                       style: theme.labelSmall!.copyWith(
                         color: AppColors.darkGrey,
                         fontSize: 9.sp,
@@ -543,104 +533,166 @@ class BuildRisePathwayList extends StatelessWidget {
               onTap: () => context.go(quizPage, extra: {
                 'title': 'Communication',
               }),
-              child: Container(
-                width: 65.w,
-                height: 60.w,
-                margin: const EdgeInsets.only(left: 12),
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  gradient: AppColorsGredients.primaryBottomToTop,
-                  borderRadius: BorderRadius.circular(46),
-                ),
-                child: Stack(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                SizedBox(
-                                  width: 29.w,
-                                  height: 30.w,
-                                  child: CircularProgressIndicator(
-                                    backgroundColor: AppColors.white,
-                                    value: Random().nextDouble(),
-                                    strokeWidth: 12,
-                                    color: AppColors.secondryColor,
-                                    semanticsLabel: '0.78',
-                                    semanticsValue: '0.78',
-                                    strokeCap: StrokeCap.round,
-                                  ),
-                                ),
-                                Container(
-                                  width: 22.w,
-                                  height: 22.w,
-                                  alignment: Alignment.center,
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.white,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "9/10",
-                                        textScaler: TextScaler.noScaling,
-                                        style: theme.bodySmall!.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        "Score",
-                                        textScaler: TextScaler.noScaling,
-                                        style: theme.bodySmall!.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                            const Icon(
-                              Icons.trending_up,
-                              color: AppColors.white,
-                              size: 36,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/icons/risepathway_1.png',
-                              scale: 3,
-                            ),
-                            SizedBox(width: 2.w),
-                            Text(
-                              'Relation Development',
-                              textScaler: TextScaler.noScaling,
-                              style: theme.labelSmall!.copyWith(
-                                color: AppColors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
-                ),
+              child: RisepathwayCard(
+                theme: theme,
+                isAttempted: index % 2 == 0,
               ),
             ),
           ),
         ),
       ],
+    );
+  }
+}
+
+class RisepathwayCard extends StatelessWidget {
+  const RisepathwayCard({
+    super.key,
+    required this.theme,
+    required this.isAttempted,
+  });
+
+  final TextTheme theme;
+  final bool isAttempted;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 65.w,
+      height: 60.w,
+      margin: const EdgeInsets.only(left: 12),
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        gradient: isAttempted
+            ? AppColorsGredients.primaryLeftToRight
+            : AppColorsGredients.quizYesButton,
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Stack(
+        children: [
+          if (isAttempted) ...{
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        SizedBox(
+                          width: 29.w,
+                          height: 30.w,
+                          child: CircularProgressIndicator(
+                            backgroundColor: AppColors.white,
+                            value: Random().nextDouble(),
+                            strokeWidth: 12,
+                            color: AppColors.secondryColor,
+                            semanticsLabel: '0.78',
+                            semanticsValue: '0.78',
+                            strokeCap: StrokeCap.round,
+                          ),
+                        ),
+                        Container(
+                          width: 22.w,
+                          height: 22.w,
+                          alignment: Alignment.center,
+                          decoration: const BoxDecoration(
+                            color: AppColors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              RiseText(
+                                "9/10",
+                                style: theme.bodySmall!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              RiseText(
+                                "Score",
+                                style: theme.bodySmall!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    const Icon(
+                      Icons.trending_up,
+                      color: AppColors.white,
+                      size: 36,
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/icons/risepathway_1.png',
+                      scale: 3,
+                    ),
+                    SizedBox(width: 2.w),
+                    RiseText(
+                      'Relation Development',
+                      style: theme.labelSmall!.copyWith(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            )
+          } else ...{
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SvgPicture.asset(
+                  'assets/svg/heart_doctor.svg',
+                ),
+                RiseText(
+                  'Health & Wellbeing',
+                  style: theme.bodyMedium!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.white,
+                  ),
+                ),
+                Container(
+                  width: 80.w,
+                  height: 6.h,
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      RiseText(
+                        'Start Quiz',
+                        style: theme.bodySmall!.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.green,
+                        ),
+                      ),
+                      SizedBox(width: 1.h),
+                      const Icon(
+                        Icons.trending_up,
+                        color: AppColors.green,
+                        size: 20,
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            )
+          },
+        ],
+      ),
     );
   }
 }

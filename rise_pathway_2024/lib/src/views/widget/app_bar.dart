@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/config/constants/package_export.dart';
+import 'package:rise_pathway/config/helpers/helpers.dart';
 import 'package:rise_pathway/config/utils/colors.dart';
 
 class RiseAppBar {
-  static PreferredSizeWidget riseAppBar(
-      {required TextTheme theme,
-      required String title,
-      bool chatPage = false,
-      Widget? child,
-      bool isAdd = false,
-      required Function() onTap,
-      Color? backgroundColor = AppColors.white,
-      Color? iconColor = AppColors.primaryColor}) {
+  static PreferredSizeWidget riseAppBar({
+    required TextTheme theme,
+    required String title,
+    bool chatPage = false,
+    Widget? child,
+    bool isAdd = false,
+    required Function() onTap,
+    Color? backgroundColor = AppColors.white,
+    Color? iconColor = AppColors.primaryColor,
+  }) {
     return AppBar(
       toolbarHeight: 10.h,
       elevation: 0,
@@ -44,9 +46,8 @@ class RiseAppBar {
       title: chatPage
           ? child
           : Center(
-              child: Text(
+              child: RiseText(
                 title,
-                textScaler: TextScaler.noScaling,
                 style: theme.titleSmall!.copyWith(
                   color: iconColor,
                   fontWeight: FontWeight.bold,
@@ -87,14 +88,14 @@ class RiseMainAppBar {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            RiseText(
               "Hello There,",
               style: theme.titleMedium!.copyWith(
                 color: AppColors.primaryColor,
                 fontWeight: FontWeight.w500,
               ),
             ),
-            Text(
+            RiseText(
               "Adarsh Gachha",
               style: theme.titleLarge!.copyWith(
                 color: AppColors.primaryColor,

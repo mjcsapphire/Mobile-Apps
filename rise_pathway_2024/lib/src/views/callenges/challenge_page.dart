@@ -1,6 +1,7 @@
 import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/config/constants/package_export.dart';
+import 'package:rise_pathway/config/helpers/helpers.dart';
 import 'package:rise_pathway/config/utils/colors.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 import 'package:rise_pathway/src/views/widget/gradient_border_card.dart';
@@ -96,9 +97,8 @@ class _ChallengePageState extends State<ChallengePage> {
                               borderRadius: BorderRadius.circular(6),
                               color: AppColors.white,
                             ),
-                            child: Text(
+                            child: RiseText(
                               'Challenge',
-                              textScaler: TextScaler.noScaling,
                               style: theme.bodySmall!.copyWith(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 8.sp,
@@ -107,9 +107,8 @@ class _ChallengePageState extends State<ChallengePage> {
                             ),
                           ),
                           SizedBox(height: 1.h),
-                          Text(
+                          RiseText(
                             'Talk to People',
-                            textScaler: TextScaler.noScaling,
                             style: theme.titleMedium!.copyWith(
                               fontWeight: FontWeight.bold,
                               color: AppColors.white,
@@ -129,6 +128,8 @@ class _ChallengePageState extends State<ChallengePage> {
               title: r"I've Completed This",
               onTap: () {},
               gradient: AppColorsGredients.challengeCompletedBtn,
+              preffix: true,
+              svgPath: 'assets/svg/success_complete.svg',
             )
           ],
         ),
@@ -172,9 +173,8 @@ class _ChallengePageState extends State<ChallengePage> {
               ),
               child: Column(
                 children: [
-                  Text(
-                    'Introduction $index',
-                    textScaler: TextScaler.noScaling,
+                  RiseText(
+                    Helpers.challenges[index]['title'],
                     style: theme.titleMedium!.copyWith(
                       color: AppColors.white,
                       fontWeight: FontWeight.bold,
@@ -182,21 +182,37 @@ class _ChallengePageState extends State<ChallengePage> {
                     ),
                   ),
                   SizedBox(height: 2.h),
-                  Text(
-                    'Today, the focus is on human connection. Social interaction is a key aspect of feeling supported, heard, and understood, even when it feels challenging. Your mood suggests that opening up to others might help boost your emotional state or even provide new perspectives.',
-                    textScaler: TextScaler.noScaling,
-                    strutStyle: const StrutStyle(height: 1.5),
-                    style: theme.labelSmall!.copyWith(
-                      color: AppColors.white,
-                      fontSize: 10.sp,
-                    ),
-                  ),
+                  ...List.generate(
+                      Helpers.challenges[index]['description'].length, (_) {
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        RiseText(
+                          '\u2022',
+                          style: theme.bodySmall!.copyWith(
+                            color: AppColors.white,
+                            fontSize: 10.sp,
+                          ),
+                        ),
+                        SizedBox(width: 1.w),
+                        Expanded(
+                          child: RiseText(
+                            Helpers.challenges[index]['description'][_],
+                            style: theme.bodySmall!.copyWith(
+                              color: AppColors.white,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
                 ],
               ),
             );
           });
         },
-        cardCount: 10,
+        cardCount: Helpers.challenges.length,
       ),
     );
   }

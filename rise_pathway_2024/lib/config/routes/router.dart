@@ -11,6 +11,7 @@ import 'package:rise_pathway/src/views/home/schedule_page.dart';
 import 'package:rise_pathway/src/views/journal/add_new_journal.dart';
 import 'package:rise_pathway/src/views/mood/select_mood.dart';
 import 'package:rise_pathway/src/views/rise_pathway/quiz/quiz_page.dart';
+import 'package:rise_pathway/src/views/rise_pathway/quiz/quiz_summary.dart';
 import 'package:rise_pathway/src/views/rise_pathway/rise_pathway.dart';
 import 'package:rise_pathway/src/views/splash/splash_page.dart';
 
@@ -56,13 +57,20 @@ class CustomRouter {
             builder: (context, state) => const SignUpPage(),
           ),
           GoRoute(
-            path: 'quiz_page',
-            builder: (context, state) {
-              final title = ((state.extra ?? {'title': 'None'})
-                  as Map<String, dynamic>)['title'];
-              return QuizPage(title: title);
-            },
-          ),
+              path: 'quiz_page',
+              builder: (context, state) {
+                final title = ((state.extra ?? {'title': 'None'})
+                    as Map<String, dynamic>)['title'];
+                return QuizPage(title: title);
+              },
+              routes: [
+                GoRoute(
+                  path: 'summary',
+                  builder: (context, state) {
+                    return const QuizSummary();
+                  },
+                ),
+              ]),
           GoRoute(
             path: 'schedule_page',
             builder: (context, state) {
@@ -83,7 +91,6 @@ class CustomRouter {
               ),
             ],
           ),
-
           GoRoute(
             path: 'challenge_page',
             builder: (context, state) => const ChallengePage(),

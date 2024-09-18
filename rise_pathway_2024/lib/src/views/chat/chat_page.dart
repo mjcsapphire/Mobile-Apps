@@ -5,6 +5,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:intl/intl.dart';
 import 'package:rise_pathway/config/constants/package_export.dart';
+import 'package:rise_pathway/config/helpers/helpers.dart';
 import 'package:rise_pathway/config/utils/colors.dart';
 import 'package:rise_pathway/src/controllers/chat_controller.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
@@ -39,7 +40,7 @@ class _ChatPageState extends State<ChatPage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                RiseText(
                   'Stephen Allen',
                   style: theme.titleMedium!.copyWith(
                     color: AppColors.primaryColor,
@@ -47,7 +48,7 @@ class _ChatPageState extends State<ChatPage> {
                   ),
                 ),
                 SizedBox(height: 1.w),
-                Text(
+                RiseText(
                   'Active now',
                   style: theme.bodySmall!.copyWith(
                     color: AppColors.primaryColor,
@@ -61,7 +62,6 @@ class _ChatPageState extends State<ChatPage> {
         ),
       ),
       body: Obx(() {
-        print(messageController.value.text);
         return Chat(
           messageWidthRatio: 0.8,
           messages: chatController.messages.reversed.toList(),
@@ -232,7 +232,7 @@ class MessageTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Positioned(
-              child: Text(
+              child: RiseText(
                 message,
                 textAlign: TextAlign.start,
                 style: theme.labelSmall!.copyWith(
@@ -243,7 +243,7 @@ class MessageTile extends StatelessWidget {
               ),
             ),
             SizedBox(height: 1.w),
-            Text(
+            RiseText(
               sendByMe ? time.toString() : time.toString(),
               style: sendByMe
                   ? theme.bodySmall!

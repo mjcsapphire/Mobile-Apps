@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/config/constants/package_export.dart';
+import 'package:rise_pathway/config/helpers/helpers.dart';
 import 'package:rise_pathway/config/utils/colors.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
 
@@ -48,9 +49,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     ),
                   ),
                   SizedBox(height: 1.w),
-                  Text(
+                  RiseText(
                     'Home',
-                    textScaler: TextScaler.noScaling,
                     style: index == 0
                         ? theme.labelSmall!.copyWith(
                             color: AppColors.primaryColor,
@@ -89,9 +89,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     ),
                   ),
                   SizedBox(height: 1.w),
-                  Text(
+                  RiseText(
                     'Challenges',
-                    textScaler: TextScaler.noScaling,
                     style: index == 1
                         ? theme.labelSmall!.copyWith(
                             color: AppColors.primaryColor,
@@ -131,9 +130,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     ),
                   ),
                   SizedBox(height: 1.w),
-                  Text(
+                  RiseText(
                     'Journal',
-                    textScaler: TextScaler.noScaling,
                     style: index == 2
                         ? theme.labelSmall!.copyWith(
                             color: AppColors.primaryColor,
@@ -172,9 +170,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     ),
                   ),
                   SizedBox(height: 1.w),
-                  Text(
+                  RiseText(
                     'Reflection',
-                    textScaler: TextScaler.noScaling,
                     style: index == 3
                         ? theme.labelSmall!.copyWith(
                             color: AppColors.primaryColor,

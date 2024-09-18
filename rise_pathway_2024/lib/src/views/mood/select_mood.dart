@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui' as ui;
@@ -38,7 +40,7 @@ class _SelectMoodState extends State<SelectMood> {
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
-            Text(
+            RiseText(
               'How would you describe your mood?',
               textAlign: TextAlign.center,
               style: theme.titleLarge!.copyWith(
@@ -47,7 +49,7 @@ class _SelectMoodState extends State<SelectMood> {
               ),
             ),
             SizedBox(height: 4.h),
-            Text(
+            RiseText(
               'I Feel Neutral.',
               textAlign: TextAlign.center,
               style: theme.titleMedium!.copyWith(
@@ -219,7 +221,7 @@ class _StrokeCircleWithImagesState extends State<StrokeCircleWithImages> {
                 gradient: AppColorsGredients.primaryLeftToRight,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Text(
+              child: RiseText(
                 'Next',
                 style: theme.titleSmall!.copyWith(
                   color: Colors.white,

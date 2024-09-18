@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/config/constants/package_export.dart';
+import 'package:rise_pathway/config/helpers/helpers.dart';
 
 class SmallCards {
   static Widget smallCards(
@@ -20,10 +21,9 @@ class SmallCards {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            RiseText(
               title,
               maxLines: 1,
-              textScaler: TextScaler.noScaling,
               style: theme.labelSmall!.copyWith(
                 color: Colors.black,
                 fontWeight: FontWeight.w700,
@@ -39,9 +39,8 @@ class SmallCards {
                 borderRadius: BorderRadius.circular(20),
                 color: backgroundColor.withOpacity(0.2),
               ),
-              child: Text(
+              child: RiseText(
                 subTitle,
-                textScaler: TextScaler.noScaling,
                 style: theme.labelSmall!.copyWith(
                   color: backgroundColor,
                   fontSize: 6.sp,

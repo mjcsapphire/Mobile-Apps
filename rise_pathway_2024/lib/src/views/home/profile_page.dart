@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/config/constants/package_export.dart';
+import 'package:rise_pathway/config/helpers/helpers.dart';
 import 'package:rise_pathway/config/routes/routes.dart';
 import 'package:rise_pathway/config/utils/colors.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
@@ -21,9 +22,6 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     nameController.value.text = "Rishabh";
     emailController.value.text = "aL6z2@example.com";
-
-    print(nameController.value.text);
-    print(emailController.value.text);
     super.initState();
   }
 
@@ -86,9 +84,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                               ),
-                              Text(
+                              RiseText(
                                 'Choose File',
-                                textScaler: TextScaler.noScaling,
                                 style: theme.bodyMedium!.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -121,9 +118,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         ),
                                       ),
                                       SizedBox(height: 1.h),
-                                      Text(
+                                      RiseText(
                                         'Camera',
-                                        textScaler: TextScaler.noScaling,
                                         style: theme.bodyMedium!.copyWith(
                                           color: AppColors.primaryColor,
                                           fontWeight: FontWeight.bold,
@@ -155,9 +151,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         ),
                                       ),
                                       SizedBox(height: 1.h),
-                                      Text(
+                                      RiseText(
                                         'Gallery',
-                                        textScaler: TextScaler.noScaling,
                                         style: theme.bodyMedium!.copyWith(
                                           color: AppColors.primaryColor,
                                           fontWeight: FontWeight.bold,
@@ -208,9 +203,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () => context.go(changePassword),
-                    child: Text(
+                    child: RiseText(
                       "Change Password",
-                      textScaler: TextScaler.noScaling,
                       style: theme.bodySmall!.copyWith(color: AppColors.error),
                     ),
                   ),

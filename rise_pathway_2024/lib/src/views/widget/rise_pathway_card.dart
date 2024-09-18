@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/config/constants/package_export.dart';
+import 'package:rise_pathway/config/helpers/helpers.dart';
 import 'package:rise_pathway/config/utils/colors.dart';
 
 class RisePathwayCard extends StatelessWidget {
@@ -111,7 +112,7 @@ class RisePathwayCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            RiseText(
               list[index]['title'].toString(),
               textAlign: TextAlign.center,
               style: theme.bodyMedium!.copyWith(
@@ -126,7 +127,7 @@ class RisePathwayCard extends StatelessWidget {
                 ],
               ),
             ),
-            Text(
+            RiseText(
               list[index]['subtitle'].toString(),
               textAlign: TextAlign.center,
               style: theme.labelSmall!.copyWith(

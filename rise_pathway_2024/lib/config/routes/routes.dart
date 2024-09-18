@@ -11,6 +11,8 @@ const String login = '/login';
 const String signUp = '/sign_up';
 
 const String quizPage = '$app/quiz_page';
+const String quizSummary = '$app/quiz_page/summary';
+
 const String schedulePage = '$app/schedule_page';
 const String profilePage = '$app/profile_page';
 const String changePassword = '$app/profile_page/change_password';

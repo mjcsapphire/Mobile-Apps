@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/config/constants/package_export.dart';
+import 'package:rise_pathway/config/helpers/helpers.dart';
 import 'package:rise_pathway/config/utils/colors.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 
@@ -56,9 +57,8 @@ class _AddNewJournalState extends State<AddNewJournal> {
           children: [
             Align(
               alignment: Alignment.center,
-              child: Text(
+              child: RiseText(
                 'How are you feeling?',
-                textScaler: TextScaler.noScaling,
                 style: theme.titleLarge!.copyWith(
                   fontWeight: FontWeight.w600,
                   color: AppColors.primaryColor,
@@ -85,9 +85,8 @@ class _AddNewJournalState extends State<AddNewJournal> {
               ),
             ),
             SizedBox(height: 3.h),
-            Text(
+            RiseText(
               'What’s affecting your mood',
-              textScaler: TextScaler.noScaling,
               style: theme.titleSmall!.copyWith(
                 fontWeight: FontWeight.w600,
                 color: AppColors.primaryColor,
@@ -110,9 +109,8 @@ class _AddNewJournalState extends State<AddNewJournal> {
                       color: AppColors.skyBlue,
                     ),
                   ),
-                  child: Text(
+                  child: RiseText(
                     _emotions[index],
-                    textScaler: TextScaler.noScaling,
                     style: theme.labelSmall!.copyWith(
                       fontWeight: FontWeight.w500,
                       color: AppColors.primaryColor,
@@ -122,9 +120,8 @@ class _AddNewJournalState extends State<AddNewJournal> {
               ),
             ),
             SizedBox(height: 2.h),
-            Text(
+            RiseText(
               'Let’s write about it',
-              textScaler: TextScaler.noScaling,
               style: theme.titleSmall!.copyWith(
                 fontWeight: FontWeight.w600,
                 color: AppColors.primaryColor,
@@ -156,10 +153,9 @@ class _AddNewJournalState extends State<AddNewJournal> {
                 borderRadius: BorderRadius.circular(12),
                 gradient: AppColorsGredients.primaryTopToBottom,
               ),
-              child: Text(
+              child: RiseText(
                 'Add',
                 textAlign: TextAlign.center,
-                textScaler: TextScaler.noScaling,
                 style: theme.bodyLarge!.copyWith(
                   fontWeight: FontWeight.w600,
                   color: AppColors.white,

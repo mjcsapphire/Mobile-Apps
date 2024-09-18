@@ -2,17 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:rise_pathway/config/constants/package_export.dart';
 import 'package:rise_pathway/config/utils/colors.dart';
 
+import '../../../config/helpers/helpers.dart';
+
 class RiseButton extends StatefulWidget {
   final String title;
   final Function() onTap;
   final Gradient? gradient;
   final double? width;
-  const RiseButton(
-      {super.key,
-      required this.title,
-      required this.onTap,
-      this.gradient,
-      this.width});
+  final bool? preffix;
+  final String? svgPath;
+  const RiseButton({
+    super.key,
+    required this.title,
+    required this.onTap,
+    this.gradient,
+    this.width,
+    this.preffix,
+    this.svgPath,
+  });
 
   @override
   State<RiseButton> createState() => _RiseButtonState();
@@ -32,10 +39,12 @@ class _RiseButtonState extends State<RiseButton> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset('assets/svg/success_complete.svg'),
+          if (widget.preffix ?? false)
+            SvgPicture.asset(
+                widget.svgPath ?? 'assets/svg/success_complete.svg'),
           TextButton(
             onPressed: widget.onTap,
-            child: Text(
+            child: RiseText(
               widget.title,
               style: theme.bodyMedium!.copyWith(
                 color: AppColors.white,

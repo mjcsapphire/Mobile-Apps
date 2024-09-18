@@ -139,7 +139,7 @@
 //               decoration: BoxDecoration(
 //                   gradient: AppColorsGredients.gradient3,
 //                   borderRadius: BorderRadius.circular(20)),
-//               child: Text(
+//               child: RiseText(
 //                 'Next',
 //                 style: theme.titleLarge!.copyWith(
 //                   color: Colors.white,

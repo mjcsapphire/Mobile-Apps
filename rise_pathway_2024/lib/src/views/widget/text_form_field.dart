@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/config/constants/package_export.dart';
+import 'package:rise_pathway/config/helpers/helpers.dart';
 import 'package:rise_pathway/config/utils/colors.dart';
 
 class RiseTextField extends StatefulWidget {
@@ -40,7 +41,7 @@ class _RiseTextFieldState extends State<RiseTextField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (widget.title != null) ...{
-          Text(
+          RiseText(
             widget.title ?? "",
             style: theme.bodySmall!.copyWith(
               color: AppColors.textFieldColor,

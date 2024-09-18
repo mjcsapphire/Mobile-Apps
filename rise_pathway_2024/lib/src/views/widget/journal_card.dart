@@ -22,19 +22,17 @@ class JournalCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
+          RiseText(
             title,
             textAlign: TextAlign.center,
-            textScaler: TextScaler.noScaling,
             style: theme.bodySmall!.copyWith(
               fontWeight: FontWeight.bold,
               color: AppColors.journalTitle,
             ),
           ),
-          Text(
+          RiseText(
             subtitle,
             textAlign: TextAlign.center,
-            textScaler: TextScaler.noScaling,
             style: theme.labelSmall!.copyWith(
               color: AppColors.journalSubtitle,
               fontWeight: FontWeight.w500,

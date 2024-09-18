@@ -5,6 +5,7 @@ import 'package:rise_pathway/src/controllers/home_controller.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 import 'package:rise_pathway/src/views/widget/journal_card.dart';
 
+import '../../../config/helpers/helpers.dart';
 import '../../../config/routes/routes.dart';
 
 class Journal extends StatefulWidget {
@@ -86,9 +87,8 @@ class _JournalState extends State<Journal> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text(
+                RiseText(
                   'Add New',
-                  textScaler: TextScaler.noScaling,
                   style: theme.bodySmall!.copyWith(
                     color: AppColors.primaryColor,
                   ),
