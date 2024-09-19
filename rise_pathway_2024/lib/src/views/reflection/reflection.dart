@@ -340,7 +340,6 @@ class RelectionStatusCard extends StatelessWidget {
                       AppColors.white.withOpacity(0.3),
                       BlendMode.srcIn,
                     ),
-                    // height: 25.h,
                   ),
                 ],
               ),

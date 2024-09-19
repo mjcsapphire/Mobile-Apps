@@ -56,10 +56,10 @@ class _OtpVerifyState extends State<OtpVerify> {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    const Icon(
-                      Icons.edit,
-                      color: AppColors.blue500,
-                    )
+                    // const Icon(
+                    //   Icons.arrow_forward_ios_rounded,
+                    //   color: AppColors.blue500,
+                    // )
                   ],
                 ),
                 SizedBox(height: 2.h),
@@ -94,7 +94,7 @@ class _OtpVerifyState extends State<OtpVerify> {
                       },
                       pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                       showCursor: true,
-                      onCompleted: (pin) => print(pin),
+                      // onCompleted: (pin) => print(pin),
                     ),
                   ],
                 ),
