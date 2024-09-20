@@ -50,6 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                   suffixIcon: FluentIcons.lock_closed_48_regular,
                   isPassword: true,
                   keyboardType: TextInputType.visiblePassword,
+                  
                 ),
                 SizedBox(height: 1.h),
                 Align(
@@ -67,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                 const Spacer(),
                 RiseButton(
                   title: 'Sign In',
-                  onTap: () => context.go(selectMood),
+                  onTap: () => context.go(loginSelectMood),
                 ),
                 SizedBox(height: 2.h),
                 Row(

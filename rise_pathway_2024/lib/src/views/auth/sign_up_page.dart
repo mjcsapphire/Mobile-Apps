@@ -64,7 +64,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 const Spacer(),
                 RiseButton(
                   title: 'Sign Up',
-                  onTap: () => context.go(selectMood),
+                  onTap: () => context.go(signupSelectMood),
                 ),
                 SizedBox(height: 2.h),
                 Row(

@@ -3,15 +3,19 @@ import 'package:rise_pathway/config/constants/package_export.dart';
 import 'package:rise_pathway/config/helpers/helpers.dart';
 import 'package:rise_pathway/config/utils/colors.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
+import 'package:rise_pathway/src/views/widget/text_form_field.dart';
 
 class AddNewJournal extends StatefulWidget {
-  const AddNewJournal({super.key});
+  final String? title;
+  final String? description;
+  const AddNewJournal({super.key, this.title, this.description});
 
   @override
   State<AddNewJournal> createState() => _AddNewJournalState();
 }
 
 class _AddNewJournalState extends State<AddNewJournal> {
+  final discriptionController = TextEditingController().obs;
   final selectedIndex = 0.obs;
   final List<String> _emotions = [
     'Work',
@@ -25,9 +29,14 @@ class _AddNewJournalState extends State<AddNewJournal> {
   ];
 
   @override
-  Widget build(BuildContext context) {
-    // final double scaleFactor = MediaQuery.of(context).textScaleFactor;
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    discriptionController.value.text = widget.description ?? '';
+  }
 
+  @override
+  Widget build(BuildContext context) {
     List<String> images = [
       'Emoji.png',
       'Emoji-1.png',
@@ -46,8 +55,8 @@ class _AddNewJournalState extends State<AddNewJournal> {
     return Scaffold(
       appBar: RiseAppBar.riseAppBar(
         theme: Theme.of(context).textTheme,
-        title: 'My First Journal',
-        isAdd: true,
+        title: '',
+        // isAdd: true,
         onTap: () => context.pop(),
       ),
       body: SingleChildScrollView(
@@ -55,6 +64,37 @@ class _AddNewJournalState extends State<AddNewJournal> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(bottom: 2),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: AppColors.blue500,
+                        width: 1,
+                      ),
+                    ),
+                  ),
+                  child: RiseText(
+                    widget.title ?? "Add Title",
+                    style: theme.bodyMedium!.copyWith(
+                      color: AppColors.blue500,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 2.w),
+                SvgPicture.asset(
+                  'assets/svg/edit.svg',
+                  color: AppColors.blue500,
+                  width: 6.w,
+                  height: 6.w,
+                )
+              ],
+            ),
+            SizedBox(height: 2.h),
             Align(
               alignment: Alignment.center,
               child: RiseText(
@@ -128,20 +168,13 @@ class _AddNewJournalState extends State<AddNewJournal> {
               ),
             ),
             SizedBox(height: 1.5.h),
-            TextFormField(
+            RiseTextField(
               maxLines: 8,
-              decoration: InputDecoration(
-                hintText:
-                    'How is your day going? How has it affected your mood? or anything else...',
-                hintStyle: theme.labelMedium!.copyWith(
-                  color: AppColors.journalSubtitle,
-                ),
-                enabled: true,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(24),
-                ),
-              ),
-              style: theme.labelMedium,
+              keyboardType: TextInputType.multiline,
+              controller: discriptionController.value,
+              
+              hintText:
+                  'How is your day going? How has it affected your mood? or anything else...',
             ),
             SizedBox(height: 2.h),
             Container(

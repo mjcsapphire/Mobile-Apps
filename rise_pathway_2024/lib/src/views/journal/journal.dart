@@ -61,9 +61,15 @@ class _JournalState extends State<Journal> {
               crossAxisCount: 2,
               children: List.generate(
                 moods.length,
-                (index) => JournalCard(
-                  title: moodsTitle[index],
-                  subtitle: moods[index],
+                (index) => GestureDetector(
+                  onTap: () => context.go(addNewJournal, extra: {
+                    'title': moodsTitle[index],
+                    'description': moods[index],
+                  }),
+                  child: JournalCard(
+                    title: moodsTitle[index],
+                    subtitle: moods[index],
+                  ),
                 ),
               ),
             ),

@@ -56,10 +56,11 @@ class _OtpVerifyState extends State<OtpVerify> {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    // const Icon(
-                    //   Icons.arrow_forward_ios_rounded,
-                    //   color: AppColors.blue500,
-                    // )
+                    SvgPicture.asset(
+                      'assets/svg/verify_email_edit.svg',
+                      height: 20,
+                      width: 20,
+                    )
                   ],
                 ),
                 SizedBox(height: 2.h),

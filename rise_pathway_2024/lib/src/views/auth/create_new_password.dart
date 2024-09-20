@@ -2,7 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/config/constants/package_export.dart';
 import 'package:rise_pathway/config/helpers/helpers.dart';
-import 'package:rise_pathway/config/routes/routes.dart';
+import 'package:rise_pathway/src/views/widget/bottom_sheet.dart';
 import 'package:rise_pathway/src/views/widget/rise_button.dart';
 import 'package:rise_pathway/src/views/widget/text_form_field.dart';
 
@@ -64,7 +64,11 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                 const Spacer(),
                 RiseButton(
                   title: 'Save',
-                  onTap: () => context.go(otpVerify),
+                  onTap: () => showModalBottomSheet(
+                    context: context,
+                    
+                    builder: (context) => const RiseBottomSheet(),
+                  ),
                 ),
               ],
             ),

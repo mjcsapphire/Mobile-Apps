@@ -60,8 +60,6 @@ class RiseAppBar {
             width: 14.w,
             child: SvgPicture.asset(
               'assets/svg/edit_icon.svg',
-              // scale: 2,
-
               width: 20.w,
               height: 20.w,
             ),

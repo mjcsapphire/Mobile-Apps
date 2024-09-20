@@ -150,12 +150,14 @@ class RiseText extends StatelessWidget {
     this.style,
     this.maxLines,
     this.width,
+    this.textDecoration,
   });
   final String data;
   final TextAlign? textAlign;
   final TextStyle? style;
   final int? maxLines;
   final double? width;
+  final TextDecoration? textDecoration;
   @override
   Widget build(BuildContext context) {
     return SizedBox(

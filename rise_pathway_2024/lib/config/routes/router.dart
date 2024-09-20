@@ -26,11 +26,43 @@ class CustomRouter {
     initialLocation: initialRoute,
     routes: <RouteBase>[
       GoRoute(
-          path: initialRoute, builder: (context, state) => const SplashPage()),
+        path: initialRoute,
+        builder: (context, state) => const SplashPage(),
+      ),
       GoRoute(
-          path: selectMood, builder: (context, state) => const SelectMood()),
-      GoRoute(path: login, builder: (context, state) => const LoginPage()),
-      GoRoute(path: signUp, builder: (context, state) => const SignUpPage()),
+          path: login,
+          builder: (context, state) => const LoginPage(),
+          routes: [
+            GoRoute(
+              path: 'select_mood',
+              builder: (context, state) => const SelectMood(),
+            ),
+            GoRoute(
+              path: 'forgot_password',
+              builder: (context, state) => const ForgetPassword(),
+              routes: [
+                GoRoute(
+                  path: 'otp_verify',
+                  builder: (context, state) => const OtpVerify(),
+                  routes: [
+                    GoRoute(
+                      path: 'create_new_password',
+                      builder: (context, state) => const CreateNewPassword(),
+                    ),
+                  ],
+                ),
+              ],
+            )
+          ]),
+      GoRoute(
+          path: signUp,
+          builder: (context, state) => const SignUpPage(),
+          routes: [
+            GoRoute(
+              path: 'select_mood',
+              builder: (context, state) => const SelectMood(),
+            ),
+          ]),
       GoRoute(
         path: app,
         builder: (context, state) => const App(),
@@ -49,27 +81,15 @@ class CustomRouter {
           ),
           GoRoute(
             path: 'add_new_journal',
-            builder: (context, state) => const AddNewJournal(),
-          ),
-          GoRoute(
-            path: 'login',
-            builder: (context, state) => const LoginPage(),
-          ),
-          GoRoute(
-            path: 'sign_up',
-            builder: (context, state) => const SignUpPage(),
-          ),
-          GoRoute(
-            path: 'forgot_password',
-            builder: (context, state) => const ForgetPassword(),
-          ),
-          GoRoute(
-            path: 'otp_verify',
-            builder: (context, state) => const OtpVerify(),
-          ),
-          GoRoute(
-            path: 'create_new_password',
-            builder: (context, state) => const CreateNewPassword(),
+            builder: (context, state) {
+              final data = state.extra as Map<String, dynamic>;
+              final title = data['title'];
+              final description = data['description'];
+              return AddNewJournal(
+                title: title,
+                description: description,
+              );
+            },
           ),
           GoRoute(
               path: 'quiz_page',

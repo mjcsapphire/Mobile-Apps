@@ -17,6 +17,7 @@ class RiseTextField extends StatefulWidget {
   final bool? readOnly;
   final TextEditingController controller;
   final int? maxLength;
+  final int? maxLines;
 
   const RiseTextField({
     super.key,
@@ -27,6 +28,7 @@ class RiseTextField extends StatefulWidget {
     this.errorText,
     this.validator,
     this.title,
+    this.maxLines,
     required this.keyboardType,
     this.isPassword,
     this.readOnly,
@@ -58,6 +60,8 @@ class _RiseTextFieldState extends State<RiseTextField> {
             SizedBox(height: 1.h),
           },
           TextFormField(
+            controller: widget.controller,
+            maxLines: widget.maxLines ?? 1,
             readOnly: widget.readOnly ?? false,
             keyboardType: widget.keyboardType,
             textInputAction: TextInputAction.next,
@@ -74,7 +78,6 @@ class _RiseTextFieldState extends State<RiseTextField> {
             maxLength: widget.maxLength,
             maxLengthEnforcement: MaxLengthEnforcement.none,
             showCursor: true,
-            
             decoration: InputDecoration(
               contentPadding:
                   EdgeInsets.symmetric(vertical: 2.4.h, horizontal: 6.w),
