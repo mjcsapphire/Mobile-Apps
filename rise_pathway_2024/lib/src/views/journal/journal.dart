@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:rise_pathway/config/constants/package_export.dart';
-import 'package:rise_pathway/config/utils/colors.dart';
+import 'package:rise_pathway/core/constants/package_export.dart';
+import 'package:rise_pathway/core/utils/colors.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 import 'package:rise_pathway/src/views/widget/journal_card.dart';
 
-import '../../../config/helpers/helpers.dart';
-import '../../../config/routes/routes.dart';
+import '../../../core/helpers/helpers.dart';
+import '../../../core/routes/routes.dart';
 
 class Journal extends StatefulWidget {
   const Journal({super.key});

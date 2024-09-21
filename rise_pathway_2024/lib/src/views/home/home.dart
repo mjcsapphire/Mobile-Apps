@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:rise_pathway/config/constants/package_export.dart';
-import 'package:rise_pathway/config/helpers/helpers.dart';
-import 'package:rise_pathway/config/routes/routes.dart';
-import 'package:rise_pathway/config/utils/colors.dart';
-import 'package:rise_pathway/config/utils/widget.dart';
+import 'package:rise_pathway/core/constants/package_export.dart';
+import 'package:rise_pathway/core/helpers/helpers.dart';
+import 'package:rise_pathway/core/routes/routes.dart';
+import 'package:rise_pathway/core/utils/colors.dart';
+import 'package:rise_pathway/core/utils/widget.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
 import 'package:rise_pathway/src/views/widget/challenges_card.dart';
 import 'package:rise_pathway/src/views/widget/gradient_border_card.dart';

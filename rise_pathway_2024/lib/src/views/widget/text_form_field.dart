@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rise_pathway/config/constants/package_export.dart';
-import 'package:rise_pathway/config/helpers/helpers.dart';
-import 'package:rise_pathway/config/utils/colors.dart';
+import 'package:rise_pathway/core/constants/package_export.dart';
+import 'package:rise_pathway/core/helpers/helpers.dart';
+import 'package:rise_pathway/core/utils/colors.dart';
 
 class RiseTextField extends StatefulWidget {
+  final GlobalKey<FormState>? formKey;
   final double? width;
   final bool? isPassword;
   final IconData? suffixIcon;
@@ -18,6 +19,9 @@ class RiseTextField extends StatefulWidget {
   final TextEditingController controller;
   final int? maxLength;
   final int? maxLines;
+  final Function(String?)? onChanged;
+  final TextInputAction? textInputAction;
+  final FocusNode? focusNode;
 
   const RiseTextField({
     super.key,
@@ -34,6 +38,10 @@ class RiseTextField extends StatefulWidget {
     this.readOnly,
     required this.controller,
     this.maxLength,
+    this.onChanged,
+    this.formKey,
+    this.textInputAction,
+    this.focusNode,
   });
 
   @override
@@ -64,23 +72,28 @@ class _RiseTextFieldState extends State<RiseTextField> {
             maxLines: widget.maxLines ?? 1,
             readOnly: widget.readOnly ?? false,
             keyboardType: widget.keyboardType,
-            textInputAction: TextInputAction.next,
-            onFieldSubmitted: (value) {
-              FocusScope.of(context).nextFocus();
-            },
-            style: theme.bodySmall!.copyWith(
-              color: AppColors.black,
-              fontSize: 14.sp,
-            ),
+            textInputAction: widget.textInputAction,
             obscureText: widget.isPassword ?? false,
             cursorColor: AppColors.darkBlue,
             validator: widget.validator,
             maxLength: widget.maxLength,
             maxLengthEnforcement: MaxLengthEnforcement.none,
             showCursor: true,
+            onChanged: widget.onChanged,
+
+            style: theme.bodySmall!.copyWith(
+              color: AppColors.black,
+              fontSize: 14.sp,
+            ),
             decoration: InputDecoration(
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 2.4.h, horizontal: 6.w),
+              contentPadding: EdgeInsets.symmetric(
+                vertical: 2.4.h,
+                horizontal: 6.w,
+              ),
+              errorStyle: theme.bodySmall!.copyWith(
+                color: AppColors.error,
+                fontSize: 9.sp,
+              ),
               hintText: widget.hintText,
               hintStyle: theme.bodySmall!.copyWith(
                 color: AppColors.textFieldColor,
@@ -104,6 +117,14 @@ class _RiseTextFieldState extends State<RiseTextField> {
                   color: AppColors.darkBlue,
                   width: 1.2,
                 ),
+              ),
+              errorBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+                borderSide: BorderSide(color: AppColors.error),
+              ),
+              focusedErrorBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+                borderSide: BorderSide(color: AppColors.error, width: 1.5),
               ),
               enabledBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(12)),

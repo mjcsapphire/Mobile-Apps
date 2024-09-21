@@ -1,6 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:rise_pathway/config/constants/package_export.dart';
+import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 import 'package:rise_pathway/src/views/widget/rise_button.dart';
 import 'package:rise_pathway/src/views/widget/text_form_field.dart';

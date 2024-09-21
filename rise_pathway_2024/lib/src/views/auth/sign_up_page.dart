@@ -1,9 +1,9 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:rise_pathway/config/constants/package_export.dart';
-import 'package:rise_pathway/config/helpers/helpers.dart';
-import 'package:rise_pathway/config/routes/routes.dart';
-import 'package:rise_pathway/config/utils/colors.dart';
+import 'package:rise_pathway/core/constants/package_export.dart';
+import 'package:rise_pathway/core/helpers/helpers.dart';
+import 'package:rise_pathway/core/routes/routes.dart';
+import 'package:rise_pathway/core/utils/colors.dart';
 import 'package:rise_pathway/src/views/widget/rise_button.dart';
 import 'package:rise_pathway/src/views/widget/text_form_field.dart';
 
@@ -18,6 +18,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final emailController = TextEditingController().obs;
   final passwordController = TextEditingController().obs;
   final confirmPasswordController = TextEditingController().obs;
+  final signUpFormKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
@@ -26,8 +28,8 @@ class _SignUpPageState extends State<SignUpPage> {
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
-          child: SizedBox(
-            height: 90.h,
+          child: Form(
+            key: signUpFormKey,
             child: Column(
               children: [
                 SvgPicture.asset(
@@ -41,6 +43,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: emailController.value,
                   suffixIcon: FluentIcons.mail_48_regular,
                   keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  validator: (p0) => Helpers.validateEmail(text: p0 ?? ""),
                 ),
                 SizedBox(height: 2.h),
                 RiseTextField(
@@ -50,6 +54,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   suffixIcon: FluentIcons.lock_closed_48_regular,
                   isPassword: true,
                   keyboardType: TextInputType.visiblePassword,
+                  textInputAction: TextInputAction.next,
+                  validator: (p0) => Helpers.validatePassword(text: p0 ?? ""),
                 ),
                 SizedBox(height: 2.h),
                 RiseTextField(
@@ -59,12 +65,17 @@ class _SignUpPageState extends State<SignUpPage> {
                   suffixIcon: FluentIcons.eye_off_32_regular,
                   isPassword: true,
                   keyboardType: TextInputType.visiblePassword,
+                  textInputAction: TextInputAction.done,
+                  validator: (p0) => Helpers.validatePassword(text: p0 ?? ""),
                 ),
-                SizedBox(height: 2.h),
-                const Spacer(),
+                SizedBox(height: 10.h),
                 RiseButton(
                   title: 'Sign Up',
-                  onTap: () => context.go(signupSelectMood),
+                  onTap: () {
+                    if (signUpFormKey.currentState!.validate()) {
+                      context.go(signupSelectMood);
+                    }
+                  },
                 ),
                 SizedBox(height: 2.h),
                 Row(

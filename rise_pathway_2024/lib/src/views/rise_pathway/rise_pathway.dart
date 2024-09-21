@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rise_pathway/config/constants/package_export.dart';
+import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 import 'package:rise_pathway/src/views/widget/rise_pathway_card.dart';
