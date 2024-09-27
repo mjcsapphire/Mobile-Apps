@@ -3,7 +3,7 @@ import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
-import 'package:rise_pathway/src/views/callenges/challenges.dart';
+import 'package:rise_pathway/src/views/challenges/challenges.dart';
 import 'package:rise_pathway/src/views/home/home.dart';
 import 'package:rise_pathway/src/views/journal/journal.dart';
 import 'package:rise_pathway/src/views/reflection/reflection.dart';

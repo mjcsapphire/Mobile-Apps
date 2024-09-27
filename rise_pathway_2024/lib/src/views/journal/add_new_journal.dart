@@ -17,6 +17,9 @@ class AddNewJournal extends StatefulWidget {
 class _AddNewJournalState extends State<AddNewJournal> {
   final discriptionController = TextEditingController().obs;
   final selectedIndex = 0.obs;
+
+  final selectedIndexs = <int>[].obs;
+
   final List<String> _emotions = [
     'Work',
     'Exercise',
@@ -30,7 +33,6 @@ class _AddNewJournalState extends State<AddNewJournal> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     discriptionController.value.text = widget.description ?? '';
   }
@@ -88,6 +90,7 @@ class _AddNewJournalState extends State<AddNewJournal> {
                 SizedBox(width: 2.w),
                 SvgPicture.asset(
                   'assets/svg/edit.svg',
+                  // ignore: deprecated_member_use
                   color: AppColors.blue500,
                   width: 6.w,
                   height: 6.w,
@@ -133,32 +136,48 @@ class _AddNewJournalState extends State<AddNewJournal> {
               ),
             ),
             SizedBox(height: 1.h),
-            Wrap(
-              children: List.generate(
-                8,
-                (index) => Container(
-                  margin: const EdgeInsets.all(8),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 2.h,
-                    vertical: 10,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    border: Border.all(
-                      width: 2,
-                      color: AppColors.skyBlue,
+            Obx(() => Wrap(
+                  children: List.generate(
+                    8,
+                    (index) => GestureDetector(
+                      onTap: () {
+                        if (selectedIndexs.contains(index)) {
+                          selectedIndexs.remove(index);
+                        } else {
+                          selectedIndexs.add(index);
+                        }
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.all(8),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 2.h,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: selectedIndexs.contains(index)
+                              ? AppColors.blue
+                              : AppColors.white,
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(
+                            width: 2,
+                            color: selectedIndexs.contains(index)
+                                ? AppColors.blackBlue
+                                : AppColors.skyBlue,
+                          ),
+                        ),
+                        child: RiseText(
+                          _emotions[index],
+                          style: theme.labelSmall!.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: selectedIndexs.contains(index)
+                                ? AppColors.white
+                                : AppColors.primaryColor,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                  child: RiseText(
-                    _emotions[index],
-                    style: theme.labelSmall!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+                )),
             SizedBox(height: 2.h),
             RiseText(
               'Let’s write about it',
@@ -172,7 +191,6 @@ class _AddNewJournalState extends State<AddNewJournal> {
               maxLines: 8,
               keyboardType: TextInputType.multiline,
               controller: discriptionController.value,
-              
               hintText:
                   'How is your day going? How has it affected your mood? or anything else...',
             ),

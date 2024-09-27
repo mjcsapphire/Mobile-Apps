@@ -17,6 +17,7 @@ class SchedulePage extends StatefulWidget {
 
 class _SchedulePageState extends State<SchedulePage> {
   final focusDate = DateTime.now().obs;
+  final selectedTimeSlot = 0.obs;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
@@ -42,9 +43,7 @@ class _SchedulePageState extends State<SchedulePage> {
                 rowHeight: 45,
                 daysOfWeekHeight: 45,
                 onDaySelected: (selectedDay, focusedDay) {
-                
                   focusDate.value = selectedDay;
-        
                 },
                 selectedDayPredicate: (day) {
                   return isSameDay(day, focusDate.value);
@@ -82,16 +81,20 @@ class _SchedulePageState extends State<SchedulePage> {
                     color: AppColors.white,
                     fontWeight: FontWeight.w600,
                   ),
-                  todayDecoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  todayDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
                     shape: BoxShape.rectangle,
                     color: AppColors.blue400,
                   ),
-                  selectedDecoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  selectedDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
                     shape: BoxShape.rectangle,
                     color: AppColors.blue600,
                   ),
+                  defaultDecoration: Helpers.calendarDecoration,
+                  disabledDecoration: Helpers.calendarDecoration,
+                  holidayDecoration: Helpers.calendarDecoration,
+                  weekendDecoration: Helpers.calendarDecoration,
                 ),
               );
             }),
@@ -113,26 +116,38 @@ class _SchedulePageState extends State<SchedulePage> {
                 crossAxisSpacing: 16,
                 mainAxisExtent: 48,
               ),
-              itemBuilder: (context, index) => Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: AppColors.black.withOpacity(0.03),
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                  color: index == 5 ? AppColors.blue600 : AppColors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.black.withOpacity(0.02),
-                      blurRadius: 12,
-                    )
-                  ],
-                ),
-                child: RiseText(
-                  '${1 + index}:${15 + index} AM',
-                  style: theme.bodySmall!.copyWith(
-                    color: index == 5 ? AppColors.white : AppColors.blue400,
-                    fontWeight: FontWeight.bold,
+              itemBuilder: (context, index) => Obx(
+                () => GestureDetector(
+                  onTap: () {
+                    selectedTimeSlot.value = index;
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: AppColors.black.withOpacity(0.03),
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                      color: index == selectedTimeSlot.value
+                          ? AppColors.blue600
+                          : AppColors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.black.withOpacity(0.02),
+                          blurRadius: 12,
+                        )
+                      ],
+                    ),
+                    child: RiseText(
+                      '${1 + index}:${15 + index} AM',
+                      style: theme.bodySmall!.copyWith(
+                        color: index == selectedTimeSlot.value
+                            ? AppColors.white
+                            : AppColors.blue400,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ),

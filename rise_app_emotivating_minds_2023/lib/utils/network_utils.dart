@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 
 import 'package:http/http.dart';
@@ -21,7 +23,7 @@ Future<Response> postRequest(String endPoint, body) async {
     print('Request: $body');
 
     Response response = await post(Uri.parse(url), body: jsonEncode(body))
-        .timeout(Duration(seconds: timeoutDuration),
+        .timeout(const Duration(seconds: timeoutDuration),
             onTimeout: (() => throw "Please try again"));
 
     print('Status: ${response.statusCode} $url $body');
@@ -44,7 +46,7 @@ Future<Response> getRequest(String endPoint) async {
     String url = '$baseURL$endPoint';
 
     Response response = await get(Uri.parse(url)).timeout(
-        Duration(seconds: timeoutDuration),
+        const Duration(seconds: timeoutDuration),
         onTimeout: (() => throw "Please try again"));
 
     print('Code: ${response.statusCode} $url');

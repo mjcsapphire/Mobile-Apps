@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
+import 'package:rise_pathway/core/constants/strings.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
@@ -28,6 +29,7 @@ class _ReflectionState extends State<Reflection> {
       'Fri',
       'Sat',
     ];
+    
     return Scaffold(
       appBar: RiseAppBar.riseAppBar(
         theme: theme,
@@ -38,7 +40,7 @@ class _ReflectionState extends State<Reflection> {
       ),
       body: Obx(() => SingleChildScrollView(
             padding: EdgeInsets.only(
-                bottom: homeController.isPlayerVisible.value ? 18.h : 10.h,
+                bottom: homeController.isPlayerVisible.value ? 14.h : 5.h,
                 left: 4.w,
                 right: 4.w),
             child: SizedBox(
@@ -189,8 +191,9 @@ class _ReflectionState extends State<Reflection> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Image.asset(
-                                      'assets/gif/${Helpers.emojiImages[index]}',
-                                      scale: 9,
+                                      'assets/gif/${emojiImages[index]}',
+                                      height: 24,
+                                      gaplessPlayback: true,
                                     ),
                                     SizedBox(height: 1.h),
                                     RiseText(
@@ -233,7 +236,7 @@ class _ReflectionState extends State<Reflection> {
                         secondTitle: 'Challenges\nCompleted',
                         divider: false,
                       ),
-                      SizedBox(height: 5.h)
+                      // SizedBox(height: 5.h)
                     ],
                   )
                 ],

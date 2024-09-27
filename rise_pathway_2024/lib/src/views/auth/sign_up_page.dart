@@ -4,6 +4,7 @@ import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/routes/routes.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
+import 'package:rise_pathway/src/controllers/auth_controller.dart';
 import 'package:rise_pathway/src/views/widget/rise_button.dart';
 import 'package:rise_pathway/src/views/widget/text_form_field.dart';
 
@@ -18,6 +19,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final emailController = TextEditingController().obs;
   final passwordController = TextEditingController().obs;
   final confirmPasswordController = TextEditingController().obs;
+
+  final authController = Get.find<AuthController>();
   final signUpFormKey = GlobalKey<FormState>();
 
   @override
@@ -71,9 +74,17 @@ class _SignUpPageState extends State<SignUpPage> {
                 SizedBox(height: 10.h),
                 RiseButton(
                   title: 'Sign Up',
-                  onTap: () {
+                  onTap: () async {
                     if (signUpFormKey.currentState!.validate()) {
-                      context.go(signupSelectMood);
+                      final response = await authController.signUp(
+                        name: "--",
+                        email: emailController.value.text,
+                        password: passwordController.value.text,
+                        confirmPassword: confirmPasswordController.value.text,
+                      );
+                      if (response) {
+                        context.go(signupSelectMood);
+                      }
                     }
                   },
                 ),

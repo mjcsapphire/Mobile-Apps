@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
+import 'package:rise_pathway/src/models/challenges/challenges_response.dart';
 import 'package:rise_pathway/src/views/widget/gradient_border_card.dart';
 
 class ChallengesCard extends StatelessWidget {
-  final String title;
-  final String description;
   final double height;
   final EdgeInsets? margin;
   final Function()? onTap;
-  final bool isCompleted;
+  final ChallengesResponse challenge;
   const ChallengesCard({
     super.key,
-    required this.title,
-    required this.description,
     this.margin,
-    required this.height,
     this.onTap,
-    required this.isCompleted,
+    required this.height,
+    required this.challenge,
   });
 
   @override
@@ -48,20 +46,24 @@ class ChallengesCard extends StatelessWidget {
               Stack(
                 alignment: Alignment.topRight,
                 children: [
-                  SizedBox(
+                  Container(
                     height: 12.h,
                     width: 100.w,
+                    decoration: BoxDecoration(
+                      color: AppColors.black.withOpacity(0.02),
+                      borderRadius: BorderRadius.circular(24),
+                    ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(24),
-                      child: Image.asset(
-                        'assets/imgs/callenges.png',
-                        fit: BoxFit.cover,
+                      child: Image.network(
+                        challenge.image,
+                        fit: BoxFit.contain,
                       ),
                     ),
                   ),
                   Container(
                     height: 4.h,
-                    width: isCompleted ? 30.w : 35.w,
+                    width: challenge.status == "Completed" ? 30.w : 35.w,
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
@@ -69,12 +71,14 @@ class ChallengesCard extends StatelessWidget {
                         topRight: Radius.circular(24),
                         bottomLeft: Radius.circular(10),
                       ),
-                      gradient: isCompleted
+                      gradient: challenge.status == "Completed"
                           ? AppColorsGredients.quizYesButton
                           : AppColorsGredients.quizNoButton,
                     ),
                     child: RiseText(
-                      isCompleted ? 'Completed' : 'Not Completed',
+                      challenge.status == "Completed"
+                          ? 'Completed'
+                          : 'Not Completed',
                       style: theme.labelSmall!.copyWith(
                         fontWeight: FontWeight.bold,
                         color: AppColors.white,
@@ -88,7 +92,7 @@ class ChallengesCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   RiseText(
-                    title,
+                    challenge.name,
                     style: theme.titleMedium!.copyWith(
                       color: AppColors.darkSkyBlue,
                       fontWeight: FontWeight.w600,
@@ -99,12 +103,9 @@ class ChallengesCard extends StatelessWidget {
                     children: [
                       SizedBox(
                         width: 50.w,
-                        child: RiseText(
-                          description,
-                          style: theme.labelSmall!.copyWith(
-                            color: AppColors.challengesCardSubtitle,
-                            // fontWeight: FontWeight.w600,
-                          ),
+                        height: 5.h,
+                        child: HtmlWidget(
+                          challenge.pathwayName,
                         ),
                       ),
                       const Icon(

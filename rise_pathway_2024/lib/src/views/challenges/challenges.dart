@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/routes/routes.dart';
+import 'package:rise_pathway/src/controllers/challenge_controller.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 import 'package:rise_pathway/src/views/widget/challenges_card.dart';
@@ -14,27 +15,12 @@ class Challenges extends StatefulWidget {
 
 class _ChallengesState extends State<Challenges> {
   final homeController = Get.find<HomeController>();
+  final challengeController = Get.find<ChallengeController>();
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-    List<Map<String, dynamic>> challengeList = [
-      {
-        'title': 'Talk to people',
-        'description': 'The beautiful talk of life is always...'
-      },
-      {
-        'title': 'Tidy my bed',
-        'description': 'The beautiful talk of life is always...'
-      },
-      {
-        'title': 'Talk to people',
-        'description': 'The beautiful talk of life is always...'
-      },
-      {
-        'title': 'Tidy my bed',
-        'description': 'The beautiful talk of life is always...'
-      }
-    ];
+
     return Scaffold(
       appBar: RiseAppBar.riseAppBar(
         theme: theme,
@@ -44,18 +30,26 @@ class _ChallengesState extends State<Challenges> {
         },
       ),
       body: Obx(() => ListView.builder(
-            itemCount: 4,
+            itemCount: challengeController.challenges.length,
             padding: EdgeInsets.only(
-                bottom: homeController.isPlayerVisible.value ? 22.h : 14.h,
+                bottom: homeController.isPlayerVisible.value ? 14.h : 5.h,
                 left: 4.w,
                 right: 4.w),
-            itemBuilder: (context, index) => ChallengesCard(
-              height: 28.h,
-              title: challengeList[index]['title'],
-              description: challengeList[index]['description'],
-              onTap: () => context.go(challengePage),
-              isCompleted: index % 3 == 0,
-            ),
+            itemBuilder: (context, index) {
+              if (challengeController.challenges.isEmpty) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return ChallengesCard(
+                height: 28.h,
+                challenge: challengeController.challenges[index],
+                onTap: () {
+                  context.go(
+                    challengePage,
+                    extra: challengeController.challenges[index],
+                  );
+                },
+              );
+            },
           )),
     );
   }

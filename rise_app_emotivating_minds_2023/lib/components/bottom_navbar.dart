@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -8,7 +10,7 @@ class MyBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 20),
       child: GNav(
         color: Colors.grey[400],
         activeColor: Colors.grey.shade700,
@@ -17,7 +19,7 @@ class MyBottomNavBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         tabBorderRadius: 16,
         onTabChange: (value) => onTabChange!(value),
-        tabs: const[
+        tabs: const [
           GButton(icon: Icons.home, text: 'Home'),
           GButton(icon: Icons.calendar_month, text: 'Calendar'),
           GButton(icon: Icons.edit_note_sharp, text: 'Journal'),

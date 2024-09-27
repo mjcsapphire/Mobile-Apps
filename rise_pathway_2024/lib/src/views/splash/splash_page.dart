@@ -1,7 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/routes/routes.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
+import 'package:rise_pathway/src/controllers/auth_controller.dart';
+import 'package:rise_pathway/src/models/auth/sign_in_response.dart';
 
 import '../../../core/helpers/helpers.dart';
 
@@ -13,6 +19,7 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  final AuthController authController = Get.find<AuthController>();
   @override
   void initState() {
     super.initState();
@@ -22,7 +29,19 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
 
-    Future.delayed(const Duration(seconds: 3), () => context.go(login));
+    Future.delayed(const Duration(seconds: 3), () async {
+      final user = await Helpers.getString(key: 'user');
+      if (user != null) {
+        final data = json.decode(user);
+        await authController.signIn(email: data['user_email'], password: '');
+        final userData = SignInResponse.fromJson(data);
+        authController.userData.value = userData;
+        context.go(app);
+      } else {
+        context.go(login);
+      }
+    });
+
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
       body: Center(

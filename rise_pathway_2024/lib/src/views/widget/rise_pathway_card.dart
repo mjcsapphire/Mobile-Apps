@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
+import 'package:rise_pathway/core/routes/routes.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
 
 class RisePathwayCard extends StatelessWidget {
@@ -94,54 +95,62 @@ class RisePathwayCard extends StatelessWidget {
       gridDelegate:
           const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
       itemCount: 6,
-      itemBuilder: (context, index) => Container(
-        width: 100.w,
-        height: 100.h,
-        padding: const EdgeInsets.all(10),
-        margin: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(26),
-          gradient: list[index]['gradient'] as Gradient,
-          image: DecorationImage(
-            image: AssetImage(
-              list[index]['imagePath'].toString(),
+      itemBuilder: (context, index) => GestureDetector(
+        onTap: () {
+          context.go(riseQuizPage, extra: {
+            'title': list[index]['title'].toString(),
+            'subtitle': list[index]['subtitle'].toString(),
+          });
+        },
+        child: Container(
+          width: 100.w,
+          height: 100.h,
+          padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(26),
+            gradient: list[index]['gradient'] as Gradient,
+            image: DecorationImage(
+              image: AssetImage(
+                list[index]['imagePath'].toString(),
+              ),
+              fit: BoxFit.cover,
             ),
-            fit: BoxFit.cover,
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            RiseText(
-              list[index]['title'].toString(),
-              textAlign: TextAlign.center,
-              style: theme.bodyMedium!.copyWith(
-                color: AppColors.white,
-                fontWeight: FontWeight.bold,
-                shadows: [
-                  Shadow(
-                    offset: const Offset(0, 4),
-                    blurRadius: 20,
-                    color: AppColors.black.withOpacity(0.3),
-                  ),
-                ],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              RiseText(
+                list[index]['title'].toString(),
+                textAlign: TextAlign.center,
+                style: theme.bodyMedium!.copyWith(
+                  color: AppColors.white,
+                  fontWeight: FontWeight.bold,
+                  shadows: [
+                    Shadow(
+                      offset: const Offset(0, 4),
+                      blurRadius: 20,
+                      color: AppColors.black.withOpacity(0.3),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            RiseText(
-              list[index]['subtitle'].toString(),
-              textAlign: TextAlign.center,
-              style: theme.labelSmall!.copyWith(
-                color: AppColors.white,
-                shadows: [
-                  Shadow(
-                    offset: const Offset(0, 4),
-                    blurRadius: 20,
-                    color: AppColors.black.withOpacity(0.3),
-                  ),
-                ],
+              RiseText(
+                list[index]['subtitle'].toString(),
+                textAlign: TextAlign.center,
+                style: theme.labelSmall!.copyWith(
+                  color: AppColors.white,
+                  shadows: [
+                    Shadow(
+                      offset: const Offset(0, 4),
+                      blurRadius: 20,
+                      color: AppColors.black.withOpacity(0.3),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

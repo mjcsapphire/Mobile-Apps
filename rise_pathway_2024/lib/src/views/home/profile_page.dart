@@ -33,6 +33,8 @@ class _ProfilePageState extends State<ProfilePage> {
         theme: theme,
         title: 'Profile',
         onTap: () => context.pop(),
+        isAdd: false,
+        suffixIcon: FluentIcons.arrow_exit_20_regular,
       ),
       body: Obx(() {
         return Container(

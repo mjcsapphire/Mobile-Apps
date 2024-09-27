@@ -49,7 +49,7 @@ class _JournalState extends State<Journal> {
       body: Obx(
         () => SingleChildScrollView(
           padding: EdgeInsets.only(
-            bottom: homeController.isPlayerVisible.value ? 18.h : 10.h,
+            bottom: homeController.isPlayerVisible.value ? 10.h : 2.h,
           ),
           child: Container(
             margin: EdgeInsets.only(
@@ -79,11 +79,14 @@ class _JournalState extends State<Journal> {
       floatingActionButton: Obx(() {
         final isPlayerVisible = homeController.isPlayerVisible.value;
         return GestureDetector(
-          onTap: () => context.go(addNewJournal),
+          onTap: () => context.go(addNewJournal, extra: {
+            'title': 'Add New Jorunal',
+            'description': '',
+          }),
           child: Container(
             width: 30.w,
             height: 5.h,
-            margin: EdgeInsets.only(bottom: 14.h),
+            margin: EdgeInsets.only(bottom: 13.h),
             padding: EdgeInsets.symmetric(horizontal: 2.w),
             decoration: BoxDecoration(
               border: Border.all(width: 1, color: AppColors.primaryColor),

@@ -59,8 +59,8 @@ class _LoginPageState extends State<LoginPage> {
                     isPassword: true,
                     keyboardType: TextInputType.visiblePassword,
                     textInputAction: TextInputAction.done,
-                    validator: (value) =>
-                        Helpers.validatePassword(text: value ?? ""),
+                    // validator: (value) =>
+                    //     Helpers.validatePassword(text: value ?? ""),
                   ),
                   SizedBox(height: 1.h),
                   Align(
@@ -78,16 +78,19 @@ class _LoginPageState extends State<LoginPage> {
                   const Spacer(),
                   RiseButton(
                     title: 'Sign In',
-                    onTap: () {
+                    onTap: () async {
                       if (signInFormKey.currentState!.validate()) {
-                        if (authController.emailController.value.text == '' &&
-                            authController.passwordController.value.text ==
-                                '') {
-                          EasyLoadingStyle.light;
-                          EasyLoading.showError(
-                            'Please Fill All Details',
-                            maskType: EasyLoadingMaskType.black,
-                          );
+                        final response = await authController.signIn(
+                          email: authController.emailController.value.text,
+                          password:
+                              authController.passwordController.value.text,
+                        );
+                        if (response) {
+                          EasyLoading.showSuccess('Login Successful');
+                          // ignore: use_build_context_synchronously
+                          context.go(loginSelectMood);
+                        } else {
+                          EasyLoading.showError('Login Failed');
                         }
                       }
                     },

@@ -6,7 +6,11 @@ import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/routes/routes.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
 import 'package:rise_pathway/core/utils/widget.dart';
+import 'package:rise_pathway/src/controllers/auth_controller.dart';
+import 'package:rise_pathway/src/controllers/challenge_controller.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
+import 'package:rise_pathway/src/controllers/rise_pathway_controller.dart';
+import 'package:rise_pathway/src/models/pathways/pathway_response.dart';
 import 'package:rise_pathway/src/views/widget/challenges_card.dart';
 import 'package:rise_pathway/src/views/widget/gradient_border_card.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -20,7 +24,32 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final homeController = Get.find<HomeController>();
+  final challengeController = Get.find<ChallengeController>();
+  final risePathwayController = Get.find<RisePathwayController>();
   final _dailyChallengePageController = PageController();
+  final AuthController authController = Get.find<AuthController>();
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final user = authController.userData.value;
+      final email = user.userEmail ?? '';
+      final selectMood = moods.indexOf(user.mood ?? "happy");
+      homeController.emojiIndex.value = selectMood;
+      await getChallenges(email: email);
+      await getPathways(email: email);
+    });
+    super.initState();
+  }
+
+  getChallenges({required String email}) async {
+    await challengeController.fetchChallenges(email: email);
+  }
+
+  getPathways({required String email}) async {
+    await risePathwayController.fetchPathways(email: email);
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
@@ -38,7 +67,10 @@ class _HomePageState extends State<HomePage> {
               ),
               child: Column(
                 children: [
-                  BuildHomeAppBar(theme: theme),
+                  BuildHomeAppBar(
+                    theme: theme,
+                    authController: authController,
+                  ),
                   BuildAnalysisAndCoachDetails(
                     theme: theme,
                     homeController: homeController,
@@ -46,26 +78,28 @@ class _HomePageState extends State<HomePage> {
                   BuildDailyCallengesList(
                     theme: theme,
                     dailyChallengePageController: _dailyChallengePageController,
+                    challengeController: challengeController,
                     homeController: homeController,
                   ),
                   SizedBox(height: 2.h),
-                  SmoothPageIndicator(
-                    controller: _dailyChallengePageController,
-                    count: 5,
-                    effect: const ExpandingDotsEffect(
-                      dotHeight: 10,
-                      dotWidth: 10,
-                      dotColor: AppColors.lightSkyBlue,
-                      activeDotColor: AppColors.primaryColor,
+                  if (challengeController.challenges.isNotEmpty)
+                    SmoothPageIndicator(
+                      controller: _dailyChallengePageController,
+                      count: challengeController.challenges.length,
+                      effect: const ExpandingDotsEffect(
+                        dotHeight: 10,
+                        dotWidth: 10,
+                        dotColor: AppColors.lightSkyBlue,
+                        activeDotColor: AppColors.primaryColor,
+                      ),
+                      onDotClicked: (index) {},
+                      axisDirection: Axis.horizontal,
                     ),
-                    onDotClicked: (index) {},
-                    axisDirection: Axis.horizontal,
-                  ),
                   SizedBox(height: 2.h),
                   BuildRisePathwayList(
                     theme: theme,
+                    pathwayController: risePathwayController,
                   ),
-                  SizedBox(height: 5.h),
                 ],
               ),
             ),
@@ -82,11 +116,13 @@ class BuildDailyCallengesList extends StatelessWidget {
     required this.theme,
     required PageController dailyChallengePageController,
     required this.homeController,
+    required this.challengeController,
   }) : _dailyChallengePageController = dailyChallengePageController;
 
   final TextTheme theme;
   final PageController _dailyChallengePageController;
   final HomeController homeController;
+  final ChallengeController challengeController;
 
   @override
   Widget build(BuildContext context) {
@@ -126,27 +162,31 @@ class BuildDailyCallengesList extends StatelessWidget {
           ),
         ),
         SizedBox(height: 1.h),
-        Container(
-          height: 29.h,
-          width: 100.w,
-          padding: EdgeInsets.symmetric(horizontal: 1.h),
-          child: PageView.builder(
-            itemCount: 5,
-            controller: _dailyChallengePageController,
-            itemBuilder: (context, index) {
-              return ChallengesCard(
-                height: 28.h,
-                title: 'Talk to people',
-                description: 'The beautiful talk of life is always...',
-                margin: EdgeInsets.symmetric(
-                  horizontal: 1.h,
-                  vertical: 2.w,
-                ),
-                isCompleted: index % 2 == 0,
-              );
-            },
-          ),
-        ),
+        Obx(() => Container(
+              height: 29.h,
+              width: 100.w,
+              padding: EdgeInsets.symmetric(horizontal: 1.h),
+              child: challengeController.challenges.isEmpty
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primaryColor,
+                      ),
+                    )
+                  : PageView.builder(
+                      itemCount: challengeController.challenges.length,
+                      controller: _dailyChallengePageController,
+                      itemBuilder: (context, index) {
+                        return ChallengesCard(
+                          height: 28.h,
+                          challenge: challengeController.challenges[index],
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 1.h,
+                            vertical: 2.w,
+                          ),
+                        );
+                      },
+                    ),
+            )),
       ],
     );
   }
@@ -156,9 +196,11 @@ class BuildHomeAppBar extends StatelessWidget {
   const BuildHomeAppBar({
     super.key,
     required this.theme,
+    required this.authController,
   });
 
   final TextTheme theme;
+  final AuthController authController;
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +230,7 @@ class BuildHomeAppBar extends StatelessWidget {
                     ),
                   ),
                   RiseText(
-                    "Adarsh Gachha",
+                    "${authController.userData.value.firstname} ${authController.userData.value.surname}",
                     style: theme.titleMedium!.copyWith(
                       color: AppColors.white,
                       fontWeight: FontWeight.bold,
@@ -201,7 +243,9 @@ class BuildHomeAppBar extends StatelessWidget {
                 child: Container(
                   width: 70,
                   height: 70,
+                  padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
+                    color: AppColors.white,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
                       width: 2,
@@ -211,7 +255,8 @@ class BuildHomeAppBar extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(18),
                     child: Image.network(
-                      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cG9ydHJhaXR8ZW58MHx8MHx8fDA%3D',
+                      authController.userData.value.mobileAppProfilePic ??
+                          "https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png",
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -282,7 +327,7 @@ class BuildHomeAppBar extends StatelessWidget {
                   ),
                   SizedBox(height: 1.5.h),
                   GestureDetector(
-                    onTap: () => context.go(splash),
+                    onTap: () => context.go(homeSelectMood),
                     child: RiseText(
                       'Change Mood',
                       style: theme.labelSmall!.copyWith(
@@ -480,12 +525,11 @@ class BuildAnalysisAndCoachDetails extends StatelessWidget {
 }
 
 class BuildRisePathwayList extends StatelessWidget {
-  const BuildRisePathwayList({
-    super.key,
-    required this.theme,
-  });
+  const BuildRisePathwayList(
+      {super.key, required this.theme, required this.pathwayController});
 
   final TextTheme theme;
+  final RisePathwayController pathwayController;
 
   @override
   Widget build(BuildContext context) {
@@ -524,23 +568,28 @@ class BuildRisePathwayList extends StatelessWidget {
           ),
         ),
         SizedBox(height: 2.h),
-        Container(
-          height: 60.w,
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: ListView.builder(
-            itemCount: 5,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) => GestureDetector(
-              onTap: () => context.go(quizPage, extra: {
-                'title': 'Communication',
-              }),
-              child: RisepathwayCard(
-                theme: theme,
-                isAttempted: index % 2 == 0,
-              ),
-            ),
-          ),
-        ),
+        Obx(() => Container(
+              height: 60.w,
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: pathwayController.pathways.isEmpty
+                  ? const Text('No Pathway Available')
+                  : ListView.builder(
+                      itemCount: pathwayController.pathways.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) => GestureDetector(
+                        onTap: () => context.go(quizPage, extra: {
+                          'title': 'Communication',
+                        }),
+                        child: RisepathwayCard(
+                          theme: theme,
+                          isAttempted:
+                              pathwayController.pathways[index].userScore !=
+                                  "0 / 10",
+                          pathway: pathwayController.pathways[index],
+                        ),
+                      ),
+                    ),
+            )),
       ],
     );
   }
@@ -551,13 +600,16 @@ class RisepathwayCard extends StatelessWidget {
     super.key,
     required this.theme,
     required this.isAttempted,
+    required this.pathway,
   });
 
   final TextTheme theme;
   final bool isAttempted;
+  final PathwayResponse pathway;
 
   @override
   Widget build(BuildContext context) {
+    final color = pathway.colour;
     return Container(
       width: 65.w,
       height: 60.w,
@@ -565,7 +617,14 @@ class RisepathwayCard extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         gradient: isAttempted
-            ? AppColorsGredients.primaryLeftToRight
+            ? LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  const Color(0xFF08477D),
+                  Color(int.parse(color)),
+                ],
+              )
             : AppColorsGredients.quizYesButton,
         borderRadius: BorderRadius.circular(24),
       ),
@@ -607,7 +666,7 @@ class RisepathwayCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               RiseText(
-                                "9/10",
+                                pathway.userScore,
                                 style: theme.bodySmall!.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -639,9 +698,11 @@ class RisepathwayCard extends StatelessWidget {
                     ),
                     SizedBox(width: 2.w),
                     RiseText(
-                      'Relation Development',
+                      pathway.title,
+                      // textAlign: TextAlign.center,
                       style: theme.labelSmall!.copyWith(
                         color: AppColors.white,
+                        fontSize: pathway.title.length > 16 ? 8.sp : 12.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -657,7 +718,8 @@ class RisepathwayCard extends StatelessWidget {
                   'assets/svg/heart_doctor.svg',
                 ),
                 RiseText(
-                  'Health & Wellbeing',
+                  pathway.title,
+                  textAlign: TextAlign.center,
                   style: theme.bodyMedium!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: AppColors.white,

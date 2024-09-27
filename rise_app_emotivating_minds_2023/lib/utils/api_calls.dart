@@ -18,9 +18,9 @@ Future updateMood(String email, String mood) async {
       ''));
 }
 
-Future removeDancer(String email, String BasicNo) async {
+Future removeDancer(String email, String basicNo) async {
   return handleResponse(await postRequest(
-      'https://www.risepathway.com/api/connections/removeDancer?email=$email&BasicNo=$BasicNo',
+      'https://www.risepathway.com/api/connections/removeDancer?email=$email&BasicNo=$basicNo',
       ''));
 }
 

@@ -8,9 +8,12 @@ class RiseAppBar {
     required TextTheme theme,
     required String title,
     bool chatPage = false,
+    bool isLogin = false,
     Widget? child,
     bool isAdd = false,
     required Function() onTap,
+    IconData? suffixIcon,
+    Function()? suffixOnTap,
     Color? backgroundColor = AppColors.white,
     Color? iconColor = AppColors.primaryColor,
   }) {
@@ -21,26 +24,28 @@ class RiseAppBar {
       backgroundColor: backgroundColor,
       leading: Padding(
         padding: EdgeInsets.only(left: chatPage ? 16 : 30),
-        child: Container(
-          width: 24.w,
-          height: 10.h,
-          decoration: chatPage
-              ? const BoxDecoration()
-              : BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: iconColor ?? AppColors.primaryColor,
+        child: isLogin
+            ? const SizedBox()
+            : Container(
+                width: 24.w,
+                height: 10.h,
+                decoration: chatPage
+                    ? const BoxDecoration()
+                    : BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: iconColor ?? AppColors.primaryColor,
+                        ),
+                      ),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    size: 16.sp,
                   ),
+                  color: iconColor,
+                  onPressed: onTap,
                 ),
-          child: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios_new_rounded,
-              size: 16.sp,
-            ),
-            color: iconColor,
-            onPressed: onTap,
-          ),
-        ),
+              ),
       ),
       leadingWidth: chatPage ? 14.w : 20.w,
       title: chatPage
@@ -66,7 +71,19 @@ class RiseAppBar {
           ),
           SizedBox(width: 2.w)
         } else ...{
-          SizedBox(width: 20.w)
+          if (suffixIcon == null) ...{
+            SizedBox(width: 20.w),
+          } else ...{
+            IconButton(
+              onPressed: suffixOnTap,
+              icon: Icon(
+                suffixIcon,
+                color: AppColors.error,
+                size: 12.w,
+              ),
+            ),
+            SizedBox(width: 3.w)
+          }
         }
       ],
     );

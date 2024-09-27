@@ -1,14 +1,18 @@
 import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
+import 'package:rise_pathway/core/constants/strings.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
+import 'package:rise_pathway/src/models/challenges/challenges_response.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 import 'package:rise_pathway/src/views/widget/gradient_border_card.dart';
 import 'package:rise_pathway/src/views/widget/rise_button.dart';
 
 class ChallengePage extends StatefulWidget {
-  const ChallengePage({super.key});
+  final ChallengesResponse challenge;
+  const ChallengePage({super.key, required this.challenge});
 
   @override
   State<ChallengePage> createState() => _ChallengePageState();
@@ -22,7 +26,7 @@ class _ChallengePageState extends State<ChallengePage> {
 
     return Scaffold(
       appBar: RiseAppBar.riseAppBar(
-        title: 'Challenge',
+        title: widget.challenge.name,
         onTap: () => context.pop(),
         theme: theme,
       ),
@@ -44,7 +48,7 @@ class _ChallengePageState extends State<ChallengePage> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: Image.network(
-                            'https://images.unsplash.com/photo-1525130413817-d45c1d127c42?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+                            widget.challenge.image,
                             width: 100.w,
                             height: 100.h,
                             fit: BoxFit.cover,
@@ -78,6 +82,7 @@ class _ChallengePageState extends State<ChallengePage> {
                       width: 60.w,
                       height: 10.h,
                       padding: EdgeInsets.symmetric(horizontal: 3.h),
+                      margin: const EdgeInsets.only(bottom: 1.5),
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
@@ -108,12 +113,13 @@ class _ChallengePageState extends State<ChallengePage> {
                           ),
                           SizedBox(height: 1.h),
                           RiseText(
-                            'Talk to People',
+                            widget.challenge.name,
+                            overflow: TextOverflow.ellipsis,
                             style: theme.titleMedium!.copyWith(
                               fontWeight: FontWeight.bold,
                               color: AppColors.white,
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -122,12 +128,16 @@ class _ChallengePageState extends State<ChallengePage> {
               ),
             ),
             SizedBox(height: 10.h),
-            _buildSwipeCard(theme),
+            _buildSwipeCard(theme, widget.challenge.toJson()),
             SizedBox(height: 5.h),
             RiseButton(
-              title: r"I've Completed This",
+              title: widget.challenge.status != 'Not completed'
+                  ? r"I've Completed This"
+                  : "I've Not Completed This",
               onTap: () {},
-              gradient: AppColorsGredients.challengeCompletedBtn,
+              gradient: widget.challenge.status != 'Not completed'
+                  ? AppColorsGredients.challengeCompletedBtn
+                  : AppColorsGredients.challengeNotCompletedBtn,
               preffix: true,
               svgPath: 'assets/svg/success_complete.svg',
             )
@@ -137,7 +147,8 @@ class _ChallengePageState extends State<ChallengePage> {
     );
   }
 
-  _buildSwipeCard(TextTheme theme) {
+  _buildSwipeCard(TextTheme theme, Map<String, dynamic> challenge) {
+    // print("This is new Challenges card:: $challenge");
     return SizedBox(
       height: 36.h,
       child: AppinioSwiper(
@@ -158,6 +169,7 @@ class _ChallengePageState extends State<ChallengePage> {
           return Obx(() {
             final activeIndex = cardSwiperController.value.cardIndex ?? 0;
             return Container(
+              width: 100.w,
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
@@ -174,7 +186,7 @@ class _ChallengePageState extends State<ChallengePage> {
               child: Column(
                 children: [
                   RiseText(
-                    Helpers.challenges[index]['title'],
+                    challengeTitleList[index].capitalize.toString(),
                     style: theme.titleMedium!.copyWith(
                       color: AppColors.white,
                       fontWeight: FontWeight.bold,
@@ -182,37 +194,21 @@ class _ChallengePageState extends State<ChallengePage> {
                     ),
                   ),
                   SizedBox(height: 2.h),
-                  ...List.generate(
-                      Helpers.challenges[index]['description'].length, (_) {
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        RiseText(
-                          '\u2022',
-                          style: theme.bodySmall!.copyWith(
-                            color: AppColors.white,
-                            fontSize: 10.sp,
-                          ),
-                        ),
-                        SizedBox(width: 1.w),
-                        Expanded(
-                          child: RiseText(
-                            Helpers.challenges[index]['description'][_],
-                            style: theme.bodySmall!.copyWith(
-                              color: AppColors.white,
-                              fontSize: 10.sp,
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  }),
+                  Expanded(
+                    child: HtmlWidget(
+                      challenge[challengeTitleList[index]],
+                      textStyle: theme.bodySmall!.copyWith(
+                        color: AppColors.white,
+                        fontSize: 10.sp,
+                      ),
+                    ),
+                  )
                 ],
               ),
             );
           });
         },
-        cardCount: Helpers.challenges.length,
+        cardCount: challengeTitleList.length,
       ),
     );
   }

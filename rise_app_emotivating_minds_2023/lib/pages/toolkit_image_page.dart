@@ -40,12 +40,12 @@ class _ToolkitPageState extends State<ToolkitPage> {
           onPressed: () {
             Navigator.pushNamed(context, '/home');
           },
-          icon: Icon(Icons.chevron_left),
+          icon: const Icon(Icons.chevron_left),
         ),
         elevation: 0.0,
         titleSpacing: 0.0,
         iconTheme: const IconThemeData(color: Colors.white),
-        title: Text(
+        title: const Text(
           'Rise Toolkit Images',
           maxLines: 2,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),

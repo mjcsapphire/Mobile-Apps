@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
+import 'package:rise_pathway/src/controllers/rise_pathway_controller.dart';
 import 'package:rise_pathway/src/views/home/home.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 
@@ -13,6 +14,7 @@ class QuizSummary extends StatefulWidget {
 }
 
 class _QuizSummaryState extends State<QuizSummary> {
+  final pathwayController = Get.find<RisePathwayController>();
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
@@ -128,7 +130,7 @@ class _QuizSummaryState extends State<QuizSummary> {
                                               Icons.check_circle_rounded)),
                                       const SizedBox(width: 5),
                                       RiseText(
-                                        '10',
+                                        '08',
                                         textAlign: TextAlign.center,
                                         style: theme.bodyMedium!.copyWith(
                                           fontWeight: FontWeight.bold,
@@ -138,6 +140,47 @@ class _QuizSummaryState extends State<QuizSummary> {
                                   ),
                                   RiseText(
                                     'Correct',
+                                    textAlign: TextAlign.center,
+                                    style: theme.labelSmall!.copyWith(),
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                width: 1,
+                                height: 70,
+                                color: AppColors.lightGrey,
+                              ),
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 20,
+                                        alignment: Alignment.center,
+                                        decoration: const BoxDecoration(
+                                          gradient:
+                                              AppColorsGredients.quizNoButton,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: const Icon(
+                                          Icons.close_rounded,
+                                          size: 16,
+                                          color: AppColors.white,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      RiseText(
+                                        '02',
+                                        textAlign: TextAlign.center,
+                                        style: theme.bodyMedium!.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  RiseText(
+                                    'Wrong',
                                     textAlign: TextAlign.center,
                                     style: theme.labelSmall!.copyWith(),
                                   ),
@@ -156,6 +199,7 @@ class _QuizSummaryState extends State<QuizSummary> {
                 ),
                 BuildRisePathwayList(
                   theme: theme,
+                  pathwayController: pathwayController,
                 )
               ],
             ),

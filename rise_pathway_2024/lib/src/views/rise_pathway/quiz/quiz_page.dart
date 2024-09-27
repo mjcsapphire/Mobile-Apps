@@ -8,7 +8,8 @@ import 'package:rise_pathway/src/views/widget/rise_button.dart';
 
 class QuizPage extends StatefulWidget {
   final String title;
-  const QuizPage({super.key, required this.title});
+  final String? route;
+  const QuizPage({super.key, required this.title, this.route});
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -140,7 +141,21 @@ class _QuizPageState extends State<QuizPage> {
                       SizedBox(height: 2.h),
                       RiseButton(
                         title: 'Yes',
-                        onTap: () => context.go(quizSummary),
+                        onTap: () {
+                          final path = GoRouter.of(context)
+                              .routerDelegate
+                              .currentConfiguration
+                              .fullPath;
+
+                          String quizPath = quizSummary;
+
+                          if (path.contains('rise_quiz_page')) {
+                            quizPath = riseQuizSummary;
+                          } else {
+                            quizPath = quizSummary;
+                          }
+                          context.go(quizPath);
+                        },
                         gradient: AppColorsGredients.quizYesButton,
                       ),
                       SizedBox(height: 2.h),

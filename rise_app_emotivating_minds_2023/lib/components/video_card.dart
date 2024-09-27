@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -18,42 +20,36 @@ class VideoCard extends StatefulWidget {
 }
 
 class _VideoCardState extends State<VideoCard> {
-
   showAlertDialog(BuildContext context, String path) {
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: Text("No"),
-      onPressed:  () {
+      child: const Text("No"),
+      onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget continueButton = TextButton(
-      child: Text("Yes"),
-      onPressed:  () async {
-        var user_email = FirebaseAuth.instance.currentUser?.email;
-        await updateUserRiseImage(user_email!, path)
-            .then((value) async {
+      child: const Text("Yes"),
+      onPressed: () async {
+        var userEmail = FirebaseAuth.instance.currentUser?.email;
+        await updateUserRiseImage(userEmail!, path).then((value) async {
           toasty(context, value['message']);
-          if(value['message'] == 'Success'){
+          if (value['message'] == 'Success') {
             print("Deleted");
             Navigator.pop(context);
             Navigator.pushNamed(context, '/home');
-
           }
           // finish(context);
           // controller!.dispose();
         }).catchError((e) {
           toasty(context, e.toString());
         });
-
-
-
       },
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Confirmation Alert"),
-      content: Text("Are you sure you'd like to select this video?"),
+      title: const Text("Confirmation Alert"),
+      content: const Text("Are you sure you'd like to select this video?"),
       actions: [
         cancelButton,
         continueButton,
@@ -91,9 +87,9 @@ class _VideoCardState extends State<VideoCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap:(){
-          showAlertDialog(context, widget.assetPath);
-        },
+      onTap: () {
+        showAlertDialog(context, widget.assetPath);
+      },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 2),
         margin: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),

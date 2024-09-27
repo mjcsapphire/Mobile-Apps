@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 
 import 'dart:async';
 import 'dart:math';
@@ -7,9 +7,11 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
+import 'package:rise_pathway/core/constants/strings.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/routes/routes.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
+import 'package:rise_pathway/src/controllers/auth_controller.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 
@@ -26,12 +28,17 @@ class SelectMood extends StatefulWidget {
 
 class _SelectMoodState extends State<SelectMood> {
   final homeController = Get.find<HomeController>();
+  final authController = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
+    final String path = GoRouterState.of(context).matchedLocation;
+
     return Scaffold(
       appBar: RiseAppBar.riseAppBar(
         theme: theme,
+        isLogin: path.contains('login') ? true : false,
         title: 'Today’s Feeling',
         onTap: () => context.pop(),
       ),
@@ -59,18 +66,17 @@ class _SelectMoodState extends State<SelectMood> {
             ),
             SizedBox(height: 3.h),
             Obx(() {
-              int emojiIndex = homeController.currentIndex.value;
+              int emojiIndex = homeController.emojiIndex.value;
               int index = 0;
               if (emojiIndex <= 10) {
                 index = (10 - emojiIndex);
               } else {
                 index = (10 - emojiIndex) + 14;
               }
-              List<Color> background =
-                  Helpers.emojiBackground.reversed.toList();
+              List<Color> background = emojiBackground.reversed.toList();
               if (emojiIndex == 14) {
                 emojiIndex = 0;
-                homeController.currentIndex.value = 0;
+                homeController.emojiIndex.value = 0;
               }
               return Container(
                 height: 14.h,
@@ -79,7 +85,7 @@ class _SelectMoodState extends State<SelectMood> {
                   color: background[index],
                 ),
                 child: Image.asset(
-                  Helpers.imagePaths[index],
+                  imagePaths[index],
                   scale: 2,
                 ),
               );
@@ -106,19 +112,24 @@ class StrokeCircleWithImages extends StatefulWidget {
 
 class _StrokeCircleWithImagesState extends State<StrokeCircleWithImages> {
   List<ui.Image>? images;
-  double rotationAngle = 0.0;
+  double rotationAngle = 45.0;
   int currentIndex = 0;
   final homeController = Get.find<HomeController>();
+  final authController = Get.find<AuthController>();
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        rotationAngle = homeController.emojiIndex.value * 0.45;
+      });
+    });
     _loadImages();
   }
 
   Future<void> _loadImages() async {
-    List<Future<ui.Image>> futures =
-        Helpers.imagePaths.map(_loadImage).toList();
+    List<Future<ui.Image>> futures = imagePaths.map(_loadImage).toList();
     List<ui.Image> loadedImages = await Future.wait(futures);
 
     setState(() {
@@ -171,12 +182,13 @@ class _StrokeCircleWithImagesState extends State<StrokeCircleWithImages> {
       int closestIndex = (rotationOffset / anglePerImage).round();
       rotationAngle = closestIndex * anglePerImage;
       currentIndex = closestIndex % images!.length;
-      homeController.currentIndex.value = closestIndex;
+      homeController.emojiIndex.value = closestIndex;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final String path = GoRouterState.of(context).matchedLocation;
     final theme = Theme.of(context).textTheme;
     return Stack(
       alignment: Alignment.topCenter,
@@ -188,7 +200,9 @@ class _StrokeCircleWithImagesState extends State<StrokeCircleWithImages> {
               angle: rotationAngle,
               child: CustomPaint(
                 size: const Size(600, 600),
-                painter: images == null ? null : StrokeCirclePainter(images!),
+                painter: images == null
+                    ? null
+                    : StrokeCirclePainter(images!, controller: homeController),
               ),
             ),
             GestureDetector(
@@ -212,7 +226,17 @@ class _StrokeCircleWithImagesState extends State<StrokeCircleWithImages> {
         Padding(
           padding: EdgeInsets.only(top: 30.h),
           child: GestureDetector(
-            onTap: () => context.go(app),
+            onTap: () async {
+              if (path.contains('login')) {
+                context.go(app);
+              } else {
+                await authController.changeMood(
+                  email: authController.userData.value.userEmail ?? '',
+                  moodIndex: homeController.emojiIndex.value,
+                );
+                context.pop();
+              }
+            },
             child: Container(
               width: 40.w,
               height: 16.w,
@@ -222,7 +246,7 @@ class _StrokeCircleWithImagesState extends State<StrokeCircleWithImages> {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: RiseText(
-                'Next',
+                path.contains('login') ? 'Next' : 'Update',
                 style: theme.titleSmall!.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -238,21 +262,20 @@ class _StrokeCircleWithImagesState extends State<StrokeCircleWithImages> {
 
 class StrokeCirclePainter extends CustomPainter {
   final List<ui.Image> images;
-
-  StrokeCirclePainter(this.images);
+  final HomeController controller;
+  StrokeCirclePainter(this.images, {required this.controller});
 
   @override
   void paint(Canvas canvas, Size size) {
     final Offset center = Offset(size.width / 2, size.height / 2);
 
-    // Reduce the radius to make the sections narrower horizontally
     final double outerRadius = (size.width * 2.7) / 2.5;
     final double innerRadius = outerRadius;
     final double shadowRadius = outerRadius / 1.165;
 
     double sweepAngle = (2 * pi / images.length);
 
-    List<Color> background = Helpers.emojiBackground.reversed.toList();
+    List<Color> background = emojiBackground.reversed.toList();
 
     for (int i = 0; i < images.length; i++) {
       final Paint sectionPaint = Paint()
