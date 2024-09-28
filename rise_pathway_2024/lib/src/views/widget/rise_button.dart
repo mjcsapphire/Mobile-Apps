@@ -6,15 +6,21 @@ import '../../../core/helpers/helpers.dart';
 
 class RiseButton extends StatefulWidget {
   final String title;
-  final Function() onTap;
+  final Function onTap;
   final Gradient? gradient;
   final double? width;
+  final double? height;
   final bool? preffix;
   final String? svgPath;
+  final Color? color;
+  final Color? textColor;
   const RiseButton({
     super.key,
     required this.title,
     required this.onTap,
+    this.textColor,
+    this.color,
+    this.height,
     this.gradient,
     this.width,
     this.preffix,
@@ -30,13 +36,16 @@ class _RiseButtonState extends State<RiseButton> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: () => widget.onTap(),
       child: Container(
         width: widget.width ?? 100.w,
-        height: 6.4.h,
+        height: widget.height ?? 6.4.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          gradient: widget.gradient ?? AppColorsGredients.primaryRightToLeft,
+          color: widget.color,
+          gradient: widget.color != null
+              ? null
+              : widget.gradient ?? AppColorsGredients.primaryRightToLeft,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -48,7 +57,7 @@ class _RiseButtonState extends State<RiseButton> {
             RiseText(
               widget.title,
               style: theme.bodyMedium!.copyWith(
-                color: AppColors.white,
+                color: widget.textColor ?? AppColors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),

@@ -1,11 +1,14 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/routes/routes.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
+import 'package:rise_pathway/src/controllers/auth_controller.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 import 'package:rise_pathway/src/views/widget/rise_button.dart';
+import 'package:rise_pathway/src/views/widget/rise_dialog.dart';
 import 'package:rise_pathway/src/views/widget/text_form_field.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -18,10 +21,17 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final nameController = TextEditingController(text: "Rishabh").obs;
   final emailController = TextEditingController(text: "aL6z2@example.com").obs;
+  String image = '';
+
+  final AuthController authController = Get.find();
+
   @override
   void initState() {
-    nameController.value.text = "Rishabh";
-    emailController.value.text = "aL6z2@example.com";
+    final userData = authController.userData.value;
+
+    nameController.value.text = "${userData.firstname} ${userData.surname}";
+    emailController.value.text = userData.userEmail ?? '';
+    image = userData.mobileAppProfilePic ?? 'https://picsum.photos/200';
     super.initState();
   }
 
@@ -35,6 +45,18 @@ class _ProfilePageState extends State<ProfilePage> {
         onTap: () => context.pop(),
         isAdd: false,
         suffixIcon: FluentIcons.arrow_exit_20_regular,
+        suffixOnTap: () => showCupertinoModalPopup(
+            context: context,
+            builder: (context) => RiseDialog(
+                  buttonTextno: "no",
+                  buttonTextyes: "Yes",
+                  onTapYes: () {
+                    authController.signOut();
+                    context.go(login);
+                  },
+                  title: "Are you sure you want to logout?",
+                  image: "assets/png/logout.png",
+                )),
       ),
       body: Obx(() {
         return Container(
@@ -58,7 +80,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
-                        child: Image.network('https://i.pravatar.cc/300'),
+                        child: Image.network(image, fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                          return Image.network(
+                            "https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png",
+                            fit: BoxFit.cover,
+                          );
+                        }),
                       ),
                     ),
                     GestureDetector(

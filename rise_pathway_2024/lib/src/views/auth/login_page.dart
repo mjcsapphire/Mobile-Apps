@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -78,20 +80,32 @@ class _LoginPageState extends State<LoginPage> {
                   const Spacer(),
                   RiseButton(
                     title: 'Sign In',
-                    onTap: () async {
+                    onTap: () {
                       if (signInFormKey.currentState!.validate()) {
-                        final response = await authController.signIn(
+                        authController
+                            .signIn(
                           email: authController.emailController.value.text,
                           password:
                               authController.passwordController.value.text,
+                        )
+                            .then(
+                          (value) {
+                            print(authController.userData.value.toJson());
+                            if (authController.userData.value.userEmail !=
+                                null) {
+                              EasyLoading.showSuccess(
+                                'Login Successfully',
+                                maskType: EasyLoadingMaskType.black,
+                              );
+                              context.go(loginSelectMood);
+                            } else {
+                              EasyLoading.showError(
+                                'Login Failed',
+                                maskType: EasyLoadingMaskType.black,
+                              );
+                            }
+                          },
                         );
-                        if (response) {
-                          EasyLoading.showSuccess('Login Successful');
-                          // ignore: use_build_context_synchronously
-                          context.go(loginSelectMood);
-                        } else {
-                          EasyLoading.showError('Login Failed');
-                        }
                       }
                     },
                   ),

@@ -19,28 +19,22 @@ class AuthController extends GetxController {
 
   final userData = SignInResponse().obs;
 
-  Future<bool> signIn({required String email, required String password}) async {
+  Future<void> signIn({required String email, required String password}) async {
     try {
-      final failureOrSuccess = await _services.signIn(
-        email: email,
-        password: password,
-      );
+      final failureOrSuccess =
+          await _services.signIn(email: email, password: password);
 
       failureOrSuccess.fold(
         (failure) {
           logger.e("Failure in Sign In: $failure");
-          return false;
         },
         (success) async {
           final data = success.toJson();
-          final userData = json.encode(data);
-          await Helpers.setString(key: 'user', value: userData);
-          EasyLoading.showSuccess('Login Successful');
-
-          return true;
+          final jsonData = json.encode(data);
+          await Helpers.setString(key: 'user', value: jsonData);
+          userData.value = SignInResponse.fromJson(data);
         },
       );
-      return false;
     } catch (e) {
       logger.e("Error In Catch Sign In: $e");
       rethrow;
@@ -100,11 +94,11 @@ class AuthController extends GetxController {
 
   Future<void> changeMood({
     required String email,
-    required int moodIndex,
+    required String mood,
   }) async {
     final successOrFailure = await _services.changeMood(
       email: email,
-      moodIndex: moodIndex,
+      mood: mood,
     );
     successOrFailure.fold(
       (failure) {
@@ -117,6 +111,10 @@ class AuthController extends GetxController {
   }
 
   Future<void> signOut() async {
-    await _services.signOut();
+    try {
+      await _services.signOut();
+    } catch (e) {
+      rethrow;
+    }
   }
 }

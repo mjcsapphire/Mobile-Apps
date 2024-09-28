@@ -258,6 +258,12 @@ class BuildHomeAppBar extends StatelessWidget {
                       authController.userData.value.mobileAppProfilePic ??
                           "https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png",
                       fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.network(
+                          "https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png",
+                          fit: BoxFit.cover,
+                        );
+                      },
                     ),
                   ),
                 ),

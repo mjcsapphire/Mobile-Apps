@@ -36,7 +36,7 @@ class _SplashPageState extends State<SplashPage> {
         await authController.signIn(email: data['user_email'], password: '');
         final userData = SignInResponse.fromJson(data);
         authController.userData.value = userData;
-        context.go(app);
+        context.go(loginSelectMood);
       } else {
         context.go(login);
       }

@@ -230,9 +230,10 @@ class _StrokeCircleWithImagesState extends State<StrokeCircleWithImages> {
               if (path.contains('login')) {
                 context.go(app);
               } else {
+                final mood = moods[homeController.emojiIndex.value];
                 await authController.changeMood(
                   email: authController.userData.value.userEmail ?? '',
-                  moodIndex: homeController.emojiIndex.value,
+                  mood: mood,
                 );
                 context.pop();
               }

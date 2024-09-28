@@ -17,7 +17,6 @@ class ChallengeController extends GetxController {
     successOrFailure.fold(
       (failure) => logger.e(failure),
       (response) {
-        logger.d(response.toString());
         challenges.value = response;
       },
     );

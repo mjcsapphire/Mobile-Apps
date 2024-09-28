@@ -19,6 +19,7 @@ class ChallengesServices {
           queryParams: {"email": email});
 
       List<ChallengesResponse> challenges = [];
+      
       if (response != null) {
         for (var element in response) {
           challenges.add(ChallengesResponse.fromJson(element));
