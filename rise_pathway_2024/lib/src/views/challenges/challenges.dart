@@ -21,36 +21,42 @@ class _ChallengesState extends State<Challenges> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
 
-    return Scaffold(
-      appBar: RiseAppBar.riseAppBar(
-        theme: theme,
-        title: 'Challenges',
-        onTap: () {
-          homeController.navIndex.value = 0;
-        },
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        homeController.navIndex.value = 0;
+      },
+      child: Scaffold(
+        appBar: RiseAppBar.riseAppBar(
+          theme: theme,
+          title: 'Challenges',
+          onTap: () {
+            homeController.navIndex.value = 0;
+          },
+        ),
+        body: Obx(() => ListView.builder(
+              itemCount: challengeController.challenges.length,
+              padding: EdgeInsets.only(
+                  bottom: homeController.isPlayerVisible.value ? 14.h : 5.h,
+                  left: 4.w,
+                  right: 4.w),
+              itemBuilder: (context, index) {
+                if (challengeController.challenges.isEmpty) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                return ChallengesCard(
+                  height: 28.h,
+                  challenge: challengeController.challenges[index],
+                  onTap: () {
+                    context.go(
+                      challengePage,
+                      extra: challengeController.challenges[index],
+                    );
+                  },
+                );
+              },
+            )),
       ),
-      body: Obx(() => ListView.builder(
-            itemCount: challengeController.challenges.length,
-            padding: EdgeInsets.only(
-                bottom: homeController.isPlayerVisible.value ? 14.h : 5.h,
-                left: 4.w,
-                right: 4.w),
-            itemBuilder: (context, index) {
-              if (challengeController.challenges.isEmpty) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              return ChallengesCard(
-                height: 28.h,
-                challenge: challengeController.challenges[index],
-                onTap: () {
-                  context.go(
-                    challengePage,
-                    extra: challengeController.challenges[index],
-                  );
-                },
-              );
-            },
-          )),
     );
   }
 }

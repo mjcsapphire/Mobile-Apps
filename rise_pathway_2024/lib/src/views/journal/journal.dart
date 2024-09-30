@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
+import 'package:rise_pathway/src/controllers/auth_controller.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
+import 'package:rise_pathway/src/controllers/journal_controller.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 import 'package:rise_pathway/src/views/widget/journal_card.dart';
 
@@ -17,27 +19,23 @@ class Journal extends StatefulWidget {
 
 class _JournalState extends State<Journal> {
   final homeController = Get.find<HomeController>();
+  final journalController = Get.find<JournalController>();
+  final authController = Get.find<AuthController>();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      journalController.fetchJournals(
+        email: authController.userData.value.userEmail ?? '',
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-    List<String> moods = [
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do... ',
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore maconsequat.   deserunt mollit anim id est...',
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut deserunt mollit anim id est laborum...',
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temporest...',
-      'smod tempor incididunt ut deserunt mollit anim id est laborum...',
-      'Lorem ipsum eiusmod tempor incididunt ut labore et dolore maconsequat.   deserunt mollit anim id est...',
-      'Ldunt ut deserunt mollit anim id est consectetur adipiscing elit, sed do eiusmod tempor incidconsectetur adipiscing elit, sed do eiusmod tempor incidconsectetur adipiscing elit, sed do eiusmod tempor incid laborum...',
-    ];
-    List<String> moodsTitle = [
-      'First Journal',
-      'Second Journal',
-      'Third Journal',
-      'Fourth Journal',
-      'Fifth Journal',
-      'Sixth Journal',
-      'Seventh Journal',
-    ];
+
     return Scaffold(
       appBar: RiseAppBar.riseAppBar(
         theme: theme,
@@ -52,27 +50,38 @@ class _JournalState extends State<Journal> {
             bottom: homeController.isPlayerVisible.value ? 10.h : 2.h,
           ),
           child: Container(
+            height: 60.h,
             margin: EdgeInsets.only(
               left: 1.5.h,
               right: 1.5.h,
               bottom: 5.h,
             ),
-            child: StaggeredGrid.count(
-              crossAxisCount: 2,
-              children: List.generate(
-                moods.length,
-                (index) => GestureDetector(
-                  onTap: () => context.go(addNewJournal, extra: {
-                    'title': moodsTitle[index],
-                    'description': moods[index],
-                  }),
-                  child: JournalCard(
-                    title: moodsTitle[index],
-                    subtitle: moods[index],
+            child: journalController.journals.isEmpty
+                ? const Center(
+                    child: CircularProgressIndicator.adaptive(
+                      valueColor:
+                          AlwaysStoppedAnimation(AppColors.primaryColor),
+                      strokeCap: StrokeCap.round,
+                    ),
+                  )
+                : StaggeredGrid.count(
+                    crossAxisCount: 2,
+                    children: List.generate(
+                      journalController.journals.length,
+                      (index) => GestureDetector(
+                        onTap: () => context.go(addNewJournal, extra: {
+                          'title': journalController.journals[index].title,
+                          'description':
+                              journalController.journals[index].entry,
+                          'isEdit': true,
+                        }),
+                        child: JournalCard(
+                          title: journalController.journals[index].title,
+                          subtitle: journalController.journals[index].entry,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
           ),
         ),
       ),
@@ -82,6 +91,7 @@ class _JournalState extends State<Journal> {
           onTap: () => context.go(addNewJournal, extra: {
             'title': 'Add New Jorunal',
             'description': '',
+            'isEdit': false,
           }),
           child: Container(
             width: 30.w,

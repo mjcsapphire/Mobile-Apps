@@ -29,4 +29,44 @@ class RisePathwayServices {
       return Left(ServerFailure(message: e.toString()));
     }
   }
+
+  Future<Either<Failure, List<PathwayResponse>>> fatchPathwayQuestions(
+      {required String email, required String pathway}) async {
+    try {
+      final response = await ApiServices.sendRequest(
+          dio, RequestType.get, Config.fetchPathwayQuestions,
+          headers: {"Content-Type": "application/json"},
+          queryParams: {"email": email, "pathway": pathway});
+
+      List<PathwayResponse> pathways = [];
+      if (response != null) {
+        for (var element in response) {
+          pathways.add(PathwayResponse.fromJson(element));
+        }
+      }
+      return Right(pathways);
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<Failure, String>> submitPathwayTest({
+    required String email,
+    required String pathway,
+  }) async {
+    try {
+      final response = await ApiServices.sendRequest(
+        dio,
+        RequestType.post,
+        Config.submitPathwayTest,
+        headers: {"Content-Type": "application/json"},
+        queryParams: {"email": email},
+        data: {"pathway": pathway},
+      );
+
+      return Right(response);
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
 }

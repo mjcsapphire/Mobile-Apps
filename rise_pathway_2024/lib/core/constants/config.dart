@@ -28,7 +28,7 @@ class Config {
 
   // Pathway endpoints
   static const String fetchPathways = "/getPathways";
-  static const String fetchQuestions = "/getPathwayQuestions";
+  static const String fetchPathwayQuestions = "/getPathwayQuestions";
   static const String submitPathwayTest = "/submitPathwayTest";
 
   // Other endpoints

@@ -20,10 +20,6 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   final AuthController authController = Get.find<AuthController>();
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +29,13 @@ class _SplashPageState extends State<SplashPage> {
       final user = await Helpers.getString(key: 'user');
       if (user != null) {
         final data = json.decode(user);
-        await authController.signIn(email: data['user_email'], password: '');
+        authController.signIn(email: data['user_email'], password: '');
         final userData = SignInResponse.fromJson(data);
         authController.userData.value = userData;
         context.go(loginSelectMood);
       } else {
         context.go(login);
-      }
+      } 
     });
 
     return Scaffold(

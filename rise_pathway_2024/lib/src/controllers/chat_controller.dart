@@ -3,4 +3,5 @@ import 'package:get/get.dart';
 
 class ChatController extends GetxController {
   final RxList<types.Message> messages = <types.Message>[].obs;
+  // final 
 }

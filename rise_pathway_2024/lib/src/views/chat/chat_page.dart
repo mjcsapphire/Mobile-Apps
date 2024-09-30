@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
@@ -20,6 +21,8 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final chatController = Get.find<ChatController>();
   final messageController = TextEditingController().obs;
+
+  final isTextFieldEmpty = false.obs;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
@@ -126,6 +129,13 @@ class _ChatPageState extends State<ChatPage> {
                             ),
                           ),
                         ),
+                        onChanged: (value) {
+                          if (value.isNotEmpty) {
+                            isTextFieldEmpty.value = true;
+                          } else {
+                            isTextFieldEmpty.value = false;
+                          }
+                        },
                       ),
                     ),
                     IconButton(
@@ -146,6 +156,10 @@ class _ChatPageState extends State<ChatPage> {
                       ),
                       child: IconButton(
                         onPressed: () {
+                          if (!isTextFieldEmpty.value) {
+                            EasyLoading.showToast('Message can\'t be empty');
+                            return;
+                          }
                           final types.TextMessage message = types.TextMessage(
                             author: const types.User(id: '0'),
                             id: Random().nextInt(100000).toString(),
@@ -158,13 +172,13 @@ class _ChatPageState extends State<ChatPage> {
                           messageController.value.text = '';
                         },
                         color: AppColors.primaryColor,
-                        icon: Icon(
-                          messageController.value.text.isEmpty
-                              ? Icons.mic
-                              : Icons.send,
-                          size: 2.5.h,
-                          color: AppColors.white,
-                          fill: .1,
+                        icon: Obx(
+                          () => Icon(
+                            isTextFieldEmpty.value ? Icons.send : Icons.mic,
+                            size: 2.5.h,
+                            color: AppColors.white,
+                            fill: .1,
+                          ),
                         ),
                       ),
                     )
@@ -204,10 +218,6 @@ class MessageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     return Container(
-      padding: const EdgeInsets.only(
-          // left: sendByMe ? 0 : 8,
-          // right: sendByMe ? 8 : 0,
-          ),
       alignment: sendByMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         margin: EdgeInsets.zero,
@@ -231,15 +241,12 @@ class MessageTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Positioned(
-              child: RiseText(
-                message,
-                textAlign: TextAlign.start,
-                style: theme.labelSmall!.copyWith(
-                  color:
-                      sendByMe ? AppColors.lightGrey : AppColors.primaryColor,
-                  // fontWeight: Fontw
-                ),
+            RiseText(
+              message,
+              textAlign: TextAlign.start,
+              style: theme.labelSmall!.copyWith(
+                color: sendByMe ? AppColors.lightGrey : AppColors.primaryColor,
+                // fontWeight: Fontw
               ),
             ),
             SizedBox(height: 1.w),

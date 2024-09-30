@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                         )
                             .then(
                           (value) {
-                            print(authController.userData.value.toJson());
+                            // print(authController.userData.value.toJson());
                             if (authController.userData.value.userEmail !=
                                 null) {
                               EasyLoading.showSuccess(

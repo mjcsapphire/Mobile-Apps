@@ -21,4 +21,69 @@ class ChallengeController extends GetxController {
       },
     );
   }
+
+  Future<void> addChallenge({
+    required String email,
+    required String challenge,
+  }) async {
+    final successOrFailure = await _services.addChallenge(
+      email: email,
+      challenge: challenge,
+    );
+    successOrFailure.fold(
+      (failure) {
+        logger.e("Error In Submit Challenge: $failure");
+      },
+      (success) {
+        logger.d("Successfully Submit Challenge: $success");
+      },
+    );
+  }
+
+  Future<void> removeChallenge({
+    required String email,
+    required String challenge,
+  }) async {
+    final successOrFailure = await _services.removeChallenge(
+      email: email,
+      challenge: challenge,
+    );
+    successOrFailure.fold(
+      (failure) {
+        logger.e("Error In Submit Challenge: $failure");
+      },
+      (success) {
+        logger.d("Successfully Submit Challenge: $success");
+      },
+    );
+  }
+
+  Future<void> completeChallenge({
+    required String email,
+    required String challenge,
+  }) async {
+    final successOrFailure = await _services.completeChallenge(
+      email: email,
+      challenge: challenge,
+    );
+    successOrFailure.fold(
+      (failure) {
+        logger.e("Error In Submit Challenge: $failure");
+      },
+      (success) {
+        logger.d("Successfully Submit Challenge: $success");
+      },
+    );
+  }
+
+  Future<void> fetchRelatedChallenges({required String email}) async {
+    final successOrFailure =
+        await _services.fatchRelatedChallenges(email: email);
+    successOrFailure.fold(
+      (failure) => logger.e(failure),
+      (response) {
+        // challenges.value = response;
+      },
+    );
+  }
 }

@@ -106,9 +106,11 @@ class CustomRouter {
               final data = (state.extra ?? {}) as Map<String, dynamic>;
               final title = data['title'];
               final description = data['description'];
+              final isEdit = data['isEdit'] ?? false;
               return AddNewJournal(
                 title: title,
                 description: description,
+                isEdit: isEdit,
               );
             },
           ),

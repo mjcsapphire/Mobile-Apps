@@ -95,6 +95,12 @@ class _SchedulePageState extends State<SchedulePage> {
                   disabledDecoration: Helpers.calendarDecoration,
                   holidayDecoration: Helpers.calendarDecoration,
                   weekendDecoration: Helpers.calendarDecoration,
+                  outsideDecoration: Helpers.calendarDecoration,
+                  rowDecoration: Helpers.calendarDecoration,
+                  rangeEndDecoration: Helpers.calendarDecoration,
+                  rangeStartDecoration: Helpers.calendarDecoration,
+                  markerDecoration: Helpers.calendarDecoration,
+                  withinRangeDecoration: Helpers.calendarDecoration,
                 ),
               );
             }),
