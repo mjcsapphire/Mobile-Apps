@@ -61,6 +61,7 @@ dependencies:
   flutter_staggered_grid_view: ^0.7.0
   sqflite: ^2.3.3+1
   flutter_widget_from_html: ^0.15.2
+  just_audio: ^0.9.40
 
 dev_dependencies:
   flutter_test:
@@ -83,6 +84,7 @@ flutter:
     - assets/png/
     - assets/imgs/
     - lib/.env
+    - assets/music/
 
   fonts:
     - family: Urbanist

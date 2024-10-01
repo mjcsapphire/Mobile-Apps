@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
@@ -24,9 +25,13 @@ class _AppState extends State<App> {
     const Reflection(),
   ];
 
+  final player = AudioPlayer();
+  final isPlay = false.obs;
+  Rx<Duration?> duration = const Duration().obs;
+
   @override
   Widget build(BuildContext context) {
-    final RxDouble progress = .20.obs;
+    final RxDouble progress = .0.obs;
     const navIconPath = 'assets/nav_bar_icons/';
     final theme = Theme.of(context).textTheme;
 
@@ -113,9 +118,32 @@ class _AppState extends State<App> {
                           ],
                         ),
                         const Spacer(),
-                        const Icon(
-                          Icons.pause_rounded,
-                          color: AppColors.primaryColor,
+                        IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: () async {
+                            if (isPlay.value) {
+                              isPlay.value = false;
+                              await player.stop();
+                            } else {
+                              isPlay.value = true;
+                              duration.value = await player.setAsset(
+                                'assets/music/relex_sound.mp3',
+                              );
+
+                              player.createPositionStream().listen((event) {
+                                progress.value = event.inMilliseconds /
+                                    duration.value!.inMilliseconds;
+                              });
+
+                              await player.play();
+                            }
+                          },
+                          icon: Icon(
+                            isPlay.value
+                                ? Icons.pause_rounded
+                                : Icons.play_arrow_rounded,
+                            color: AppColors.primaryColor,
+                          ),
                         ),
                         IconButton(
                           onPressed: () =>
@@ -157,7 +185,7 @@ class _AppState extends State<App> {
                     ),
                   ),
                   Visibility(
-                    visible: progress.value == 1.0,
+                    visible: 1.0 <= progress.value,
                     child: Align(
                       alignment: const Alignment(1, .9),
                       child: Container(
@@ -178,21 +206,28 @@ class _AppState extends State<App> {
                       ),
                     ),
                   ),
-                  Container(
-                    width: 14,
-                    height: 14,
-                    margin: EdgeInsets.only(left: 21.w),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: AppColors.primaryColor.withOpacity(0.2),
-                        width: 2,
-                      ),
-                    ),
+                  Align(
+                    alignment: Alignment.center,
                     child: Container(
-                      decoration: const BoxDecoration(
-                        color: AppColors.primaryColor,
-                        shape: BoxShape.circle,
+                      alignment: Alignment.centerLeft,
+                      width: 95.w,
+                      child: Container(
+                        width: 14,
+                        height: 14,
+                        margin: EdgeInsets.only(left: progress.value * 90.w),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: AppColors.primaryColor.withOpacity(0.2),
+                            width: 2,
+                          ),
+                        ),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: AppColors.primaryColor,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
                       ),
                     ),
                   ),

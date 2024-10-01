@@ -578,7 +578,11 @@ class BuildRisePathwayList extends StatelessWidget {
               height: 60.w,
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: pathwayController.pathways.isEmpty
-                  ? const Center(child: Text('No Pathway Available'))
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation(AppColors.primaryColor),
+                    ))
                   : ListView.builder(
                       itemCount: pathwayController.pathways.length,
                       scrollDirection: Axis.horizontal,

@@ -66,6 +66,7 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: Obx(() {
         return Chat(
+          emojiEnlargementBehavior: EmojiEnlargementBehavior.multi,
           messageWidthRatio: 0.8,
           messages: chatController.messages.reversed.toList(),
           dateHeaderThreshold: 24 * 60 * 60 * 60,
