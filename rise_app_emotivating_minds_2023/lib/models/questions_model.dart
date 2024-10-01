@@ -1,5 +1,6 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
-import 'dart:ui';
 
 List<QuestionsModel> QuestionsModelFromJson(String str) =>
     List<QuestionsModel>.from(
@@ -8,7 +9,7 @@ List<QuestionsModel> QuestionsModelFromJson(String str) =>
 String QuestionsModelToJson(List<QuestionsModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class QuestionsModel{
+class QuestionsModel {
   final String? id;
   final String? pathway_id;
   final String question;
@@ -24,19 +25,18 @@ class QuestionsModel{
   });
 
   factory QuestionsModel.fromJson(Map<String, dynamic> json) => QuestionsModel(
-    id: json["id"],
-    pathway_id: json["pathway_id"],
-    question: json["question"],
-    question_number: json["question_number"],
-    correct_answer: json["correct_answer"],
-  );
+        id: json["id"],
+        pathway_id: json["pathway_id"],
+        question: json["question"],
+        question_number: json["question_number"],
+        correct_answer: json["correct_answer"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "pathway_id": pathway_id,
-    "question": question,
-    "question_number": question_number,
-    "correct_answer": correct_answer,
-  };
-
+        "id": id,
+        "pathway_id": pathway_id,
+        "question": question,
+        "question_number": question_number,
+        "correct_answer": correct_answer,
+      };
 }

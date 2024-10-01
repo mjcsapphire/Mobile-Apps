@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
+
 import '../components/video_card.dart';
 
 final videos = [
@@ -14,11 +14,9 @@ class ToolkitPage extends StatefulWidget {
 
   @override
   State<ToolkitPage> createState() => _ToolkitPageState();
-
 }
 
 class _ToolkitPageState extends State<ToolkitPage> {
-
   late PageController _pageController;
 
   @override
@@ -39,25 +37,28 @@ class _ToolkitPageState extends State<ToolkitPage> {
       appBar: AppBar(
         backgroundColor: Colors.blue,
         leading: IconButton(
-          onPressed: () {Navigator.pushNamed(context, '/home');},
-          icon: Icon(Icons.chevron_left),
+          onPressed: () {
+            Navigator.pushNamed(context, '/home');
+          },
+          icon: const Icon(Icons.chevron_left),
         ),
         elevation: 0.0,
         titleSpacing: 0.0,
         iconTheme: const IconThemeData(color: Colors.white),
-        title: Text(
+        title: const Text(
           'Rise Toolkit Images',
           maxLines: 2,
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('<- Swipe For Options ->', style: TextStyle(
-              color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20)),
+          const Text('<- Swipe For Options ->',
+              style: TextStyle(
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20)),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.7,
             child: PageView.builder(
@@ -75,7 +76,3 @@ class _ToolkitPageState extends State<ToolkitPage> {
     );
   }
 }
-
-
-
-

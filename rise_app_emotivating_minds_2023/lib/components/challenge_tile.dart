@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../models/challenge_model.dart';
 import '../pages/challange_details_page.dart';
 
@@ -15,7 +16,7 @@ class ChallengeTile extends StatelessWidget {
               builder: (context) =>
                   ChallengeDetailsPage(challenge: challenge))),
       child: Container(
-        margin: EdgeInsets.only(left: 25),
+        margin: const EdgeInsets.only(left: 25),
         width: 280,
         decoration: BoxDecoration(
             color: Colors.grey[200], borderRadius: BorderRadius.circular(12)),
@@ -26,11 +27,11 @@ class ChallengeTile extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 2.0),
               child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
                 child: Image.network(
                   challenge.image.toString(),
                   height: 180,
                 ),
-                borderRadius: BorderRadius.circular(12),
               ),
             ),
 
@@ -71,7 +72,7 @@ class ChallengeTile extends StatelessWidget {
                     ],
                   ),
                   Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: const BoxDecoration(
                         gradient: LinearGradient(
                             colors: [Colors.orangeAccent, Colors.grey],
@@ -80,7 +81,7 @@ class ChallengeTile extends StatelessWidget {
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(12),
                             bottomRight: Radius.circular(12))),
-                    child: Icon(
+                    child: const Icon(
                       Icons.arrow_forward,
                       color: Colors.white,
                     ),

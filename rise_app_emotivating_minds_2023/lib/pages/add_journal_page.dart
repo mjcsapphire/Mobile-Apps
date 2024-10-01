@@ -9,10 +9,8 @@ class AddJournal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final TextEditingController title_controller = TextEditingController();
-    final TextEditingController entry_controller =
-    TextEditingController();
+    final TextEditingController titleController = TextEditingController();
+    final TextEditingController entryController = TextEditingController();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -22,19 +20,16 @@ class AddJournal extends StatelessWidget {
         elevation: 0.0,
         titleSpacing: 0.0,
         iconTheme: const IconThemeData(color: Colors.white),
-        title: Text(
+        title: const Text(
           'Add Journal Entry',
           maxLines: 2,
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-
             Expanded(
               flex: 1,
               child: SingleChildScrollView(
@@ -45,10 +40,10 @@ class AddJournal extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       AppTextField(
-                        controller: title_controller,
+                        controller: titleController,
                         readOnly: false,
                         textFieldType: TextFieldType.NAME,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Title',
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           border: OutlineInputBorder(),
@@ -58,10 +53,10 @@ class AddJournal extends StatelessWidget {
                         height: 20.0,
                       ),
                       TextField(
-                        controller: entry_controller,
+                        controller: entryController,
                         readOnly: false,
                         maxLines: 20,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Entry',
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           border: OutlineInputBorder(),
@@ -73,20 +68,22 @@ class AddJournal extends StatelessWidget {
                       FloatingActionButton.extended(
                         backgroundColor: Colors.white,
                         onPressed: () async {
-                          if (title_controller.text.trim() == '') {
+                          if (titleController.text.trim() == '') {
                             toasty(context, 'Please enter a title');
-                          } else if (entry_controller.text.trim() == '') {
+                          } else if (entryController.text.trim() == '') {
                             toasty(context, 'Please enter a journal entry');
                           } else {
-                            var user_email = FirebaseAuth.instance.currentUser?.email;
+                            var userEmail =
+                                FirebaseAuth.instance.currentUser?.email;
 
-                            await addJournalEntry(user_email!, title_controller.text.trim(),
-                                entry_controller.text.trim())
+                            await addJournalEntry(
+                                    userEmail!,
+                                    titleController.text.trim(),
+                                    entryController.text.trim())
                                 .then((value) async {
                               toasty(context, value['message']);
-                              if(value['message'] == 'Success'){
+                              if (value['message'] == 'Success') {
                                 Navigator.pushNamed(context, '/journal');
-
                               }
                               // finish(context);
                               // controller!.dispose();
@@ -103,8 +100,6 @@ class AddJournal extends StatelessWidget {
                       const SizedBox(
                         height: 20.0,
                       ),
-
-
                     ],
                   ),
                 ),

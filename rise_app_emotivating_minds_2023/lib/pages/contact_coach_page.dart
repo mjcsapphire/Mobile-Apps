@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -7,11 +6,10 @@ class ContactCoachPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController title_controller = TextEditingController();
-    final TextEditingController entry_controller =
-    TextEditingController();
+    final TextEditingController titleController = TextEditingController();
+    final TextEditingController entryController = TextEditingController();
 
-    title_controller.text = 'Stephen Allen';
+    titleController.text = 'Stephen Allen';
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -21,19 +19,16 @@ class ContactCoachPage extends StatelessWidget {
         elevation: 0.0,
         titleSpacing: 0.0,
         iconTheme: const IconThemeData(color: Colors.white),
-        title: Text(
+        title: const Text(
           'Contact My Coach',
           maxLines: 2,
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-
             Expanded(
               flex: 1,
               child: SingleChildScrollView(
@@ -44,10 +39,10 @@ class ContactCoachPage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       AppTextField(
-                        controller: title_controller,
+                        controller: titleController,
                         readOnly: true,
                         textFieldType: TextFieldType.NAME,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'My Coach',
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           border: OutlineInputBorder(),
@@ -57,10 +52,10 @@ class ContactCoachPage extends StatelessWidget {
                         height: 20.0,
                       ),
                       TextField(
-                        controller: entry_controller,
+                        controller: entryController,
                         readOnly: false,
                         maxLines: 10,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Message',
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           border: OutlineInputBorder(),
@@ -71,7 +66,8 @@ class ContactCoachPage extends StatelessWidget {
                       ),
                       FloatingActionButton.extended(
                         backgroundColor: Colors.white,
-                        onPressed: () async {if (entry_controller.text.trim() == '') {
+                        onPressed: () async {
+                          if (entryController.text.trim() == '') {
                             toasty(context, 'Please enter a message');
                           } else {
                             toasty(context, 'Success');
@@ -101,8 +97,6 @@ class ContactCoachPage extends StatelessWidget {
                       const SizedBox(
                         height: 20.0,
                       ),
-
-
                     ],
                   ),
                 ),

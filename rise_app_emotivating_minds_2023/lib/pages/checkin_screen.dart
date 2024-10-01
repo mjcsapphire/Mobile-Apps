@@ -19,25 +19,34 @@ class _CheckInScreenState extends State<CheckInScreen> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-              primaryColor,
-              Colors.white
-            ], begin: Alignment.topCenter, end: Alignment.bottomCenter),),
+          gradient: LinearGradient(
+              colors: [primaryColor, Colors.white],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(25.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const SizedBox(height: 25,),
+              const SizedBox(
+                height: 25,
+              ),
 
               //Shop name
-              Text("My Daily Check-in", style: GoogleFonts.dmSerifDisplay(fontSize: 34, color: Colors.white),),
-
-
+              Text(
+                "My Daily Check-in",
+                style: GoogleFonts.dmSerifDisplay(
+                    fontSize: 34, color: Colors.white),
+              ),
 
               //Title
-              Text("Today I am feeling...", style: GoogleFonts.dmSerifDisplay(fontSize: 28, color: Colors.white),),
+              Text(
+                "Today I am feeling...",
+                style: GoogleFonts.dmSerifDisplay(
+                    fontSize: 28, color: Colors.white),
+              ),
 
               //Options
               Padding(
@@ -47,7 +56,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
                     Container(
                       child: GridView.count(
                         crossAxisCount: 3,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         shrinkWrap: true,
                         mainAxisSpacing: 10,
                         crossAxisSpacing: 10,
@@ -59,47 +68,13 @@ class _CheckInScreenState extends State<CheckInScreen> {
                               child: InkWell(
                                 highlightColor: Colors.white12,
                                 onTap: () async {
-                                  var user_email = FirebaseAuth.instance.currentUser?.email;
-                                  await updateMood(user_email!, 'Very Happy')
-                                      .then((value) async {
-                                  //toasty(context, value['message']);
-                                  if(value['message'] == 'Success'){
-                                    Navigator.pushNamed(context, '/home');
-
-                                  }
-                                  }).catchError((e) {
-                                  toasty(context, e.toString());
-                                  });
-                                },
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Image.asset('lib/images/very_happy.gif', width: 50,),
-                                      Text("Very Happy",
-                                          style:
-                                          TextStyle(color: Colors.red))
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          GridTile(
-                            child: Card(
-                              elevation: 0.0,
-                              color: Colors.white54,
-                              child: InkWell(
-                                highlightColor: Colors.white12,
-                                onTap: () async {
-                                  var user_email = FirebaseAuth.instance.currentUser?.email;
-                                  await updateMood(user_email!, 'Happy')
+                                  var userEmail =
+                                      FirebaseAuth.instance.currentUser?.email;
+                                  await updateMood(userEmail!, 'Very Happy')
                                       .then((value) async {
                                     //toasty(context, value['message']);
-                                    if(value['message'] == 'Success'){
+                                    if (value['message'] == 'Success') {
                                       Navigator.pushNamed(context, '/home');
-
                                     }
                                   }).catchError((e) {
                                     toasty(context, e.toString());
@@ -108,12 +83,14 @@ class _CheckInScreenState extends State<CheckInScreen> {
                                 child: Center(
                                   child: Column(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Image.asset('lib/images/happy.gif', width: 50,),
-                                      Text("Happy",
-                                          style:
-                                          TextStyle(color: Colors.red))
+                                      Image.asset(
+                                        'lib/images/very_happy.gif',
+                                        width: 50,
+                                      ),
+                                      const Text("Very Happy",
+                                          style: TextStyle(color: Colors.red))
                                     ],
                                   ),
                                 ),
@@ -127,13 +104,13 @@ class _CheckInScreenState extends State<CheckInScreen> {
                               child: InkWell(
                                 highlightColor: Colors.white12,
                                 onTap: () async {
-                                  var user_email = FirebaseAuth.instance.currentUser?.email;
-                                  await updateMood(user_email!, 'Excited')
+                                  var userEmail =
+                                      FirebaseAuth.instance.currentUser?.email;
+                                  await updateMood(userEmail!, 'Happy')
                                       .then((value) async {
                                     //toasty(context, value['message']);
-                                    if(value['message'] == 'Success'){
+                                    if (value['message'] == 'Success') {
                                       Navigator.pushNamed(context, '/home');
-
                                     }
                                   }).catchError((e) {
                                     toasty(context, e.toString());
@@ -142,12 +119,14 @@ class _CheckInScreenState extends State<CheckInScreen> {
                                 child: Center(
                                   child: Column(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Image.asset('lib/images/excited.gif', width: 50,),
-                                      Text("Excited",
-                                          style:
-                                          TextStyle(color: Colors.red))
+                                      Image.asset(
+                                        'lib/images/happy.gif',
+                                        width: 50,
+                                      ),
+                                      const Text("Happy",
+                                          style: TextStyle(color: Colors.red))
                                     ],
                                   ),
                                 ),
@@ -161,13 +140,13 @@ class _CheckInScreenState extends State<CheckInScreen> {
                               child: InkWell(
                                 highlightColor: Colors.white12,
                                 onTap: () async {
-                                  var user_email = FirebaseAuth.instance.currentUser?.email;
-                                  await updateMood(user_email!, 'Thankful')
+                                  var userEmail =
+                                      FirebaseAuth.instance.currentUser?.email;
+                                  await updateMood(userEmail!, 'Excited')
                                       .then((value) async {
                                     //toasty(context, value['message']);
-                                    if(value['message'] == 'Success'){
+                                    if (value['message'] == 'Success') {
                                       Navigator.pushNamed(context, '/home');
-
                                     }
                                   }).catchError((e) {
                                     toasty(context, e.toString());
@@ -176,12 +155,14 @@ class _CheckInScreenState extends State<CheckInScreen> {
                                 child: Center(
                                   child: Column(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Image.asset('lib/images/thankful.gif', width: 50,),
-                                      Text("Thankful",
-                                          style:
-                                          TextStyle(color: Colors.red))
+                                      Image.asset(
+                                        'lib/images/excited.gif',
+                                        width: 50,
+                                      ),
+                                      const Text("Excited",
+                                          style: TextStyle(color: Colors.red))
                                     ],
                                   ),
                                 ),
@@ -195,13 +176,13 @@ class _CheckInScreenState extends State<CheckInScreen> {
                               child: InkWell(
                                 highlightColor: Colors.white12,
                                 onTap: () async {
-                                  var user_email = FirebaseAuth.instance.currentUser?.email;
-                                  await updateMood(user_email!, 'Meh')
+                                  var userEmail =
+                                      FirebaseAuth.instance.currentUser?.email;
+                                  await updateMood(userEmail!, 'Thankful')
                                       .then((value) async {
                                     //toasty(context, value['message']);
-                                    if(value['message'] == 'Success'){
+                                    if (value['message'] == 'Success') {
                                       Navigator.pushNamed(context, '/home');
-
                                     }
                                   }).catchError((e) {
                                     toasty(context, e.toString());
@@ -210,12 +191,14 @@ class _CheckInScreenState extends State<CheckInScreen> {
                                 child: Center(
                                   child: Column(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Image.asset('lib/images/meh.gif', width: 50,),
-                                      Text("Meh",
-                                          style:
-                                          TextStyle(color: Colors.red))
+                                      Image.asset(
+                                        'lib/images/thankful.gif',
+                                        width: 50,
+                                      ),
+                                      const Text("Thankful",
+                                          style: TextStyle(color: Colors.red))
                                     ],
                                   ),
                                 ),
@@ -229,13 +212,13 @@ class _CheckInScreenState extends State<CheckInScreen> {
                               child: InkWell(
                                 highlightColor: Colors.white12,
                                 onTap: () async {
-                                  var user_email = FirebaseAuth.instance.currentUser?.email;
-                                  await updateMood(user_email!, 'Confused')
+                                  var userEmail =
+                                      FirebaseAuth.instance.currentUser?.email;
+                                  await updateMood(userEmail!, 'Meh')
                                       .then((value) async {
                                     //toasty(context, value['message']);
-                                    if(value['message'] == 'Success'){
+                                    if (value['message'] == 'Success') {
                                       Navigator.pushNamed(context, '/home');
-
                                     }
                                   }).catchError((e) {
                                     toasty(context, e.toString());
@@ -244,12 +227,14 @@ class _CheckInScreenState extends State<CheckInScreen> {
                                 child: Center(
                                   child: Column(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Image.asset('lib/images/confused.gif', width: 50,),
-                                      Text("Confused",
-                                          style:
-                                          TextStyle(color: Colors.red))
+                                      Image.asset(
+                                        'lib/images/meh.gif',
+                                        width: 50,
+                                      ),
+                                      const Text("Meh",
+                                          style: TextStyle(color: Colors.red))
                                     ],
                                   ),
                                 ),
@@ -263,13 +248,13 @@ class _CheckInScreenState extends State<CheckInScreen> {
                               child: InkWell(
                                 highlightColor: Colors.white12,
                                 onTap: () async {
-                                  var user_email = FirebaseAuth.instance.currentUser?.email;
-                                  await updateMood(user_email!, 'Frustrated')
+                                  var userEmail =
+                                      FirebaseAuth.instance.currentUser?.email;
+                                  await updateMood(userEmail!, 'Confused')
                                       .then((value) async {
                                     //toasty(context, value['message']);
-                                    if(value['message'] == 'Success'){
+                                    if (value['message'] == 'Success') {
                                       Navigator.pushNamed(context, '/home');
-
                                     }
                                   }).catchError((e) {
                                     toasty(context, e.toString());
@@ -278,12 +263,14 @@ class _CheckInScreenState extends State<CheckInScreen> {
                                 child: Center(
                                   child: Column(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Image.asset('lib/images/frustrated.gif', width: 50,),
-                                      Text("Frustrated",
-                                          style:
-                                          TextStyle(color: Colors.red))
+                                      Image.asset(
+                                        'lib/images/confused.gif',
+                                        width: 50,
+                                      ),
+                                      const Text("Confused",
+                                          style: TextStyle(color: Colors.red))
                                     ],
                                   ),
                                 ),
@@ -297,13 +284,49 @@ class _CheckInScreenState extends State<CheckInScreen> {
                               child: InkWell(
                                 highlightColor: Colors.white12,
                                 onTap: () async {
-                                  var user_email = FirebaseAuth.instance.currentUser?.email;
-                                  await updateMood(user_email!, 'Sad')
+                                  var userEmail =
+                                      FirebaseAuth.instance.currentUser?.email;
+                                  await updateMood(userEmail!, 'Frustrated')
+                                      .then((value) async {
+                                    //toasty(context, value['message']);
+                                    if (value['message'] == 'Success') {
+                                      Navigator.pushNamed(context, '/home');
+                                    }
+                                  }).catchError((e) {
+                                    toasty(context, e.toString());
+                                  });
+                                },
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Image.asset(
+                                        'lib/images/frustrated.gif',
+                                        width: 50,
+                                      ),
+                                      const Text("Frustrated",
+                                          style: TextStyle(color: Colors.red))
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          GridTile(
+                            child: Card(
+                              elevation: 0.0,
+                              color: Colors.white54,
+                              child: InkWell(
+                                highlightColor: Colors.white12,
+                                onTap: () async {
+                                  var userEmail =
+                                      FirebaseAuth.instance.currentUser?.email;
+                                  await updateMood(userEmail!, 'Sad')
                                       .then((value) async {
                                     // //toasty(context, value['message']);
-                                    if(value['message'] == 'Success'){
+                                    if (value['message'] == 'Success') {
                                       Navigator.pushNamed(context, '/home');
-
                                     }
                                   }).catchError((e) {
                                     toasty(context, e.toString());
@@ -312,13 +335,14 @@ class _CheckInScreenState extends State<CheckInScreen> {
                                 child: Center(
                                   child: Column(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
-
-                                      Image.asset('lib/images/sad.gif', width: 50,),
-                                      Text("Sad",
-                                          style:
-                                          TextStyle(color: Colors.red))
+                                      Image.asset(
+                                        'lib/images/sad.gif',
+                                        width: 50,
+                                      ),
+                                      const Text("Sad",
+                                          style: TextStyle(color: Colors.red))
                                     ],
                                   ),
                                 ),
@@ -332,13 +356,13 @@ class _CheckInScreenState extends State<CheckInScreen> {
                               child: InkWell(
                                 highlightColor: Colors.white12,
                                 onTap: () async {
-                                  var user_email = FirebaseAuth.instance.currentUser?.email;
-                                  await updateMood(user_email!, 'Angry')
+                                  var userEmail =
+                                      FirebaseAuth.instance.currentUser?.email;
+                                  await updateMood(userEmail!, 'Angry')
                                       .then((value) async {
                                     //toasty(context, value['message']);
-                                    if(value['message'] == 'Success'){
+                                    if (value['message'] == 'Success') {
                                       Navigator.pushNamed(context, '/home');
-
                                     }
                                   }).catchError((e) {
                                     toasty(context, e.toString());
@@ -347,12 +371,14 @@ class _CheckInScreenState extends State<CheckInScreen> {
                                 child: Center(
                                   child: Column(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Image.asset('lib/images/angry.gif', width: 50,),
-                                      Text("Angry",
-                                          style:
-                                          TextStyle(color: Colors.red))
+                                      Image.asset(
+                                        'lib/images/angry.gif',
+                                        width: 50,
+                                      ),
+                                      const Text("Angry",
+                                          style: TextStyle(color: Colors.red))
                                     ],
                                   ),
                                 ),
@@ -362,8 +388,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10),
-
+                    const SizedBox(height: 10),
                   ],
                 ),
               )

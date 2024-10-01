@@ -21,7 +21,7 @@ class _HealthPathwayPageState extends State<HealthPathwayPage> {
           Question(
               singleChoice: false,
               question: "What are you favourite kinds of food?",
-              answerChoices: {
+              answerChoices: const {
                 "Fast food": null,
                 "Lots of sugar": null,
                 "Anything!": null,
@@ -34,7 +34,7 @@ class _HealthPathwayPageState extends State<HealthPathwayPage> {
               "Yes": [
                 Question(
                     question: "How many times a week do you exercise?",
-                    answerChoices: {
+                    answerChoices: const {
                       "Once a week": null,
                       "A few times a week": null,
                       "Every day": null,
@@ -60,21 +60,21 @@ class _HealthPathwayPageState extends State<HealthPathwayPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Form(
-            key: _formKey,
-            child: Survey(
-                onNext: (questionResults) {
-                  _questionResults = questionResults;
-                  print(questionResults);
-                },
-                initialData: _initialData),
+        body: Container(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Form(
+              key: _formKey,
+              child: Survey(
+                  onNext: (questionResults) {
+                    _questionResults = questionResults;
+                    print(questionResults);
+                  },
+                  initialData: _initialData),
+            ),
           ),
         ),
-      ),
         bottomNavigationBar: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -92,17 +92,11 @@ class _HealthPathwayPageState extends State<HealthPathwayPage> {
                     //do something
                     toasty(context, 'Success');
                     Navigator.pushNamed(context, '/home');
-
                   }
                 },
               ),
             ),
           ],
-        )
-    );
+        ));
   }
-
-
-
 }
-

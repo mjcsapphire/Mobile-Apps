@@ -3,16 +3,11 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:rise_app_emotivating_minds_2023/components/button.dart';
 import 'package:rise_app_emotivating_minds_2023/components/pathway_tiles.dart';
-import 'package:rise_app_emotivating_minds_2023/models/challenge_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../components/bottom_navbar.dart';
 import '../components/challenge_tile.dart';
-import '../models/user_model.dart';
-import '../theme/colors.dart';
 import '../utils/api_calls.dart';
 
 var theuser = [].obs;
@@ -30,8 +25,8 @@ class Homepage extends StatefulWidget {
 }
 
 _fetchUser() async {
-  var user_email = FirebaseAuth.instance.currentUser?.email;
-  var user = await HttpService.fetchUser(user_email);
+  var userEmail = FirebaseAuth.instance.currentUser?.email;
+  var user = await HttpService.fetchUser(userEmail);
   if (user != null) {
     theuser.value = user;
     username = theuser[0].firstname.toString();
@@ -42,15 +37,14 @@ _fetchUser() async {
 }
 
 class _HomepageState extends State<Homepage> {
-  int _selectedIndex = 0;
+  final int _selectedIndex = 0;
 
-  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   navigateBottomBar(int index) {
     if (index == 0) {
       Navigator.pushNamed(context, '/home');
     } else if (index == 1) {
-
     } else if (index == 2) {
       Navigator.pushNamed(context, '/journal');
     } else {
@@ -71,8 +65,8 @@ class _HomepageState extends State<Homepage> {
     try {
       final result = await InternetAddress.lookup('example.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        var user_email = FirebaseAuth.instance.currentUser?.email;
-        var Challenges = await HttpService.fetchChallenges(user_email);
+        var userEmail = FirebaseAuth.instance.currentUser?.email;
+        var Challenges = await HttpService.fetchChallenges(userEmail);
         if (Challenges != null) {
           challengeList.value = Challenges;
         } else {
@@ -91,8 +85,8 @@ class _HomepageState extends State<Homepage> {
     try {
       final result = await InternetAddress.lookup('example.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        var user_email = FirebaseAuth.instance.currentUser?.email;
-        var Pathways = await HttpService.fetchPathways(user_email);
+        var userEmail = FirebaseAuth.instance.currentUser?.email;
+        var Pathways = await HttpService.fetchPathways(userEmail);
         if (Pathways != null) {
           pathwayList.value = Pathways;
           // print('HIIIII');
@@ -116,7 +110,7 @@ class _HomepageState extends State<Homepage> {
         future: _fetchUser(),
         builder: (context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else {
             if (snapshot.data == 'No user found') {
               return MyButton(
@@ -124,7 +118,7 @@ class _HomepageState extends State<Homepage> {
                 onTap: () {
                   Navigator.pushNamed(context, '/signup');
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_forward,
                   color: Colors.white,
                 ),
@@ -143,7 +137,7 @@ class _HomepageState extends State<Homepage> {
                 ),
                 body: Container(
                   height: MediaQuery.of(context).size.height,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     gradient: LinearGradient(colors: [
                       Colors.white,
                       Colors.blueAccent,
@@ -177,10 +171,10 @@ class _HomepageState extends State<Homepage> {
                               children: [
                                 Column(
                                   children: [
-                                    Text("Today I am feeling...",
+                                    const Text("Today I am feeling...",
                                         style: TextStyle(color: Colors.grey)),
                                     Text('${theuser[0].mood}',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: Colors.blue, fontSize: 20)),
                                   ],
                                 ),
@@ -204,7 +198,7 @@ class _HomepageState extends State<Homepage> {
                           ),
 
                           const Padding(
-                            padding: const EdgeInsets.only(
+                            padding: EdgeInsets.only(
                                 top: 25.0, left: 25.0, right: 25.0),
                             child: Divider(
                               color: Colors.white,
@@ -216,13 +210,12 @@ class _HomepageState extends State<Homepage> {
                           ),
 
                           //Challenges
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 25.0),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 25.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.end,
-                              children: const [
+                              children: [
                                 Text('My Daily Challenges',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -242,10 +235,10 @@ class _HomepageState extends State<Homepage> {
                               future: _fetchChallenges(),
                               builder: (context, AsyncSnapshot snapshot) {
                                 if (!snapshot.hasData) {
-                                  return Center(
+                                  return const Center(
                                       child: CircularProgressIndicator());
                                 } else {
-                                  return Container(
+                                  return SizedBox(
                                     height: 300,
                                     child: ListView.builder(
                                       itemCount: challengeList.length,
@@ -261,7 +254,7 @@ class _HomepageState extends State<Homepage> {
                               }),
 
                           const Padding(
-                            padding: const EdgeInsets.only(
+                            padding: EdgeInsets.only(
                                 top: 25.0, left: 25.0, right: 25.0),
                             child: Divider(
                               color: Colors.white,
@@ -273,13 +266,12 @@ class _HomepageState extends State<Homepage> {
                           ),
 
                           //Challenges
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 25.0),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 25.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.end,
-                              children: const [
+                              children: [
                                 Text('My Rise Pathway',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -297,18 +289,17 @@ class _HomepageState extends State<Homepage> {
                               future: _fetchPathways(),
                               builder: (context, AsyncSnapshot snapshot) {
                                 if (!snapshot.hasData) {
-                                  return Center(
+                                  return const Center(
                                       child: CircularProgressIndicator());
                                 } else {
-                                  return Container(
+                                  return SizedBox(
                                     height: 150,
                                     child: ListView.builder(
                                       itemCount: pathwayList.length,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) {
                                         return PathwayTile(
-                                          pathway: pathwayList[index]
-                                        );
+                                            pathway: pathwayList[index]);
                                       },
                                     ),
                                   );
@@ -316,7 +307,7 @@ class _HomepageState extends State<Homepage> {
                               }),
 
                           const Padding(
-                            padding: const EdgeInsets.only(
+                            padding: EdgeInsets.only(
                                 top: 25.0, left: 25.0, right: 25.0),
                             child: Divider(
                               color: Colors.white,
@@ -338,19 +329,19 @@ class _HomepageState extends State<Homepage> {
                                             BorderRadius.circular(20)),
                                     margin: const EdgeInsets.symmetric(
                                         horizontal: 10),
-                                    padding: EdgeInsets.all(10),
+                                    padding: const EdgeInsets.all(10),
                                     child: Center(
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
+                                          const Text(
                                             'My Coach: \nStephen Allen',
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.black),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 20,
                                           ),
                                           MyButton(
@@ -359,7 +350,7 @@ class _HomepageState extends State<Homepage> {
                                               Navigator.pushNamed(
                                                   context, '/contact');
                                             },
-                                            icon: Icon(
+                                            icon: const Icon(
                                               Icons.email,
                                               color: Colors.white,
                                             ),
@@ -377,18 +368,18 @@ class _HomepageState extends State<Homepage> {
                                             BorderRadius.circular(20)),
                                     margin: const EdgeInsets.symmetric(
                                         horizontal: 10),
-                                    padding: EdgeInsets.all(10),
+                                    padding: const EdgeInsets.all(10),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'This week I\'ve had: \n${theuser[0].rises_day} rises',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 16,
                                               color: Colors.black),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 20,
                                         ),
                                         MyButton(
@@ -397,7 +388,7 @@ class _HomepageState extends State<Homepage> {
                                             Navigator.pushNamed(
                                                 context, '/reflections');
                                           },
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.bar_chart,
                                             color: Colors.white,
                                           ),
@@ -421,10 +412,10 @@ class _HomepageState extends State<Homepage> {
                 floatingActionButtonLocation:
                     FloatingActionButtonLocation.miniCenterDocked,
                 floatingActionButton: Padding(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: FloatingActionButton(
                     backgroundColor: Colors.lightBlue,
-                    child: Icon(Icons.crisis_alert, color: Colors.white),
+                    child: const Icon(Icons.crisis_alert, color: Colors.white),
                     onPressed: () {
                       Navigator.pushNamed(context, '/rise');
                     },

@@ -1,12 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:rise_app_emotivating_minds_2023/models/challenge_model.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 import '../components/challenge_tile.dart';
 import '../utils/api_calls.dart';
@@ -16,7 +18,8 @@ var challengeRelatedPremiumList = [].obs;
 
 class ChallengeDetailsPage extends StatefulWidget {
   final ChallengeModel challenge;
-  ChallengeDetailsPage({Key? key, required this.challenge}) : super(key: key);
+  const ChallengeDetailsPage({Key? key, required this.challenge})
+      : super(key: key);
 
   @override
   State<ChallengeDetailsPage> createState() => _ChallengeDetailsPageState();
@@ -24,14 +27,17 @@ class ChallengeDetailsPage extends StatefulWidget {
 
 class _ChallengeDetailsPageState extends State<ChallengeDetailsPage> {
   late PageController _pageController;
-  int _currentPage = 0;
+  final int _currentPage = 0;
 
   _fetchRelatedChallenges() async {
     try {
       final result = await InternetAddress.lookup('example.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        var user_email = FirebaseAuth.instance.currentUser?.email;
-        var Challenges = await HttpService.fetchRelatedChallenges(user_email, widget.challenge.id.toString(), widget.challenge.pathway.toString());
+        var userEmail = FirebaseAuth.instance.currentUser?.email;
+        var Challenges = await HttpService.fetchRelatedChallenges(
+            userEmail,
+            widget.challenge.id.toString(),
+            widget.challenge.pathway.toString());
         if (Challenges != null) {
           challengeRelatedList.value = Challenges;
         } else {
@@ -50,8 +56,11 @@ class _ChallengeDetailsPageState extends State<ChallengeDetailsPage> {
     try {
       final result = await InternetAddress.lookup('example.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        var user_email = FirebaseAuth.instance.currentUser?.email;
-        var Challenges = await HttpService.fetchRelatedPremiumChallenges(user_email, widget.challenge.id.toString(), widget.challenge.pathway.toString());
+        var userEmail = FirebaseAuth.instance.currentUser?.email;
+        var Challenges = await HttpService.fetchRelatedPremiumChallenges(
+            userEmail,
+            widget.challenge.id.toString(),
+            widget.challenge.pathway.toString());
         if (Challenges != null) {
           challengeRelatedPremiumList.value = Challenges;
         } else {
@@ -84,7 +93,10 @@ class _ChallengeDetailsPageState extends State<ChallengeDetailsPage> {
   @override
   Widget build(BuildContext context) {
     List challengeDetails = [
-      {'title': 'Introduction', 'value': widget.challenge.introduction.toString()},
+      {
+        'title': 'Introduction',
+        'value': widget.challenge.introduction.toString()
+      },
       {'title': 'Purpose', 'value': widget.challenge.purpose.toString()},
       {'title': 'Goals', 'value': widget.challenge.goals.toString()},
       {'title': 'Activity', 'value': widget.challenge.activity.toString()},
@@ -95,7 +107,6 @@ class _ChallengeDetailsPageState extends State<ChallengeDetailsPage> {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         backgroundColor: Colors.grey[200],
-
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -122,11 +133,16 @@ class _ChallengeDetailsPageState extends State<ChallengeDetailsPage> {
                 //Message
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15.0),
-                  child:
-                  Text(widget.challenge.name.toString(), style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blue)),
+                  child: Text(widget.challenge.name.toString(),
+                      style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue)),
                 ),
 
-                SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
 
                 AspectRatio(
                   aspectRatio: 0.85,
@@ -140,7 +156,8 @@ class _ChallengeDetailsPageState extends State<ChallengeDetailsPage> {
                           builder: (context, child) {
                             double value = 0.0;
                             if (_pageController.position.haveDimensions) {
-                              value = index.toDouble()- (_pageController.page ?? 0);
+                              value = index.toDouble() -
+                                  (_pageController.page ?? 0);
                               value = (value * 0.038).clamp(-1, 1);
                             }
                             return Transform.rotate(
@@ -155,7 +172,8 @@ class _ChallengeDetailsPageState extends State<ChallengeDetailsPage> {
                                         child: Container(
                                           decoration: BoxDecoration(
                                               color: Colors.white,
-                                              borderRadius: BorderRadius.circular(30),
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
                                               boxShadow: const [
                                                 BoxShadow(
                                                     offset: Offset(0, 4),
@@ -165,38 +183,51 @@ class _ChallengeDetailsPageState extends State<ChallengeDetailsPage> {
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
-                                              SizedBox(child: Padding(
-                                                padding: const EdgeInsets.all(20.0),
-                                                child: Column(
-                                                  children: [
-                                                    Text(challengeDetails[index]['title'],
-                                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                                                    SizedBox(height: 10,),
-                                                    HtmlWidget(
-                                                      // the first parameter (`html`) is required
-                                                      challengeDetails[index]['value'],
+                                              SizedBox(
+                                                width: 400,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      20.0),
+                                                  child: Column(
+                                                    children: [
+                                                      Text(
+                                                          challengeDetails[
+                                                              index]['title'],
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize:
+                                                                      18)),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      HtmlWidget(
+                                                        // the first parameter (`html`) is required
+                                                        challengeDetails[index]
+                                                            ['value'],
 
-                                                      // set the default styling for text
-                                                      textStyle: TextStyle(fontSize: 14),
-                                                    ),
-                                                  ],
+                                                        // set the default styling for text
+                                                        textStyle:
+                                                            const TextStyle(
+                                                                fontSize: 14),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ), width: 400,),
+                                              ),
                                             ],
                                           ),
-
                                         ),
                                       ),
                                     ),
                                   ),
-
                                 ],
                               ),
                             );
                           },
                         );
-
-
                       }),
                 ),
 
@@ -215,80 +246,83 @@ class _ChallengeDetailsPageState extends State<ChallengeDetailsPage> {
                 //   ),
                 // ),
 
-                SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
 
                 widget.challenge.assigned.toString() == 'Assigned'
-                    ?
-                Column(
-                  children: [
-                    const Padding(
-                      padding: const EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
-                      child: Divider(color: Colors.white,),
-                    ),
+                    ? Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(
+                                top: 25.0, left: 25.0, right: 25.0),
+                            child: Divider(
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          widget.challenge.status.toString() != 'Completed'
+                              ? FloatingActionButton.extended(
+                                  backgroundColor: Colors.green,
+                                  foregroundColor: Colors.white,
+                                  onPressed: () async {
+                                    var userEmail = FirebaseAuth
+                                        .instance.currentUser?.email;
 
-                    SizedBox(height: 10,),
+                                    await completeChallenge(userEmail!,
+                                            widget.challenge.id.toString())
+                                        .then((value) async {
+                                      toasty(context, value['message']);
+                                      if (value['message'] == 'Success') {
+                                        Navigator.pop(context);
+                                        Navigator.pushNamed(context, '/home');
+                                      }
+                                      // finish(context);
+                                      // controller!.dispose();
+                                    }).catchError((e) {
+                                      toasty(context, e.toString());
+                                    });
+                                  },
+                                  heroTag: 'save',
+                                  elevation: 0,
+                                  label: const Text("I've Completed This!"),
+                                  icon: const Icon(Icons.check),
+                                )
+                              : FloatingActionButton.extended(
+                                  backgroundColor: Colors.transparent,
+                                  foregroundColor: Colors.blue,
+                                  onPressed: () async {},
+                                  heroTag: 'save',
+                                  elevation: 0,
+                                  label: const Text("Challenge Already Done!"),
+                                ),
+                        ],
+                      )
+                    : const Text(" "),
 
-                    widget.challenge.status.toString() != 'Completed'
-                        ?
-                    FloatingActionButton.extended(
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
-                      onPressed: () async {
-                          var user_email = FirebaseAuth.instance.currentUser?.email;
-
-                          await completeChallenge(user_email!, widget.challenge.id.toString())
-                              .then((value) async {
-                            toasty(context, value['message']);
-                            if(value['message'] == 'Success'){
-                              Navigator.pop(context);
-                              Navigator.pushNamed(context, '/home');
-
-                            }
-                            // finish(context);
-                            // controller!.dispose();
-                          }).catchError((e) {
-                            toasty(context, e.toString());
-                          });
-                      },
-                      heroTag: 'save',
-                      elevation: 0,
-                      label: const Text("I've Completed This!"),
-                      icon: const Icon(Icons.check),
-                    ):
-                    FloatingActionButton.extended(
-                      backgroundColor: Colors.transparent,
-                      foregroundColor: Colors.blue,
-                      onPressed: () async {
-
-                      },
-                      heroTag: 'save',
-                      elevation: 0,
-                      label: const Text("Challenge Already Done!"),
-                    ),
-                  ],
-                ): const Text(" "),
-
-
-                SizedBox(height: 10,),
-
+                const SizedBox(
+                  height: 10,
+                ),
 
                 const Padding(
-                  padding: const EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
-                  child: Divider(color: Colors.white,),
+                  padding: EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
+                  child: Divider(
+                    color: Colors.white,
+                  ),
                 ),
 
                 //Challenges
-                Padding(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 25.0),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
+                    children: [
                       Text('Related Challenges',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18)),
+                              fontWeight: FontWeight.bold, fontSize: 18)),
                       // Text('See more',
                       //     style: TextStyle(
                       //         fontWeight: FontWeight.bold, color: Colors.blue)),
@@ -304,10 +338,9 @@ class _ChallengeDetailsPageState extends State<ChallengeDetailsPage> {
                     future: _fetchRelatedChallenges(),
                     builder: (context, AsyncSnapshot snapshot) {
                       if (!snapshot.hasData) {
-                        return Center(
-                            child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       } else {
-                        return Container(
+                        return SizedBox(
                           height: 300,
                           child: ListView.builder(
                             itemCount: challengeRelatedList.length,
@@ -322,29 +355,31 @@ class _ChallengeDetailsPageState extends State<ChallengeDetailsPage> {
                       }
                     }),
 
-                SizedBox(height: 25,),
-
-
-                const Padding(
-                  padding: const EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
-                  child: Divider(color: Colors.white,),
+                const SizedBox(
+                  height: 25,
                 ),
 
+                const Padding(
+                  padding: EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
+                  child: Divider(
+                    color: Colors.white,
+                  ),
+                ),
 
-                SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
 
                 //Challenges
-                Padding(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 25.0),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
+                    children: [
                       Text('Related Challenges (Premium)',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18)),
+                              fontWeight: FontWeight.bold, fontSize: 18)),
                       // Text('See more',
                       //     style: TextStyle(
                       //         fontWeight: FontWeight.bold, color: Colors.blue)),
@@ -360,10 +395,9 @@ class _ChallengeDetailsPageState extends State<ChallengeDetailsPage> {
                     future: _fetchRelatedPremiumChallenges(),
                     builder: (context, AsyncSnapshot snapshot) {
                       if (!snapshot.hasData) {
-                        return Center(
-                            child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       } else {
-                        return Container(
+                        return SizedBox(
                           height: 300,
                           child: ListView.builder(
                             itemCount: challengeRelatedPremiumList.length,
@@ -378,116 +412,121 @@ class _ChallengeDetailsPageState extends State<ChallengeDetailsPage> {
                       }
                     }),
 
-                SizedBox(height: 25,),
-
-                widget.challenge.assigned.toString() == 'Assigned'
-                    ?
-                Column(
-                  children: [
-                    const Padding(
-                      padding: const EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
-                      child: Divider(color: Colors.white,),
-                    ),
-
-                    SizedBox(height: 10,),
-
-                    widget.challenge.autoAssigned.toString() == 'Manual'
-                        ?
-                    FloatingActionButton.extended(
-                      backgroundColor: Colors.grey,
-                      foregroundColor: Colors.white,
-                      onPressed: () async {
-                        var user_email = FirebaseAuth.instance.currentUser?.email;
-
-                        await removeChallenge(user_email!, widget.challenge.id.toString())
-                            .then((value) async {
-                          toasty(context, value['message']);
-                          if(value['message'] == 'Success'){
-                            Navigator.pop(context);
-                            Navigator.pushNamed(context, '/home');
-
-                          }
-                          // finish(context);
-                          // controller!.dispose();
-                        }).catchError((e) {
-                          toasty(context, e.toString());
-                        });
-                      },
-                      heroTag: 'save',
-                      elevation: 0,
-                      label: const Text("Remove this challenge"),
-                      icon: const Icon(Icons.remove_circle_outline),
-                    ):
-                    Text(" "),
-                  ],
-                ):
-                Column(
-                  children: [
-                    const Padding(
-                      padding: const EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
-                      child: Divider(color: Colors.white,),
-                    ),
-
-                    SizedBox(height: 10,),
-
-                    widget.challenge.userPaid.toInt() >= widget.challenge.paid.toInt()
-                        ?
-                    FloatingActionButton.extended(
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
-                      onPressed: () async {
-                        var user_email = FirebaseAuth.instance.currentUser?.email;
-
-                        await addChallenge(user_email!, widget.challenge.id.toString())
-                            .then((value) async {
-                          toasty(context, value['message']);
-                          if(value['message'] == 'Success'){
-                            Navigator.pop(context);
-                            Navigator.pushNamed(context, '/home');
-
-                          }
-                          // finish(context);
-                          // controller!.dispose();
-                        }).catchError((e) {
-                          toasty(context, e.toString());
-                        });
-                      },
-                      heroTag: 'save',
-                      elevation: 0,
-                      label: const Text("Add this challenge"),
-                      icon: const Icon(Icons.add),
-                    ):
-                    FloatingActionButton.extended(
-                      backgroundColor: Colors.grey,
-                      foregroundColor: Colors.white,
-                      onPressed: () async {
-                        var user_email = FirebaseAuth.instance.currentUser?.email;
-
-                        // await addChallenge(user_email!, widget.challenge.id.toString())
-                        //     .then((value) async {
-                        //   toasty(context, value['message']);
-                        //   if(value['message'] == 'Success'){
-                        //     Navigator.pop(context);
-                        //     Navigator.pushNamed(context, '/home');
-                        //
-                        //   }
-                        //   // finish(context);
-                        //   // controller!.dispose();
-                        // }).catchError((e) {
-                        //   toasty(context, e.toString());
-                        // });
-                      },
-                      heroTag: 'save',
-                      elevation: 0,
-                      label: const Text("Upgrade to premium to add challenge"),
-                      icon: const Icon(Icons.monetization_on),
-                    ),
-                  ],
+                const SizedBox(
+                  height: 25,
                 ),
 
+                widget.challenge.assigned.toString() == 'Assigned'
+                    ? Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(
+                                top: 25.0, left: 25.0, right: 25.0),
+                            child: Divider(
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          widget.challenge.autoAssigned.toString() == 'Manual'
+                              ? FloatingActionButton.extended(
+                                  backgroundColor: Colors.grey,
+                                  foregroundColor: Colors.white,
+                                  onPressed: () async {
+                                    var userEmail = FirebaseAuth
+                                        .instance.currentUser?.email;
 
+                                    await removeChallenge(userEmail!,
+                                            widget.challenge.id.toString())
+                                        .then((value) async {
+                                      toasty(context, value['message']);
+                                      if (value['message'] == 'Success') {
+                                        Navigator.pop(context);
+                                        Navigator.pushNamed(context, '/home');
+                                      }
+                                      // finish(context);
+                                      // controller!.dispose();
+                                    }).catchError((e) {
+                                      toasty(context, e.toString());
+                                    });
+                                  },
+                                  heroTag: 'save',
+                                  elevation: 0,
+                                  label: const Text("Remove this challenge"),
+                                  icon: const Icon(Icons.remove_circle_outline),
+                                )
+                              : const Text(" "),
+                        ],
+                      )
+                    : Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(
+                                top: 25.0, left: 25.0, right: 25.0),
+                            child: Divider(
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          widget.challenge.userPaid.toInt() >=
+                                  widget.challenge.paid.toInt()
+                              ? FloatingActionButton.extended(
+                                  backgroundColor: Colors.green,
+                                  foregroundColor: Colors.white,
+                                  onPressed: () async {
+                                    var userEmail = FirebaseAuth
+                                        .instance.currentUser?.email;
 
+                                    await addChallenge(userEmail!,
+                                            widget.challenge.id.toString())
+                                        .then((value) async {
+                                      toasty(context, value['message']);
+                                      if (value['message'] == 'Success') {
+                                        Navigator.pop(context);
+                                        Navigator.pushNamed(context, '/home');
+                                      }
+                                      // finish(context);
+                                      // controller!.dispose();
+                                    }).catchError((e) {
+                                      toasty(context, e.toString());
+                                    });
+                                  },
+                                  heroTag: 'save',
+                                  elevation: 0,
+                                  label: const Text("Add this challenge"),
+                                  icon: const Icon(Icons.add),
+                                )
+                              : FloatingActionButton.extended(
+                                  backgroundColor: Colors.grey,
+                                  foregroundColor: Colors.white,
+                                  onPressed: () async {
+                                    FirebaseAuth.instance.currentUser?.email;
 
+                                    // await addChallenge(user_email!, widget.challenge.id.toString())
+                                    //     .then((value) async {
+                                    //   toasty(context, value['message']);
+                                    //   if(value['message'] == 'Success'){
+                                    //     Navigator.pop(context);
+                                    //     Navigator.pushNamed(context, '/home');
+                                    //
+                                    //   }
+                                    //   // finish(context);
+                                    //   // controller!.dispose();
+                                    // }).catchError((e) {
+                                    //   toasty(context, e.toString());
+                                    // });
+                                  },
+                                  heroTag: 'save',
+                                  elevation: 0,
+                                  label: const Text(
+                                      "Upgrade to premium to add challenge"),
+                                  icon: const Icon(Icons.monetization_on),
+                                ),
+                        ],
+                      ),
               ],
             ),
           ),
@@ -495,6 +534,4 @@ class _ChallengeDetailsPageState extends State<ChallengeDetailsPage> {
       ),
     );
   }
-
-
 }
