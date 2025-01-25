@@ -7,7 +7,11 @@ import 'package:rise_pathway/src/views/home/home.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 
 class QuizSummary extends StatefulWidget {
-  const QuizSummary({super.key});
+  // final QuizTestResponse quizTestResponse;
+  const QuizSummary({
+    super.key,
+    // required this.quizTestResponse,
+  });
 
   @override
   State<QuizSummary> createState() => _QuizSummaryState();
@@ -15,9 +19,18 @@ class QuizSummary extends StatefulWidget {
 
 class _QuizSummaryState extends State<QuizSummary> {
   final pathwayController = Get.find<RisePathwayController>();
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
+    final feedback = pathwayController.quizTestResponse.value.feedback ?? '';
+    final isCongratulations = feedback.contains('Congratulations');
+    final heading = isCongratulations ? 'Congratulations!' : 'Need Improvement';
+    final body = isCongratulations
+        ? feedback.replaceFirst('Congratulations!', '').trim()
+        : feedback;
+    final wrong = pathwayController.quizs.length -
+        pathwayController.quizTestResponse.value.score!;
     return Scaffold(
       appBar: RiseAppBar.riseAppBar(
         theme: theme,
@@ -47,10 +60,10 @@ class _QuizSummaryState extends State<QuizSummary> {
                 Stack(
                   alignment: Alignment.topCenter,
                   children: [
-                    Container(height: 38.h),
+                    Container(height: 40.h),
                     Container(
                       width: 100.w,
-                      height: 25.h,
+                      height: 28.h,
                       margin: EdgeInsets.only(top: 8.h, left: 24, right: 24),
                       decoration: BoxDecoration(
                         color: AppColors.white,
@@ -67,10 +80,23 @@ class _QuizSummaryState extends State<QuizSummary> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           RiseText(
-                            'Congratulations !',
+                            textAlign: TextAlign.center,
+                            heading,
                             style: theme.titleLarge!.copyWith(
                               color: AppColors.blue700,
                               fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          SizedBox(height: 0.6.h),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                            child: RiseText(
+                              textAlign: TextAlign.center,
+                              body,
+                              style: theme.bodySmall!.copyWith(
+                                color: AppColors.blue700,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           ),
                           SizedBox(height: 2.h),
@@ -97,7 +123,8 @@ class _QuizSummaryState extends State<QuizSummary> {
                                       ),
                                       const SizedBox(width: 5),
                                       RiseText(
-                                        '10',
+                                        pathwayController.quizs.length
+                                            .toString(),
                                         textAlign: TextAlign.center,
                                         style: theme.bodyMedium!.copyWith(
                                           fontWeight: FontWeight.bold,
@@ -130,7 +157,9 @@ class _QuizSummaryState extends State<QuizSummary> {
                                               Icons.check_circle_rounded)),
                                       const SizedBox(width: 5),
                                       RiseText(
-                                        '08',
+                                        pathwayController
+                                            .quizTestResponse.value.score!
+                                            .toString(),
                                         textAlign: TextAlign.center,
                                         style: theme.bodyMedium!.copyWith(
                                           fontWeight: FontWeight.bold,
@@ -171,7 +200,7 @@ class _QuizSummaryState extends State<QuizSummary> {
                                       ),
                                       const SizedBox(width: 5),
                                       RiseText(
-                                        '02',
+                                        wrong.toString(),
                                         textAlign: TextAlign.center,
                                         style: theme.bodyMedium!.copyWith(
                                           fontWeight: FontWeight.bold,

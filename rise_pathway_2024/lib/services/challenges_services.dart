@@ -76,10 +76,8 @@ class ChallengesServices {
         RequestType.post,
         Config.removeChallenge,
         headers: {"Content-Type": "application/json"},
-        queryParams: {"email": email},
-        data: {"challenge": challenge},
+        queryParams: {"email": email, "challenge": challenge},
       );
-
       return Right(response);
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
@@ -96,11 +94,13 @@ class ChallengesServices {
         RequestType.post,
         Config.completeChallenge,
         headers: {"Content-Type": "application/json"},
-        queryParams: {"email": email},
-        data: {"challenge": challenge},
+        queryParams: {"email": email, "challenge": challenge},
       );
-
-      return Right(response);
+      if (response is Map<String, dynamic>) {
+        final message = response['message'] as String? ?? 'No message found';
+        return Right(message);
+      }
+      return Left(ServerFailure(message: 'Unexpected response format'));
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }

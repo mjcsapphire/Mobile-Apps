@@ -28,7 +28,7 @@ class PathwayResponse {
         id: id ?? this.id,
         description: description ?? this.description,
         userScore: userScore ?? this.userScore,
-      );
+      );  
 
   factory PathwayResponse.fromRawJson(String str) =>
       PathwayResponse.fromJson(json.decode(str));

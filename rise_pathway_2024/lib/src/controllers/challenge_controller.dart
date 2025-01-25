@@ -70,8 +70,9 @@ class ChallengeController extends GetxController {
       (failure) {
         logger.e("Error In Submit Challenge: $failure");
       },
-      (success) {
+      (success) async {
         logger.d("Successfully Submit Challenge: $success");
+        await fetchChallenges(email: email);
       },
     );
   }

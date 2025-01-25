@@ -91,11 +91,18 @@ class ChallengesCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  RiseText(
-                    challenge.name,
-                    style: theme.titleMedium!.copyWith(
-                      color: AppColors.darkSkyBlue,
-                      fontWeight: FontWeight.w600,
+                  SingleChildScrollView(
+                     scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        RiseText(
+                          challenge.name,
+                          style: theme.titleMedium!.copyWith(
+                            color: AppColors.darkSkyBlue,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   Row(

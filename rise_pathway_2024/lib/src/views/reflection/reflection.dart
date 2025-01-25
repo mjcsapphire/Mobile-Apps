@@ -3,6 +3,8 @@ import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/constants/strings.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
+import 'package:rise_pathway/src/controllers/auth_controller.dart';
+import 'package:rise_pathway/src/controllers/goal_controller.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 import 'package:rise_pathway/src/views/widget/gradient_border_card.dart';
@@ -16,6 +18,8 @@ class Reflection extends StatefulWidget {
 
 class _ReflectionState extends State<Reflection> {
   final homeController = Get.find<HomeController>();
+  final authController = Get.find<AuthController>();
+  final goalController = Get.find<GoalController>();
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
@@ -29,7 +33,7 @@ class _ReflectionState extends State<Reflection> {
       'Fri',
       'Sat',
     ];
-    
+
     return Scaffold(
       appBar: RiseAppBar.riseAppBar(
         theme: theme,
@@ -214,26 +218,41 @@ class _ReflectionState extends State<Reflection> {
                       RelectionStatusCard(
                         theme: theme,
                         title: 'Today’s Reflections',
-                        firstValue: '0',
-                        secondValue: '0',
+                        firstValue: '${authController.userData.value.risesDay}',
+                        secondValue:
+                            '${authController.userData.value.challengesDay}',
                         firstTitle: 'Total Rises',
                         secondTitle: 'Challenges\nCompleted',
                       ),
                       RelectionStatusCard(
                         theme: theme,
                         title: 'This Week’s Reflections',
-                        firstValue: '0',
-                        secondValue: '0',
+                        firstValue:
+                            '${authController.userData.value.risesWeek}',
+                        secondValue:
+                            '${authController.userData.value.challengesWeek}',
                         firstTitle: 'Total Rises',
                         secondTitle: 'Challenges\nCompleted',
                       ),
                       RelectionStatusCard(
                         theme: theme,
                         title: 'This Month’s Reflections',
-                        firstValue: '0',
-                        secondValue: '0',
+                        firstValue:
+                            '${authController.userData.value.risesMonth}',
+                        secondValue:
+                            '${authController.userData.value.challengesMonth}',
                         firstTitle: 'Total Rises',
                         secondTitle: 'Challenges\nCompleted',
+                        divider: false,
+                      ),
+                      SizedBox(height: 1.h),
+                      RelectionStatusCard(
+                        theme: theme,
+                        title: 'Goals Achieved',
+                        firstValue: '${goalController.boughtGoals.length}',
+                        secondValue: '${goalController.goals.length}',
+                        firstTitle: 'Achieved Goals',
+                        secondTitle: 'Total Goals',
                         divider: false,
                       ),
                       // SizedBox(height: 5.h)

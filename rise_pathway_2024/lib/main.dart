@@ -34,7 +34,6 @@ Future<void> mainDependencies() async {
 class MyApp extends StatefulWidget {
   final GoRouter router;
   const MyApp({super.key, required this.router});
-
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -47,6 +46,7 @@ class _MyAppState extends State<MyApp> {
       builder: (context, orientation, deviceType) => GetMaterialApp.router(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
+        title: "Rise Pathway",
         routerDelegate: widget.router.routerDelegate,
         routeInformationParser: widget.router.routeInformationParser,
         routeInformationProvider: widget.router.routeInformationProvider,

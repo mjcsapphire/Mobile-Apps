@@ -24,11 +24,16 @@ class JournalServices {
         RequestType.post,
         Config.addJournalEntry,
         headers: {"Content-Type": "application/json"},
-        queryParams: {"email": email},
-        data: {"title": title, "content": content},
+        queryParams: {"email": email, "title": title, "entry": content},
       );
 
-      return Right(response);
+      // Extract the "message" from the response Map
+      if (response is Map<String, dynamic>) {
+        final message = response['message'] as String? ?? 'No message found';
+        return Right(message);
+      }
+
+      return Left(ServerFailure(message: 'Unexpected response format'));
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }
@@ -46,7 +51,6 @@ class JournalServices {
         queryParams: {"email": email},
       );
 
-      
       List<JournalEntriesResponse> challenges = [];
 
       if (response != null) {
@@ -70,14 +74,23 @@ class JournalServices {
     try {
       final response = await ApiServices.sendRequest(
         dio,
-        RequestType.post,
+        RequestType.put,
         Config.updateJournalEntry,
+        queryParams: {
+          "id": id,
+          "title": title,
+          "entry": content,
+        },
         headers: {"Content-Type": "application/json"},
-        queryParams: {"email": email, "id": id},
-        data: {"title": title, "content": content},
       );
 
-      return Right(response);
+      if (response is Map<String, dynamic>) {
+        final message = response['message'] as String? ?? 'No message found';
+
+        return Right(message);
+      }
+
+      return Left(ServerFailure(message: 'Unexpected response format'));
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }
@@ -90,13 +103,19 @@ class JournalServices {
     try {
       final response = await ApiServices.sendRequest(
         dio,
-        RequestType.post,
+        RequestType.delete,
         Config.deleteJournalEntry,
         headers: {"Content-Type": "application/json"},
-        queryParams: {"email": email, "id": id},
+        queryParams: {
+          // "email": email,
+          "id": id,
+        },
       );
-
-      return Right(response);
+      if (response is Map<String, dynamic>) {
+        final message = response['message'] as String? ?? 'No message found';
+        return Right(message);
+      }
+      return Left(ServerFailure(message: 'Unexpected response format'));
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }

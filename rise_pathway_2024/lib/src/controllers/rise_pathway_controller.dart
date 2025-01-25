@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/services/rise_pathway_services.dart';
 import 'package:rise_pathway/src/models/pathways/pathway_response.dart';
+import 'package:rise_pathway/src/models/pathways/quiz_response.dart';
+import 'package:rise_pathway/src/models/pathways/quiz_test_response.dart';
 
 class RisePathwayController extends GetxController {
   final Dio dio;
@@ -11,6 +13,8 @@ class RisePathwayController extends GetxController {
   late final RisePathwayServices _services = RisePathwayServices(dio: dio);
 
   final pathways = <PathwayResponse>[].obs;
+  final quizs = <QuizResponse>[].obs;
+  final quizTestResponse = QuizTestResponse().obs;
 
   Future<void> fetchPathways({required String email}) async {
     final successOrFailure = await _services.fetchPathways(email: email);
@@ -22,18 +26,18 @@ class RisePathwayController extends GetxController {
     );
   }
 
-  Future<void> fatchPathwayQuestions({
-    required String email,
+  Future<void> fetchPathwayQuestions({
+    // required String email,
     required String pathway,
   }) async {
     final successOrFailure = await _services.fatchPathwayQuestions(
-      email: email,
+      // email: email,
       pathway: pathway,
     );
     successOrFailure.fold(
       (failure) => logger.e(failure),
-      (response) {
-        pathways.value = response;
+      (questions) {
+        quizs.value = questions;
       },
     );
   }
@@ -41,17 +45,22 @@ class RisePathwayController extends GetxController {
   Future<void> submitPathway({
     required String email,
     required String pathway,
+    required Map<String, String> questions,
   }) async {
     final successOrFailure = await _services.submitPathwayTest(
       email: email,
       pathway: pathway,
+      questions: questions,
     );
     successOrFailure.fold(
       (failure) {
-        logger.e("Error In Delete Pathway: $failure");
+        logger.e("Error In submitting pathway test: $failure");
       },
       (success) {
-        logger.d("Successfully Delete Pathway: $success");
+        logger.d("Successfully submitted pathway test: $success");
+        final response = success;
+        quizTestResponse.value = response;
+        logger.i("quizTestResponse: ${quizTestResponse.value.toMap()}");
       },
     );
   }

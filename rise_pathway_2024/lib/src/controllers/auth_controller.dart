@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -67,6 +68,7 @@ class AuthController extends GetxController {
               'Registration Successful',
               maskType: EasyLoadingMaskType.black,
             );
+            
             return true;
           } else {
             EasyLoading.showError(
@@ -90,6 +92,91 @@ class AuthController extends GetxController {
 
   Future<void> changePassword() async {
     await _services.changePassword();
+  }
+
+  Future<void> updateUser({
+    required String email,
+    required String firstname,
+    required String surname,
+  }) async {
+    try {
+      final failureOrSuccess = await _services.updateUser(
+        email: email,
+        firstname: firstname,
+        surname: surname,
+      );
+
+      failureOrSuccess.fold(
+        (failure) {
+          logger.e("Error In profile update: $failure");
+        },
+        (response) {
+          logger.d("Profile Updated Successfully: ${response.message}");
+          if (response.message.contains('Success')) {
+            // Update userData with new values
+            userData.update((user) {
+              user?.firstname = firstname;
+              user?.surname = surname;
+            });
+            EasyLoading.showSuccess(
+              'Profile Updated',
+              maskType: EasyLoadingMaskType.black,
+            );
+          } else {
+            EasyLoading.showError(
+              'Unable to update profile',
+              maskType: EasyLoadingMaskType.black,
+            );
+          }
+        },
+      );
+    } catch (e) {
+      logger.e("Error In profile update : $e");
+      rethrow;
+    }
+  }
+
+  Future<void> updateProfileImage({
+    required String email,
+    required String imagePath,
+  }) async {
+    if (!File(imagePath).existsSync()) {
+      EasyLoading.showError(
+        "Selected file does not exist",
+        maskType: EasyLoadingMaskType.black,
+      );
+      return;
+    }
+
+    EasyLoading.show(
+        status: 'Uploading image...', maskType: EasyLoadingMaskType.black);
+
+    try {
+      final failureOrSuccess = await _services.updateProfileImage(
+        email: email,
+        imagePath: imagePath,
+      );
+
+      failureOrSuccess.fold(
+        (failure) {
+          EasyLoading.showError(
+            failure.toString() ?? 'Failed to update profile image',
+            maskType: EasyLoadingMaskType.black,
+          );
+        },
+        (response) {
+          if (response.message.contains('Success')) {
+            EasyLoading.showSuccess('Profile image uploaded successfully');
+          } else {
+            EasyLoading.showError('Unable to update profile image');
+          }
+        },
+      );
+    } catch (e) {
+      EasyLoading.showError('Unexpected error occurred');
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
 
   Future<void> changeMood({

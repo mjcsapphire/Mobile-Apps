@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       RiseText(
-                        'Already have an account? ',
+                        'Don\'t have an account? ',
                         style: theme.bodySmall!
                             .copyWith(color: AppColors.textFieldColor),
                       ),

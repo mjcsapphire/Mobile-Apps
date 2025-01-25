@@ -12,4 +12,3 @@ class HomeController extends GetxController {
     moods[emojiIndex.value];
   }
 }
-///[]

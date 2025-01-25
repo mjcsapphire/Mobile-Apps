@@ -18,7 +18,7 @@ var logger = Logger(
   printEmojis: true,
 ));
 
-enum RequestType { get, post, delete }
+enum RequestType { get, post, delete, put }
 
 enum LoggerType { d, e, i, w }
 
@@ -44,6 +44,12 @@ class Helpers {
     borderRadius: BorderRadius.circular(8),
     shape: BoxShape.rectangle,
   );
+
+ static String removeHtmlTags(String htmlString) {
+    final RegExp exp = RegExp(r'<[^>]*>', multiLine: true, caseSensitive: true);
+    return htmlString.replaceAll(exp, '');
+  }
+
 
   static Future<String?> getString({required String key}) async {
     SharedPreferences sharedPref = await SharedPreferences.getInstance();

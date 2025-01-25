@@ -5,6 +5,8 @@ import 'package:rise_pathway/core/errors/failures.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/services/api_services.dart';
 import 'package:rise_pathway/src/models/pathways/pathway_response.dart';
+import 'package:rise_pathway/src/models/pathways/quiz_response.dart';
+import 'package:rise_pathway/src/models/pathways/quiz_test_response.dart';
 
 class RisePathwayServices {
   RisePathwayServices({required this.dio});
@@ -24,35 +26,45 @@ class RisePathwayServices {
           pathways.add(PathwayResponse.fromJson(element));
         }
       }
+      // print("pathways: ${pathways.length}");
+      // print("pathways response: ${pathways.toList()}");
       return Right(pathways);
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }
   }
 
-  Future<Either<Failure, List<PathwayResponse>>> fatchPathwayQuestions(
-      {required String email, required String pathway}) async {
+  Future<Either<Failure, List<QuizResponse>>> fatchPathwayQuestions({
+    // required String email,
+    required String pathway,
+  }) async {
     try {
       final response = await ApiServices.sendRequest(
           dio, RequestType.get, Config.fetchPathwayQuestions,
-          headers: {"Content-Type": "application/json"},
-          queryParams: {"email": email, "pathway": pathway});
+          headers: {
+            "Content-Type": "application/json"
+          },
+          queryParams: {
+            // "email": email,
+            "pathway": pathway,
+          });
 
-      List<PathwayResponse> pathways = [];
+      List<QuizResponse> quizes = [];
       if (response != null) {
         for (var element in response) {
-          pathways.add(PathwayResponse.fromJson(element));
+          quizes.add(QuizResponse.fromJson(element));
         }
       }
-      return Right(pathways);
+      return Right(quizes);
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }
   }
 
-  Future<Either<Failure, String>> submitPathwayTest({
+  Future<Either<Failure, QuizTestResponse>> submitPathwayTest({
     required String email,
     required String pathway,
+    required Map<String, String> questions,
   }) async {
     try {
       final response = await ApiServices.sendRequest(
@@ -60,11 +72,19 @@ class RisePathwayServices {
         RequestType.post,
         Config.submitPathwayTest,
         headers: {"Content-Type": "application/json"},
-        queryParams: {"email": email},
-        data: {"pathway": pathway},
+        queryParams: {
+          "email": email,
+          "pathway": pathway,
+          ...questions,
+        },
       );
 
-      return Right(response);
+      if (response is Map<String, dynamic>) {
+        final quizTestResponse = QuizTestResponse.fromMap(response);
+        return Right(quizTestResponse);
+      } else {
+        return Left(ServerFailure(message: "Unexpected response type"));
+      }
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }

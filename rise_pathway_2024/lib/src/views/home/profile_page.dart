@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/routes/routes.dart';
@@ -19,17 +20,20 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final nameController = TextEditingController(text: "Rishabh").obs;
+  final firstnameController = TextEditingController(text: "Rishabh").obs;
+  final surnameController = TextEditingController(text: "Patel").obs;
   final emailController = TextEditingController(text: "aL6z2@example.com").obs;
   String image = '';
 
   final AuthController authController = Get.find();
+  // final UserController userController = Get.find();
 
   @override
   void initState() {
     final userData = authController.userData.value;
 
-    nameController.value.text = "${userData.firstname} ${userData.surname}";
+    firstnameController.value.text = "${userData.firstname}";
+    surnameController.value.text = "${userData.surname}";
     emailController.value.text = userData.userEmail ?? '';
     image = userData.mobileAppProfilePic ?? 'https://picsum.photos/200';
     super.initState();
@@ -124,75 +128,116 @@ class _ProfilePageState extends State<ProfilePage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  Column(
-                                    children: [
-                                      Container(
-                                        padding: EdgeInsets.all(2.h),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: AppColors.primaryColor,
+                                  GestureDetector(
+                                    onTap: () async {
+                                      final picker = ImagePicker();
+                                      final pickedFile = await picker.pickImage(
+                                        source: ImageSource.camera,
+                                        maxWidth: 800,
+                                        maxHeight: 800,
+                                        imageQuality: 85,
+                                      );
+
+                                      if (pickedFile != null) {
+                                        authController.updateProfileImage(
+                                          email: emailController.value.text,
+                                          imagePath: pickedFile.path,
+                                        );
+                                        setState(() {
+                                          image = pickedFile.path;
+                                        });
+                                      }
+                                      Navigator.pop(context);
+                                    },
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.all(2.h),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color: AppColors.primaryColor),
+                                          ),
+                                          child: ShaderMask(
+                                            shaderCallback: (Rect rect) {
+                                              return AppColorsGredients
+                                                  .primaryTopToBottom
+                                                  .createShader(rect);
+                                            },
+                                            blendMode: BlendMode.srcIn,
+                                            child: const Icon(
+                                              FluentIcons.camera_28_filled,
+                                              color: AppColors.primaryColor,
+                                            ),
                                           ),
                                         ),
-                                        child: ShaderMask(
-                                          shaderCallback: (Rect rect) {
-                                            return AppColorsGredients
-                                                .primaryTopToBottom
-                                                .createShader(rect);
-                                          },
-                                          blendMode: BlendMode.srcIn,
-                                          child: const Icon(
-                                            FluentIcons.camera_28_filled,
+                                        SizedBox(height: 1.h),
+                                        RiseText(
+                                          'Camera',
+                                          style: theme.bodyMedium!.copyWith(
                                             color: AppColors.primaryColor,
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(height: 1.h),
-                                      RiseText(
-                                        'Camera',
-                                        style: theme.bodyMedium!.copyWith(
-                                          color: AppColors.primaryColor,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                  Column(
-                                    children: [
-                                      Container(
-                                        padding: EdgeInsets.all(2.h),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: AppColors.primaryColor,
+                                  GestureDetector(
+                                    onTap: () async {
+                                      final picker = ImagePicker();
+                                      final pickedFile = await picker.pickImage(
+                                        source: ImageSource.gallery,
+                                        maxWidth: 800,
+                                        maxHeight: 800,
+                                        imageQuality: 85,
+                                      );
+
+                                      if (pickedFile != null) {
+                                        authController.updateProfileImage(
+                                          email: emailController.value.text,
+                                          imagePath: pickedFile.path,
+                                        );
+                                        setState(() {
+                                          image = pickedFile.path;
+                                        });
+                                      }
+                                      context.pop();
+                                    },
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.all(2.h),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color: AppColors.primaryColor),
+                                          ),
+                                          child: ShaderMask(
+                                            shaderCallback: (Rect rect) {
+                                              return AppColorsGredients
+                                                  .primaryTopToBottom
+                                                  .createShader(rect);
+                                            },
+                                            blendMode: BlendMode.srcIn,
+                                            child: const Icon(
+                                              FluentIcons.image_48_filled,
+                                              color: AppColors.primaryColor,
+                                            ),
                                           ),
                                         ),
-                                        child: ShaderMask(
-                                          shaderCallback: (Rect rect) {
-                                            return AppColorsGredients
-                                                .primaryTopToBottom
-                                                .createShader(rect);
-                                          },
-                                          blendMode: BlendMode.srcIn,
-                                          child: const Icon(
-                                            FluentIcons.image_48_filled,
+                                        SizedBox(height: 1.h),
+                                        RiseText(
+                                          'Gallery',
+                                          style: theme.bodyMedium!.copyWith(
                                             color: AppColors.primaryColor,
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(height: 1.h),
-                                      RiseText(
-                                        'Gallery',
-                                        style: theme.bodyMedium!.copyWith(
-                                          color: AppColors.primaryColor,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                  const SizedBox(width: 48)
                                 ],
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -208,16 +253,24 @@ class _ProfilePageState extends State<ProfilePage> {
                           height: 4.h,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
                 SizedBox(height: 2.h),
                 RiseTextField(
-                  title: 'Name',
-                  hintText: 'Melissa Peters',
-                  readOnly: true,
+                  title: 'Firstname',
+                  hintText: 'Melissa',
+                  readOnly: false,
                   keyboardType: TextInputType.visiblePassword,
-                  controller: nameController.value,
+                  controller: firstnameController.value,
+                ),
+                SizedBox(height: 2.h),
+                RiseTextField(
+                  title: 'Surname',
+                  hintText: 'Peters',
+                  readOnly: false,
+                  keyboardType: TextInputType.visiblePassword,
+                  controller: surnameController.value,
                 ),
                 SizedBox(height: 2.h),
                 RiseTextField(
@@ -225,7 +278,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   hintText: 'melissapeters44@gmail.com',
                   suffixIcon: FluentIcons.mail_48_regular,
                   readOnly: true,
-                  keyboardType: TextInputType.visiblePassword,
+                  keyboardType: TextInputType.emailAddress,
                   controller: emailController.value,
                 ),
                 SizedBox(height: 1.h),
@@ -248,7 +301,13 @@ class _ProfilePageState extends State<ProfilePage> {
       floatingActionButton: RiseButton(
         width: 90.w,
         title: 'Save',
-        onTap: () {},
+        onTap: () {
+          authController.updateUser(
+            email: emailController.value.text,
+            firstname: firstnameController.value.text,
+            surname: surnameController.value.text,
+          );
+        },
       ),
     );
   }

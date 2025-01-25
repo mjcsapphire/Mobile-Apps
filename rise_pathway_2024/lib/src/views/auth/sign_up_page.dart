@@ -84,6 +84,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         password: passwordController.value.text,
                         confirmPassword: confirmPasswordController.value.text,
                       );
+
                       if (response) {
                         context.go(signupSelectMood);
                       }

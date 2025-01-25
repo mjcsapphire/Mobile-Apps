@@ -56,13 +56,20 @@ class _SelectMoodState extends State<SelectMood> {
               ),
             ),
             SizedBox(height: 4.h),
-            RiseText(
-              'I Feel Neutral.',
-              textAlign: TextAlign.center,
-              style: theme.titleMedium!.copyWith(
-                color: AppColors.blue,
-                fontWeight: FontWeight.w900,
-              ),
+            Obx(
+              () {
+                final int safeIndex =
+                    homeController.emojiIndex.value % moods.length;
+
+                return RiseText(
+                  'I Feel ${moods[safeIndex]}',
+                  textAlign: TextAlign.center,
+                  style: theme.titleMedium!.copyWith(
+                    color: AppColors.blue,
+                    fontWeight: FontWeight.w900,
+                  ),
+                );
+              },
             ),
             SizedBox(height: 3.h),
             Obx(() {

@@ -1,17 +1,16 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Environment {
   static String get fileName {
     if (kReleaseMode) {
-      debugPrint("Running on Production");
-      return '.env';
-      // return 'production.env';
-    } else {
-      debugPrint("Running on Development");
-      return 'lib/.env';
-      // return 'production.env';
+      log("Running on Production");
+      return '.env.production';
     }
+    log("Running on Development");
+    return '.env.development';
   }
 
   static String get apiBaseUrl {

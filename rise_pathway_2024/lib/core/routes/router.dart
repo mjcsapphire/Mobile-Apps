@@ -1,6 +1,7 @@
 import 'package:rise_pathway/core/routes/routes.dart';
 import 'package:rise_pathway/src/app.dart';
 import 'package:rise_pathway/src/models/challenges/challenges_response.dart';
+import 'package:rise_pathway/src/models/goals/goal_response.dart';
 import 'package:rise_pathway/src/views/auth/create_new_password.dart';
 import 'package:rise_pathway/src/views/auth/forget_password.dart';
 import 'package:rise_pathway/src/views/auth/login_page.dart';
@@ -8,6 +9,8 @@ import 'package:rise_pathway/src/views/auth/otp_verify.dart';
 import 'package:rise_pathway/src/views/auth/sign_up_page.dart';
 import 'package:rise_pathway/src/views/challenges/challenge_page.dart';
 import 'package:rise_pathway/src/views/chat/chat_page.dart';
+import 'package:rise_pathway/src/views/goals/goals.dart';
+import 'package:rise_pathway/src/views/goals/goals_page.dart';
 import 'package:rise_pathway/src/views/home/home.dart';
 import 'package:rise_pathway/src/views/home/profile/change_password.dart';
 import 'package:rise_pathway/src/views/home/profile_page.dart';
@@ -87,15 +90,21 @@ class CustomRouter {
                 GoRoute(
                     path: 'rise_quiz_page',
                     builder: (context, state) {
-                      final title = ((state.extra ?? {'title': 'None'})
-                          as Map<String, dynamic>)['title'];
-                      return QuizPage(title: title);
+                      final data = (state.extra != null &&
+                              state.extra is Map<String, dynamic>)
+                          ? state.extra as Map<String, dynamic>
+                          : <String, dynamic>{};
+                      final title = data['title'] ?? 'Default Title';
+                      final id = data['id'] ?? 'Default ID';
+                      return QuizPage(title: title, id: id);
                     },
                     routes: [
                       GoRoute(
                         path: 'rise_summary',
                         builder: (context, state) {
-                          return const QuizSummary();
+                          return const QuizSummary(
+                              // quizTestResponse: state.extra as QuizTestResponse,
+                              );
                         },
                       ),
                     ])
@@ -106,10 +115,12 @@ class CustomRouter {
               final data = (state.extra ?? {}) as Map<String, dynamic>;
               final title = data['title'];
               final description = data['description'];
+              final id = data['id'];
               final isEdit = data['isEdit'] ?? false;
               return AddNewJournal(
                 title: title,
                 description: description,
+                id: id,
                 isEdit: isEdit,
               );
             },
@@ -117,15 +128,24 @@ class CustomRouter {
           GoRoute(
               path: 'quiz_page',
               builder: (context, state) {
-                final title = ((state.extra ?? {'title': 'None'})
-                    as Map<String, dynamic>)['title'];
-                return QuizPage(title: title);
+                final data =
+                    (state.extra != null && state.extra is Map<String, dynamic>)
+                        ? state.extra as Map<String, dynamic>
+                        : <String, dynamic>{};
+                final title = data['title'] ?? 'Default Title';
+                final id = data['id'] ?? 'Default ID';
+                return QuizPage(
+                  title: title,
+                  id: id,
+                );
               },
               routes: [
                 GoRoute(
                   path: 'summary',
                   builder: (context, state) {
-                    return const QuizSummary();
+                    return const QuizSummary(
+                        // quizTestResponse: state.extra as QuizTestResponse,
+                        );
                   },
                 ),
               ]),
@@ -155,6 +175,20 @@ class CustomRouter {
               return ChallengePage(
                 challenge: state.extra as ChallengesResponse,
               );
+            },
+          ),
+          GoRoute(
+            path: 'goal_page',
+            builder: (context, state) {
+              return GoalPage(
+                goal: state.extra as GoalResponse,
+              );
+            },
+          ),
+          GoRoute(
+            path: 'goals',
+            builder: (context, state) {
+              return const Goals();
             },
           ),
         ],

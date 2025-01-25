@@ -5,6 +5,8 @@ import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/constants/strings.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
+import 'package:rise_pathway/src/controllers/auth_controller.dart';
+import 'package:rise_pathway/src/controllers/challenge_controller.dart';
 import 'package:rise_pathway/src/models/challenges/challenges_response.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 import 'package:rise_pathway/src/views/widget/gradient_border_card.dart';
@@ -20,6 +22,11 @@ class ChallengePage extends StatefulWidget {
 
 class _ChallengePageState extends State<ChallengePage> {
   final cardSwiperController = AppinioSwiperController().obs;
+  final ChallengeController challengeController =
+      Get.find<ChallengeController>();
+  final AuthController authController = Get.find<AuthController>();
+  late List<bool> swipeDirections;
+  @override
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
@@ -131,11 +138,11 @@ class _ChallengePageState extends State<ChallengePage> {
             _buildSwipeCard(theme, widget.challenge.toJson()),
             SizedBox(height: 5.h),
             RiseButton(
-              title: widget.challenge.status != 'Not completed'
-                  ? r"I've Completed This"
+              title: widget.challenge.status == 'Completed'
+                  ? "I've Completed This"
                   : "I've Not Completed This",
               onTap: () {},
-              gradient: widget.challenge.status != 'Not completed'
+              gradient: widget.challenge.status == 'Completed'
                   ? AppColorsGredients.challengeCompletedBtn
                   : AppColorsGredients.challengeNotCompletedBtn,
               preffix: true,
@@ -148,17 +155,24 @@ class _ChallengePageState extends State<ChallengePage> {
   }
 
   _buildSwipeCard(TextTheme theme, Map<String, dynamic> challenge) {
-    // print("This is new Challenges card:: $challenge");
     return SizedBox(
       height: 36.h,
       child: AppinioSwiper(
         controller: cardSwiperController.value,
         backgroundCardOffset: const Offset(0, -30),
-        loop: true,
+        loop: false,
         backgroundCardCount: 3,
         backgroundCardScale: 0.9,
-        onEnd: () => context.pop(),
-        allowUnSwipe: false,
+        onEnd: () {
+          setState(() {
+            widget.challenge.status = 'Completed';
+            cardSwiperController.value.unswipe();
+            challengeController.completeChallenge(
+                email: authController.userData.value.userEmail!,
+                challenge: widget.challenge.id);
+          });
+        },
+        allowUnSwipe: true,
         swipeOptions: const SwipeOptions.only(
           left: true,
           right: true,
@@ -202,7 +216,7 @@ class _ChallengePageState extends State<ChallengePage> {
                         fontSize: 10.sp,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             );

@@ -19,6 +19,11 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
+	<key>NSCameraUsageDescription</key>
+<string>We need camera access to let you capture your profile picture.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>We need access to your photo library to upload profile pictures.</string>
+
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
@@ -6,6 +7,7 @@ import 'package:rise_pathway/src/controllers/home_controller.dart';
 import 'package:rise_pathway/src/controllers/journal_controller.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 import 'package:rise_pathway/src/views/widget/journal_card.dart';
+import 'package:rise_pathway/src/views/widget/rise_dialog.dart';
 
 import '../../../core/helpers/helpers.dart';
 import '../../../core/routes/routes.dart';
@@ -27,7 +29,7 @@ class _JournalState extends State<Journal> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       journalController.fetchJournals(
-        email: authController.userData.value.userEmail ?? '',
+        email: authController.userData.value.userEmail!,
       );
     });
   }
@@ -57,31 +59,66 @@ class _JournalState extends State<Journal> {
               bottom: 5.h,
             ),
             child: journalController.journals.isEmpty
-                ? const Center(
-                    child: CircularProgressIndicator.adaptive(
-                      valueColor:
-                          AlwaysStoppedAnimation(AppColors.primaryColor),
-                      strokeCap: StrokeCap.round,
-                    ),
-                  )
-                : StaggeredGrid.count(
-                    crossAxisCount: 2,
-                    children: List.generate(
-                      journalController.journals.length,
-                      (index) => GestureDetector(
-                        onTap: () => context.go(addNewJournal, extra: {
-                          'title': journalController.journals[index].title,
-                          'description':
-                              journalController.journals[index].entry,
-                          'isEdit': true,
-                        }),
-                        child: JournalCard(
-                          title: journalController.journals[index].title,
-                          subtitle: journalController.journals[index].entry,
-                        ),
+                ? Center(
+                    child: RiseText(
+                      'No Journal Entry',
+                      style: theme.bodyMedium!.copyWith(
+                        color: AppColors.primaryColor,
                       ),
                     ),
-                  ),
+                  )
+                : journalController.isLoading.value
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.primaryColor,
+                        ),
+                      )
+                    : StaggeredGrid.count(
+                        crossAxisCount: 2,
+                        children: List.generate(
+                          journalController.journals.length,
+                          (index) => GestureDetector(
+                            onTap: () async {
+                              context.go(addNewJournal, extra: {
+                                'title':
+                                    journalController.journals[index].title,
+                                'description':
+                                    journalController.journals[index].entry,
+                                'id': journalController.journals[index].id,
+                                'isEdit': true,
+                              });
+                            },
+                            onLongPress: () {
+                              showCupertinoModalPopup(
+                                  context: context,
+                                  builder: (context) => RiseDialog(
+                                        buttonTextno: "no",
+                                        buttonTextyes: "Yes",
+                                        onTapYes: () {
+                                          journalController.deleteJournal(
+                                            email: authController
+                                                    .userData.value.userEmail ??
+                                                '',
+                                            id: journalController
+                                                .journals[index].id,
+                                          );
+                                          context.pop();
+                                        },
+                                        title:
+                                            "Are you sure you want to delete?",
+                                        image: "assets/png/logout.png",
+                                      ));
+                            },
+                            child: Obx(() {
+                              return JournalCard(
+                                title: journalController.journals[index].title,
+                                subtitle:
+                                    journalController.journals[index].entry,
+                              );
+                            }),
+                          ),
+                        ),
+                      ),
           ),
         ),
       ),
@@ -89,7 +126,7 @@ class _JournalState extends State<Journal> {
         final isPlayerVisible = homeController.isPlayerVisible.value;
         return GestureDetector(
           onTap: () => context.go(addNewJournal, extra: {
-            'title': 'Add New Jorunal',
+            'title': 'Add New Journal',
             'description': '',
             'isEdit': false,
           }),

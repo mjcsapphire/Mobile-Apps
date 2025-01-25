@@ -34,4 +34,7 @@ class Config {
   // Other endpoints
   static const String removeDancer = "/removeDancer";
   static const String uploadImage = "/uploadImage";
+
+  // Goal endpoints
+  static const String fetchGoals = "/getGoals";
 }

@@ -63,7 +63,24 @@ Payload:
                     encoded == true ? Headers.formUrlEncodedContentType : null,
                 validateStatus: (code) => true),
             data: queryParams ?? listData ?? formData ?? FormData.fromMap(data),
+            // data: formData ?? FormData.fromMap(data) ?? listData,
             queryParameters: queryParams ?? {},
+          );
+          break;
+        case RequestType.put:
+          // Specifically handling PUT for update cases
+          response = await dio.put(
+            path,
+            cancelToken: cancelToken,
+            data: formData ?? data ?? {},
+            queryParameters: queryParams,
+            options: Options(
+              headers: headers,
+              contentType: encoded
+                  ? Headers.formUrlEncodedContentType
+                  : Headers.jsonContentType,
+              validateStatus: (code) => true,
+            ),
           );
           break;
         case RequestType.delete:
@@ -80,9 +97,9 @@ Payload:
 
       stopwatch.stop();
       logger.i("""
-Path: ${Config.baseURL}$path
-Response Data: ${jsonEncode(response.data)}
-        """);
+                Path: ${Config.baseURL}$path
+                Response Data: ${jsonEncode(response.data)}
+              """);
 
       if (response.statusCode == 200 || response.statusCode == 202) {
         return response.data == '' ? {} : response.data;
@@ -95,8 +112,8 @@ Response Data: ${jsonEncode(response.data)}
         return {};
       } else {
         logger.e("""Error:
-Status Code ${response.statusCode} - ${response.statusMessage}\n
-Response: ${response.data}""");
+            Status Code ${response.statusCode} - ${response.statusMessage}\n
+            Response: ${response.data}""");
         throw ServerException(
             message:
                 response.data['message'] ?? response.data['errors']['message'],

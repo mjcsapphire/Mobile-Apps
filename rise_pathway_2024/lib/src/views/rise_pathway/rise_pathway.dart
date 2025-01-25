@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
+import 'package:rise_pathway/src/controllers/auth_controller.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
+import 'package:rise_pathway/src/controllers/rise_pathway_controller.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 import 'package:rise_pathway/src/views/widget/rise_pathway_card.dart';
 
@@ -12,7 +14,17 @@ class RisePathWay extends StatefulWidget {
 }
 
 class _RisePathWayState extends State<RisePathWay> {
+  final pathwayController = Get.find<RisePathwayController>();
   final homeController = Get.find<HomeController>();
+  final authController = Get.find<AuthController>();
+
+  @override
+  void initState() {
+    super.initState();
+    pathwayController.fetchPathways(
+        email: authController.userData.value.userEmail!);
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;

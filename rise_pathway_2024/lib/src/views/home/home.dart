@@ -8,10 +8,12 @@ import 'package:rise_pathway/core/utils/colors.dart';
 import 'package:rise_pathway/core/utils/widget.dart';
 import 'package:rise_pathway/src/controllers/auth_controller.dart';
 import 'package:rise_pathway/src/controllers/challenge_controller.dart';
+import 'package:rise_pathway/src/controllers/goal_controller.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
 import 'package:rise_pathway/src/controllers/rise_pathway_controller.dart';
 import 'package:rise_pathway/src/models/pathways/pathway_response.dart';
 import 'package:rise_pathway/src/views/widget/challenges_card.dart';
+import 'package:rise_pathway/src/views/widget/goal_cards.dart';
 import 'package:rise_pathway/src/views/widget/gradient_border_card.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -27,7 +29,9 @@ class _HomePageState extends State<HomePage> {
   final challengeController = Get.find<ChallengeController>();
   final risePathwayController = Get.find<RisePathwayController>();
   final _dailyChallengePageController = PageController();
+  final _goalPageController = PageController();
   final AuthController authController = Get.find<AuthController>();
+  final GoalController goalController = Get.find<GoalController>();
 
   @override
   void initState() {
@@ -38,6 +42,7 @@ class _HomePageState extends State<HomePage> {
       homeController.emojiIndex.value = selectMood;
       await getChallenges(email: email);
       await getPathways(email: email);
+      await goalController.fetchGoals(email: email);
     });
     super.initState();
   }
@@ -86,6 +91,27 @@ class _HomePageState extends State<HomePage> {
                     SmoothPageIndicator(
                       controller: _dailyChallengePageController,
                       count: challengeController.challenges.length,
+                      effect: const ExpandingDotsEffect(
+                        dotHeight: 10,
+                        dotWidth: 10,
+                        dotColor: AppColors.lightSkyBlue,
+                        activeDotColor: AppColors.primaryColor,
+                      ),
+                      onDotClicked: (index) {},
+                      axisDirection: Axis.horizontal,
+                    ),
+                  SizedBox(height: 2.h),
+                  BuildGoalsList(
+                    theme: theme,
+                    goalsPageController: _goalPageController,
+                    goalController: goalController,
+                    homeController: homeController,
+                  ),
+                  SizedBox(height: 2.h),
+                  if (goalController.goals.isNotEmpty)
+                    SmoothPageIndicator(
+                      controller: _goalPageController,
+                      count: goalController.goals.length,
                       effect: const ExpandingDotsEffect(
                         dotHeight: 10,
                         dotWidth: 10,
@@ -145,7 +171,7 @@ class BuildDailyCallengesList extends StatelessWidget {
                 ),
                 const Spacer(),
                 RiseText(
-                  'See All (10)',
+                  'See All (${challengeController.challenges.length})',
                   style: theme.labelSmall!.copyWith(
                     color: AppColors.darkGrey,
                     fontSize: 9.sp,
@@ -167,11 +193,14 @@ class BuildDailyCallengesList extends StatelessWidget {
               width: 100.w,
               padding: EdgeInsets.symmetric(horizontal: 1.h),
               child: challengeController.challenges.isEmpty
-                  ? const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.primaryColor,
-                      ),
-                    )
+                  ? Center(
+                      child: RiseText(
+                      'No Challenges Available',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: AppColors.primaryColor),
+                    ))
                   : PageView.builder(
                       itemCount: challengeController.challenges.length,
                       controller: _dailyChallengePageController,
@@ -179,6 +208,91 @@ class BuildDailyCallengesList extends StatelessWidget {
                         return ChallengesCard(
                           height: 28.h,
                           challenge: challengeController.challenges[index],
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 1.h,
+                            vertical: 2.w,
+                          ),
+                        );
+                      },
+                    ),
+            )),
+      ],
+    );
+  }
+}
+
+class BuildGoalsList extends StatelessWidget {
+  const BuildGoalsList({
+    super.key,
+    required this.theme,
+    required PageController goalsPageController,
+    required this.homeController,
+    required this.goalController,
+  }) : _goalsPageController = goalsPageController;
+
+  final TextTheme theme;
+  final PageController _goalsPageController;
+  final HomeController homeController;
+  final GoalController goalController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            context.go(goals);
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Row(
+              children: [
+                RiseText(
+                  'Goals',
+                  style: theme.titleMedium!.copyWith(
+                    color: AppColors.primaryColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Spacer(),
+                RiseText(
+                  'See All (${goalController.goals.length})',
+                  style: theme.labelSmall!.copyWith(
+                    color: AppColors.darkGrey,
+                    fontSize: 9.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(width: 0.5.h),
+                const Icon(
+                  Icons.arrow_forward,
+                  color: AppColors.primaryColor,
+                )
+              ],
+            ),
+          ),
+        ),
+        SizedBox(height: 1.h),
+        Obx(() => Container(
+              height: 29.h,
+              width: 100.w,
+              padding: EdgeInsets.symmetric(horizontal: 1.h),
+              child: goalController.goals.isEmpty
+                  ? Center(
+                      child: RiseText(
+                      'No Goals Available',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: AppColors.primaryColor),
+                    ))
+                  : PageView.builder(
+                      itemCount: goalController.goals.length,
+                      controller: _goalsPageController,
+                      itemBuilder: (context, index) {
+                        return GoalsCard(
+                          height: 28.h,
+                          goal: goalController.goals[index],
                           margin: EdgeInsets.symmetric(
                             horizontal: 1.h,
                             vertical: 2.w,
@@ -204,151 +318,154 @@ class BuildHomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 100.w,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(6.h),
-          bottomRight: Radius.circular(6.h),
-        ),
-        gradient: AppColorsGredients.primaryTopToBottom,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  RiseText(
-                    "Hello There,",
-                    style: theme.bodySmall!.copyWith(
-                      color: AppColors.white,
-                    ),
-                  ),
-                  RiseText(
-                    "${authController.userData.value.firstname} ${authController.userData.value.surname}",
-                    style: theme.titleMedium!.copyWith(
-                      color: AppColors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              GestureDetector(
-                onTap: () => context.go(profilePage),
-                child: Container(
-                  width: 70,
-                  height: 70,
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      width: 2,
-                      color: AppColors.white,
-                    ),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(18),
-                    child: Image.network(
-                      authController.userData.value.mobileAppProfilePic ??
-                          "https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png",
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Image.network(
-                          "https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png",
-                          fit: BoxFit.cover,
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              )
-            ],
+    return Obx(() {
+      return Container(
+        width: 100.w,
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(6.h),
+            bottomRight: Radius.circular(6.h),
           ),
-          GradientBorderCard(
-            height: 22.h,
-            width: 90.w,
-            margin: EdgeInsets.only(top: 2.h),
-            children: Container(
-              margin: const EdgeInsets.all(2),
-              padding: EdgeInsets.all(2.h),
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(35),
-                border: Border.all(
-                  width: 2,
-                  color: AppColors.white,
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SmallCards.smallCards(
-                        theme,
-                        context,
-                        'Anxious',
-                        'Grief',
-                        'anxious',
-                        AppColors.error,
-                      ),
-                      Image.asset(
-                        'assets/icons/arrow.png',
-                        scale: 10,
-                      ),
-                      SmallCards.smallCards(
-                        theme,
-                        context,
-                        'Excited',
-                        'Joyous',
-                        'excited',
-                        AppColors.success,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 1.5.h),
-                  Container(
-                    height: 5.h,
-                    width: 100.w,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      gradient: AppColorsGredients.primaryRightToLeft,
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: RiseText(
-                      'Now I’m feeling excited',
+          gradient: AppColorsGredients.primaryTopToBottom,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    RiseText(
+                      "Hello There,",
                       style: theme.bodySmall!.copyWith(
-                        color: Colors.white,
+                        color: AppColors.white,
+                      ),
+                    ),
+                    RiseText(
+                      "${authController.userData.value.firstname ?? 'Demo'} ${authController.userData.value.surname ?? 'User'} ",
+                      style: theme.titleMedium!.copyWith(
+                        color: AppColors.white,
                         fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                GestureDetector(
+                  onTap: () => context.go(profilePage),
+                  child: Container(
+                    width: 70,
+                    height: 70,
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        width: 2,
+                        color: AppColors.white,
+                      ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(18),
+                      child: Image.network(
+                        authController.userData.value.mobileAppProfilePic ??
+                            "https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png",
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.network(
+                            "https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png",
+                            fit: BoxFit.cover,
+                          );
+                        },
                       ),
                     ),
                   ),
-                  SizedBox(height: 1.5.h),
-                  GestureDetector(
-                    onTap: () => context.go(homeSelectMood),
-                    child: RiseText(
-                      'Change Mood',
-                      style: theme.labelSmall!.copyWith(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+                )
+              ],
+            ),
+            GradientBorderCard(
+              height: 22.h,
+              width: 90.w,
+              margin: EdgeInsets.only(top: 2.h),
+              children: Container(
+                margin: const EdgeInsets.all(2),
+                padding: EdgeInsets.all(2.h),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(35),
+                  border: Border.all(
+                    width: 2,
+                    color: AppColors.white,
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SmallCards.smallCards(
+                          theme,
+                          context,
+                          authController.userData.value.mood ?? 'Anxious',
+                          'Grief',
+                          // authController.userData.value.mood ?? 'anxious',
+                          'anxious',
+                          AppColors.error,
+                        ),
+                        Image.asset(
+                          'assets/icons/arrow.png',
+                          scale: 10,
+                        ),
+                        SmallCards.smallCards(
+                          theme,
+                          context,
+                          'Excited',
+                          'Joyous',
+                          'excited',
+                          AppColors.success,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 1.5.h),
+                    Container(
+                      height: 5.h,
+                      width: 100.w,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        gradient: AppColorsGredients.primaryRightToLeft,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: RiseText(
+                        'Now I’m feeling excited',
+                        style: theme.bodySmall!.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  )
-                ],
+                    SizedBox(height: 1.5.h),
+                    GestureDetector(
+                      onTap: () => context.go(homeSelectMood),
+                      child: RiseText(
+                        'Change Mood',
+                        style: theme.labelSmall!.copyWith(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    });
   }
 }
 
@@ -557,12 +674,14 @@ class BuildRisePathwayList extends StatelessWidget {
                 onTap: () => context.go(risePathway),
                 child: Row(
                   children: [
-                    RiseText(
-                      'See All (10)',
-                      style: theme.labelSmall!.copyWith(
-                        color: AppColors.darkGrey,
-                        fontSize: 9.sp,
-                        fontWeight: FontWeight.w600,
+                    Obx(
+                      () => RiseText(
+                        'See All (${pathwayController.pathways.length})',
+                        style: theme.labelSmall!.copyWith(
+                          color: AppColors.darkGrey,
+                          fontSize: 9.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                     SizedBox(width: 0.5.h),
@@ -588,13 +707,14 @@ class BuildRisePathwayList extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) => GestureDetector(
                         onTap: () => context.go(quizPage, extra: {
-                          'title': 'Communication',
+                          'title': pathwayController.pathways[index].title,
+                          'id': pathwayController.pathways[index].id,
                         }),
                         child: RisepathwayCard(
                           theme: theme,
                           isAttempted:
                               pathwayController.pathways[index].userScore !=
-                                  "0 / 10",
+                                  '0 / 10',
                           pathway: pathwayController.pathways[index],
                         ),
                       ),

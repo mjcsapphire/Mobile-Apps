@@ -4,6 +4,7 @@ import 'package:rise_pathway/core/constants/config.dart';
 import 'package:rise_pathway/src/controllers/auth_controller.dart';
 import 'package:rise_pathway/src/controllers/challenge_controller.dart';
 import 'package:rise_pathway/src/controllers/chat_controller.dart';
+import 'package:rise_pathway/src/controllers/goal_controller.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
 import 'package:rise_pathway/src/controllers/journal_controller.dart';
 import 'package:rise_pathway/src/controllers/network_controller.dart';
@@ -20,6 +21,7 @@ class DependenciesInjector {
     Get.put(ChallengeController(dio: dio));
     Get.put(RisePathwayController(dio: dio));
     Get.put(JournalController(dio: dio));
+    Get.put(GoalController(dio: dio));
   }
 
   static void deleteControllers() {
