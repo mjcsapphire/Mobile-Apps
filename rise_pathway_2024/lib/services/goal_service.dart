@@ -22,7 +22,6 @@ class GoalService {
       if (response != null) {
         for (var element in response) {
           goals.add(GoalResponse.fromJson(element));
-          
         }
       }
       return Right(goals);
