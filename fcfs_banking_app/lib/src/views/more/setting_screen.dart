@@ -41,12 +41,15 @@ class SettingScreen extends StatelessWidget {
                 children: [
                   Align(
                     alignment: Alignment.topLeft,
-                    child: TextButton(
-                      onPressed: () => context.pop(),
-                      child: Text(
-                        'Close',
-                        style: theme.textTheme.displayMedium!
-                            .copyWith(color: Colors.white, fontSize: 18.sp),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top :10),
+                      child: TextButton(
+                        onPressed: () => context.pop(),
+                        child: Text(
+                          'Close',
+                          style: theme.textTheme.displayMedium!
+                              .copyWith(color: Colors.white, fontSize: 18.sp),
+                        ),
                       ),
                     ),
                   ),

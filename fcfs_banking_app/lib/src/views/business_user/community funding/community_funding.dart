@@ -50,63 +50,66 @@ class _CommunityFundingScreenState extends State<CommunityFundingScreen> {
                 ? DarkGradientBackgroundPainter()
                 : GradientBackgroundPainter(),
           ),
-          Obx(() {
-            final ideas = _controller.ideas;
-            if (ideas.isEmpty) {
-              return Center(
-                child: Text(
-                  'No community funds available yet.',
-                  style: theme.textTheme.displayMedium,
-                ),
-              );
-            }
-            return Container(
-              margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 5.5.h),
-              height: MediaQuery.of(context).size.height - 15.h,
-              child: ListView.builder(
-                itemCount: ideas.length,
-                itemBuilder: (context, index) {
-                  final idea = ideas[index];
-                  toggleStates.putIfAbsent(index, () => true);
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 0.2.h),
-                    child: buildFundCard(
-                      index: index,
-                      fundName: idea.headline,
-                      amountSaved: idea.targetAmount,
-                      goalAmount: idea.targetAmount,
-                      progressPercentage:
-                          (idea.raisedAmount / idea.targetAmount) * 100,
-                      goalDate: AppHelpers.formatDate(idea.targetdDate),
-                      withdrawOnTap: () {
-                        // Define action for withdraw
-                        AppHelpers.toast("Upcoming feature");
-                      },
-                      setNewRuleOnTap: () {
-                        context.pushNamed(RoutesName.ideaSubmission,
-                            extra: idea);
-                      },
-                      editRuleOnTap: () {
-                        // Define action for edit rule
-                        context.pushNamed(RoutesName.ideaSubmission,
-                            extra: idea);
-                      },
-                      thumbnailUrl: idea.thumbnailUrl,
-                      raisedMoney: idea.raisedAmount.toString(),
-                      postedOn: AppHelpers.formatDate(idea.createdAt),
-                      businessOwner: idea.businessOwner,
-                      maxInvestmentAmount: idea.maximumInvestment,
-                      minInvestmentAmount: idea.minimumInvestment,
-                      numberOfCurrentInvestors: idea.totalInvestors,
-                      investNowTap: () {
-                        context.pushNamed(RoutesName.pitchDetails, extra: idea);
-                      },
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 4.w),
+              child: Obx(() {
+                final ideas = _controller.ideas;
+                if (ideas.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'No community funds available yet.',
+                      style: theme.textTheme.displayMedium,
                     ),
                   );
-                },
-              ),
-            );
-          }),
+                }
+                return Padding(
+                  padding: const EdgeInsets.only(top : 8),
+                  child: ListView.builder(
+                    itemCount: ideas.length,
+                    itemBuilder: (context, index) {
+                      final idea = ideas[index];
+                      toggleStates.putIfAbsent(index, () => true);
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 0.2.h),
+                        child: buildFundCard(
+                          index: index,
+                          fundName: idea.headline,
+                          amountSaved: idea.targetAmount,
+                          goalAmount: idea.targetAmount,
+                          progressPercentage:
+                              (idea.raisedAmount / idea.targetAmount) * 100,
+                          goalDate: AppHelpers.formatDate(idea.targetdDate),
+                          withdrawOnTap: () {
+                            AppHelpers.toast("Upcoming feature");
+                          },
+                          setNewRuleOnTap: () {
+                            context.pushNamed(RoutesName.ideaSubmission,
+                                extra: idea);
+                          },
+                          editRuleOnTap: () {
+                            context.pushNamed(RoutesName.ideaSubmission,
+                                extra: idea);
+                          },
+                          thumbnailUrl: idea.thumbnailUrl,
+                          raisedMoney: idea.raisedAmount.toString(),
+                          postedOn: AppHelpers.formatDate(idea.createdAt),
+                          businessOwner: idea.businessOwner,
+                          maxInvestmentAmount: idea.maximumInvestment,
+                          minInvestmentAmount: idea.minimumInvestment,
+                          numberOfCurrentInvestors: idea.totalInvestors,
+                          investNowTap: () {
+                            context.pushNamed(RoutesName.pitchDetails,
+                                extra: idea);
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }),
+            ),
+          ),
           userController.user.value!.role == "Business"
               ? Align(
                   alignment: Alignment.bottomCenter,

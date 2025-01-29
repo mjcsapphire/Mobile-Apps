@@ -227,7 +227,7 @@ class _TransferScreenState extends State<TransferScreen> {
                               fontWeight: FontWeight.w700),
                     ),
                   ),
-                  // SizedBox(height: 1.h),
+                  SizedBox(height: 1.h),
                   Expanded(
                     child: ListView.builder(
                       itemCount: recentSentTransactions.length,

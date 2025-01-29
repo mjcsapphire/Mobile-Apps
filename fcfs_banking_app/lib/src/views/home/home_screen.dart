@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             Container(
               constraints: BoxConstraints(
-                minHeight: MediaQuery.of(context).size.height * 0.36,
+                minHeight: MediaQuery.of(context).size.height * 0.37,
               ),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
@@ -199,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontWeight: FontWeight.normal,
                           ),
                         ),
-                        SizedBox(height: 1.5.h),
+                        SizedBox(height: 1.h),
                         Center(
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width * 0.8,
@@ -213,11 +213,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                 _tabBox(2, tabselectedIndex == 2),
                                 const SizedBox(width: 8),
                                 _tabBox(3, tabselectedIndex == 3),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.add_circle_outline,
+                                    color: Colors.white,
+                                    size: 21.sp,
+                                  ),
+                                )
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(height: 1.h),
+                        // SizedBox(height: 1.h),
                         Center(
                           child: Column(
                             children: [
