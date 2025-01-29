@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "296052683450",
+    "project_id": "fantasy-banking-app",
+    "storage_bucket": "fantasy-banking-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:296052683450:android:e7110484e9f1636c6dc883",
+        "android_client_info": {
+          "package_name": "com.risepathway.fcfs"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMvBFIl0CZPnEspJ5PhPb0J7iq582e1ao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
