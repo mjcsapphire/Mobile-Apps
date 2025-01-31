@@ -45,3 +45,6 @@ app.*.map.json
 /fcfs_banking_app/android/.gradle/
 .env.production
 .env.development
+
+# FVM Version Cache
+.fvm/

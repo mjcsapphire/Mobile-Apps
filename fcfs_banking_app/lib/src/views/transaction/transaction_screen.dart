@@ -363,7 +363,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
               itemBuilder: (context, index) {
                 final transaction =
                     transactionController.filteredTransaction[index];
-              final recipientId = transaction.recipient != null &&
+                final recipientId = transaction.recipient != null &&
                         transaction.recipient!.entries.isNotEmpty
                     ? transaction.recipient!.entries.first.value
                     : '';
@@ -405,7 +405,6 @@ class _TransactionScreenState extends State<TransactionScreen> {
                 );
               },
             );
-         
           }),
         ),
       ],
