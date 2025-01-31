@@ -50,7 +50,8 @@ class _CommunityFundingScreenState extends State<CommunityFundingScreen> {
                 ? DarkGradientBackgroundPainter()
                 : GradientBackgroundPainter(),
           ),
-          Expanded(
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 4.w),
               child: Obx(() {
@@ -64,7 +65,7 @@ class _CommunityFundingScreenState extends State<CommunityFundingScreen> {
                   );
                 }
                 return Padding(
-                  padding: const EdgeInsets.only(top : 8),
+                  padding: const EdgeInsets.only(top: 8),
                   child: ListView.builder(
                     itemCount: ideas.length,
                     itemBuilder: (context, index) {
@@ -116,19 +117,20 @@ class _CommunityFundingScreenState extends State<CommunityFundingScreen> {
                   child: Padding(
                     padding: EdgeInsets.only(bottom: 2.h),
                     child: CustomButtonWidget(
-                        onTap: () {
-                          context.pushNamed(RoutesName.ideaSubmission);
-                        },
-                        width: 90.w,
-                        text: "Start new community fund",
-                        color: themeController.themeMode == ThemeMode.dark
-                            ? AppColors.darkBorderColor
-                            : AppColors.red,
-                        borderColor: themeController.themeMode == ThemeMode.dark
-                            ? AppColors.darkBorderColor
-                            : AppColors.red,
-                        fontSize: 5.w,
-                        isIconAvailable: false),
+                      onTap: () {
+                        context.pushNamed(RoutesName.ideaSubmission);
+                      },
+                      width: 90.w,
+                      text: "Start new community fund",
+                      color: themeController.themeMode == ThemeMode.dark
+                          ? AppColors.darkBorderColor
+                          : AppColors.red,
+                      borderColor: themeController.themeMode == ThemeMode.dark
+                          ? AppColors.darkBorderColor
+                          : AppColors.red,
+                      fontSize: 5.w,
+                      isIconAvailable: false,
+                    ),
                   ),
                 )
               : const SizedBox.shrink(),
@@ -150,7 +152,7 @@ class _CommunityFundingScreenState extends State<CommunityFundingScreen> {
                   BoxShadow(
                     color: Colors.black.withOpacity(0.2),
                     blurRadius: 10,
-                  )
+                  ),
                 ],
               ),
               child: Padding(
@@ -467,7 +469,8 @@ class _CommunityFundingScreenState extends State<CommunityFundingScreen> {
                   ),
                 )
               ],
-            ));
+            ),
+          );
   }
 
   Widget _buildToggleButtons(int index, bool isOverViewSelected) {
@@ -518,172 +521,3 @@ class _CommunityFundingScreenState extends State<CommunityFundingScreen> {
     );
   }
 }
-
-
-/*
-  Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Obx(() {
-              if (_controller.isLoading.value) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.pinkColor,
-                  ),
-                );
-              }
-
-              if (_controller.ideas.isEmpty) {
-                return Center(
-                  child: Text(
-                    "No projects available.",
-                    style: theme.textTheme.displayMedium
-                        ?.copyWith(fontSize: 17.sp),
-                  ),
-                );
-              }
-
-              return ListView.builder(
-                itemCount: _controller.ideas.length,
-                itemBuilder: (context, index) {
-                  final idea = _controller.ideas[index];
-                  return Card(
-                    color: AppColors.white.withOpacity(0.4),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (idea.thumbnailUrl.isNotEmpty)
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: CachedNetworkImage(
-                                  imageUrl: idea.thumbnailUrl,
-                                  fit: BoxFit.cover,
-                                  height: 20.h,
-                                  width: double.infinity,
-                                  alignment: Alignment.center,
-                                  errorWidget: (context, url, error) => Icon(
-                                        Icons.error,
-                                        color: themeController.themeMode ==
-                                                ThemeMode.dark
-                                            ? AppColors.darkBorderColor
-                                            : AppColors.pinkColor,
-                                      ),
-                                  placeholder: (context, url) => Center(
-                                        child: CircularProgressIndicator(
-                                          color: themeController.themeMode ==
-                                                  ThemeMode.dark
-                                              ? AppColors.darkBorderColor
-                                              : AppColors.pinkColor,
-                                        ),
-                                      )),
-                            ),
-                          Text(
-                            idea.headline,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineMedium
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            "${idea.description} ...",
-                            maxLines: 3,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displaySmall
-                                ?.copyWith(
-                                  color: AppColors.white,
-                                ),
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "\$${idea.targetAmount.toStringAsFixed(2)}\nTarget Required",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium
-                                    ?.copyWith(
-                                        color: themeController.themeMode ==
-                                                ThemeMode.dark
-                                            ? AppColors.white
-                                            : AppColors.burgundy,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 17.sp),
-                              ),
-                              const Spacer(),
-                              Text(
-                                  "\$${idea.minimumInvestment.toStringAsFixed(2)}\nMin per Investor",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .displayMedium
-                                      ?.copyWith(
-                                        color: themeController.themeMode ==
-                                                ThemeMode.dark
-                                            ? AppColors.white
-                                            : AppColors.burgundy,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 17.sp,
-                                      )),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Align(
-                            alignment: Alignment.center,
-                            child: CustomButtonWidget(
-                              onTap: () {
-                                context.pushNamed(RoutesName.pitchDetails,
-                                    extra: idea);
-                              },
-                              width: MediaQuery.of(context).size.width,
-                              text: "Learn More",
-                              color: themeController.themeMode == ThemeMode.dark
-                                  ? AppColors.darkBorderColor
-                                  : AppColors.red,
-                              borderColor:
-                                  themeController.themeMode == ThemeMode.dark
-                                      ? AppColors.darkBorderColor
-                                      : AppColors.red,
-                              radius: 10,
-                              isIconAvailable: false,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
-            }),
-          ),
-        
-
-
-        ------ floating ---
-         floatingActionButton: user?.role == 'Business'
-          ? Padding(
-              padding: const EdgeInsets.only(bottom: 10, right: 10),
-              child: FloatingActionButton(
-                backgroundColor: themeController.themeMode == ThemeMode.dark
-                    ? AppColors.darkBorderColor
-                    : AppColors.red,
-                onPressed: () {
-                  context.pushNamed(RoutesName.ideaSubmission);
-                },
-                child: const Icon(
-                  Icons.add,
-                  color: AppColors.white,
-                ),
-              ),
-            )
-          : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
- */

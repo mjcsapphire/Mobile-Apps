@@ -363,30 +363,49 @@ class _TransactionScreenState extends State<TransactionScreen> {
               itemBuilder: (context, index) {
                 final transaction =
                     transactionController.filteredTransaction[index];
-                return _buildActivityItem(
-                  transaction.recipient?.entries.isNotEmpty == true
-                      ? transaction.recipient!.entries.first.value
-                      : "Receiver name not available",
-                  transaction.description ?? '',
-                  "${transaction.type == "credit" ? "+ " : "- "}\$${transaction.amount.toString()}",
-                  transaction.type == "credit"
-                      ? Colors.green
-                      : themeController.themeMode == ThemeMode.dark
-                          ? AppColors.darkBorderColor
-                          : AppColors.red,
-                  transaction.type == "credit" ? Colors.green : AppColors.white,
-                  (transaction.type == "credit"
-                      ? Icons.call_received
-                      : Icons.call_made),
-                  ontap: () {
-                    context.pushNamed(
-                      RoutesName.transactionDetailsScreen,
-                      extra: transaction,
+              final recipientId = transaction.recipient != null &&
+                        transaction.recipient!.entries.isNotEmpty
+                    ? transaction.recipient!.entries.first.value
+                    : '';
+
+                return FutureBuilder<String>(
+                  future: userController.fetchReceiverNameById(recipientId),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: SizedBox());
+                    } else if (snapshot.hasError) {
+                      return Text("Error: ${snapshot.error}");
+                    }
+
+                    final userName = snapshot.data ?? 'Unknown';
+
+                    return _buildActivityItem(
+                      userName,
+                      transaction.description ?? '',
+                      "${transaction.type == "credit" ? "+ " : "- "}\$${transaction.amount.toString()}",
+                      transaction.type == "credit"
+                          ? Colors.green
+                          : themeController.themeMode == ThemeMode.dark
+                              ? AppColors.darkBorderColor
+                              : AppColors.red,
+                      transaction.type == "credit"
+                          ? Colors.green
+                          : AppColors.white,
+                      (transaction.type == "credit"
+                          ? Icons.call_received
+                          : Icons.call_made),
+                      ontap: () {
+                        context.pushNamed(
+                          RoutesName.transactionDetailsScreen,
+                          extra: transaction,
+                        );
+                      },
                     );
                   },
                 );
               },
             );
+         
           }),
         ),
       ],

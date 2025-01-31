@@ -103,6 +103,24 @@ class UserController extends GetxController {
     }
   }
 
+  Future<String> fetchReceiverNameById(String userId) async {
+    try {
+      final userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
+
+      if (userDoc.exists) {
+        final userData = userDoc.data();
+        return '${userData?['firstName']} ${userData?['lastName']}';
+      } else {
+        return "Unknown Recipient";
+      }
+    } catch (e) {
+      return "Unknown Recipient";
+    }
+  }
+
   // Fetch the current authenticated user's data
   Future<void> fetchCurrentUserData() async {
     isLoading.value = true;
