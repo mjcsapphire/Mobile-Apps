@@ -1,6 +1,7 @@
 import 'package:fcfs_banking_app/core/theme/colors.dart';
 import 'package:fcfs_banking_app/core/theme/radialBg.dart';
 import 'package:fcfs_banking_app/core/utils/app_helpers.dart';
+import 'package:fcfs_banking_app/services/router/routes_name.dart';
 import 'package:fcfs_banking_app/src/controllers/theme_controller.dart';
 import 'package:fcfs_banking_app/src/controllers/user_controller.dart';
 import 'package:fcfs_banking_app/src/views/qr_code/generate_qr.dart';
@@ -8,6 +9,7 @@ import 'package:fcfs_banking_app/src/views/widget/custom_app_bar.dart';
 import 'package:fcfs_banking_app/src/views/widget/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
 class AddProductScreen extends StatefulWidget {
@@ -63,10 +65,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         title: "Add Product",
-        showMoreVertIcon: false,
+        showMoreVertIcon: true,
         showNotificationIcon: false,
         showProfilePic: false,
-        onMoreVertTap: () {},
+        onMoreVertTap: () {
+          context.pushNamed(RoutesName.productScreen);
+        },
       ),
       body: Stack(
         children: [
@@ -354,7 +358,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       width: MediaQuery.of(context).size.width * 0.2,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: themeController.themeMode == ThemeMode.dark? AppColors.white : AppColors.textGreyColor,
+                        color: themeController.themeMode == ThemeMode.dark
+                            ? AppColors.white
+                            : AppColors.textGreyColor,
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
@@ -395,7 +401,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     child: QRGeneratorWidget(
                       amount: totalAmount,
                       phoneNumber: user.phoneNumber,
-                      size:250,
+                      size: 250,
                       color: themeController.themeMode == ThemeMode.dark
                           ? AppColors.white
                           : AppColors.black,

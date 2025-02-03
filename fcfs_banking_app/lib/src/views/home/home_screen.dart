@@ -181,7 +181,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
-
                         SizedBox(height: 1.h),
                         Text(
                           user?.role == "Business"
@@ -213,19 +212,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                 _tabBox(2, tabselectedIndex == 2),
                                 const SizedBox(width: 8),
                                 _tabBox(3, tabselectedIndex == 3),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons.add_circle_outline,
-                                    color: Colors.white,
-                                    size: 21.sp,
-                                  ),
-                                )
+                                // IconButton(
+                                //   onPressed: () {},
+                                //   icon: Icon(
+                                //     Icons.add_circle_outline,
+                                //     color: Colors.white,
+                                //     size: 21.sp,
+                                //   ),
+                                // )
                               ],
                             ),
                           ),
                         ),
-                        // SizedBox(height: 1.h),
+                        SizedBox(height: 1.h),
                         Center(
                           child: Column(
                             children: [
@@ -310,6 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 }),
               ),
             ),
+            SizedBox(height: 0.6.h),
 
             // Lower Section with PageView
             Positioned(
@@ -326,6 +326,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
             ),
+            SizedBox(height: 0.6.h),
             Positioned(
               top: MediaQuery.of(context).size.height - 56.h,
               left: 16,

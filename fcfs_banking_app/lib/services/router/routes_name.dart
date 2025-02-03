@@ -32,7 +32,12 @@ class RoutesName {
       'processDebitRequestScreen';
   static const String personalDashboard = 'personalDashboard';
   static const String businessDashboard = 'businessDashboard';
+
+  // products
   static const String addProduct = 'addProduct';
+  static const String productScreen = 'productScreen';
+
+
   static const String communityFunding = 'communityFunding';
   static const String ideaSubmission = 'ideaSubmission';
   static const String pitchDetails = 'pitchDetails';
