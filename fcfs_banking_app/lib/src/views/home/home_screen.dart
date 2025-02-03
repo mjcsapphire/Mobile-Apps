@@ -319,7 +319,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: SpendingLimitCard(
                 limit: user!.monthlyLimit,
                 remaining: transactionController
-                    .currentMonthBalance.value, // Amount left
+                    .remainingMonthlyLimit.value, // Amount left
                 onTap: () {
                   // _setLimitBottomSheet(context);
                   context.pushNamed(RoutesName.setLimit);

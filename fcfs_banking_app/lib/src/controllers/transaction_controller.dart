@@ -20,18 +20,23 @@ class TransactionController extends GetxController {
   double dailyLimit = 50000.00;
   var logger = Logger();
   var filteredTransaction = <TransactionModel>[].obs;
+  RxDouble remainingDailyLimit = 0.0.obs;
+  RxDouble remainingMonthlyLimit = 0.0.obs;
+  RxDouble monthlyLimit = 10000.0.obs;
 
   @override
   void onInit() {
     super.onInit();
-    // Delayed fetch to ensure data dependencies are resolved
     Future.delayed(Duration.zero, () {
       final userController = Get.find<UserController>();
       if (userController.user.value != null) {
         fetchUserTransactions(userController.user.value!.uid);
+        //  await _transactionService.getUserMonthlyLimit(userController.user.value!.uid);
       }
     });
     calculateCurrentMonthBalance();
+    calculateRemainingDailyLimit();
+    calculateRemainingMonthlyLimit();
   }
 
   // Fetch user transactions
@@ -41,7 +46,7 @@ class TransactionController extends GetxController {
     result.fold(
       (error) {
         errorMessage.value = error;
-        AppHelpers.toast('Error: $error');
+        // AppHelpers.toast('Error: $error');
         logger.e('Error fetching user transactions: $error');
       },
       (fetchedTransactions) {
@@ -52,6 +57,8 @@ class TransactionController extends GetxController {
         calculateTotalBalance();
         calculateCurrentMonthBalance();
         calculateMonthlyBalances();
+        calculateRemainingDailyLimit();
+        calculateRemainingMonthlyLimit();
       },
     );
     isLoading.value = false;
@@ -102,6 +109,9 @@ class TransactionController extends GetxController {
         fetchUserTransactions(transaction.userId!);
         calculateTotalBalance();
         calculateCurrentMonthBalance();
+        calculateRemainingDailyLimit();
+        calculateRemainingMonthlyLimit();
+
         AppHelpers.toast('Transaction successful');
       },
     );
@@ -309,4 +319,33 @@ class TransactionController extends GetxController {
       monthlyBalances[monthKey] ??= 0.0;
     }
   }
+
+  void calculateRemainingDailyLimit() {
+    final DateTime today = DateTime.now();
+    double totalDailySpent = transactions
+        .where((t) =>
+            t.type == 'debit' &&
+            t.date.year == today.year &&
+            t.date.month == today.month &&
+            t.date.day == today.day)
+        .fold(0.0, (sum, t) => sum + t.amount);
+
+    remainingDailyLimit.value = dailyLimit - totalDailySpent;
+  }
+
+  void calculateRemainingMonthlyLimit() {
+    final DateTime now = DateTime.now();
+    double totalMonthlySpent = transactions
+        .where((t) =>
+            t.type == 'debit' &&
+            t.date.year == now.year &&
+            t.date.month == now.month)
+        .fold(0.0, (sum, t) => sum + t.amount);
+
+    // Ensure monthlyLimit has been set before calculation
+    remainingMonthlyLimit.value =
+        monthlyLimit.value > 0 ? monthlyLimit.value - totalMonthlySpent : 0.0;
+  }
+
+  // fetch monthly limit
 }

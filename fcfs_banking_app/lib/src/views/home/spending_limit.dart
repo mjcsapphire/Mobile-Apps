@@ -33,7 +33,7 @@ class SpendingLimitCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '\$${limit.toStringAsFixed(0)} Monthly limit | \$${remaining.toStringAsFixed(2)} left',
+                '\$${limit.toStringAsFixed(0)} Monthly limit | \$${remaining.toStringAsFixed(0)} left',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,

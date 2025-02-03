@@ -16,6 +16,7 @@ class TransactionService {
       final userDoc = await usersRef.doc(transaction.userId).get();
       double currentBalance = (userDoc['balance'] ?? 0).toDouble();
       double dailyLimit = (userDoc['dailyLimit'] ?? 0).toDouble();
+      final double monthlyLimit = (userDoc['monthlyLimit'] ?? 0).toDouble();
 
       // Calculate the user's daily transaction total
       final today = DateTime.now();
@@ -27,8 +28,27 @@ class TransactionService {
 
       double dailyTransactionTotal = transactionsSnapshot.docs.fold(
         0.0,
-        (sum, doc) => sum + (doc['amount'] as num).toDouble(),
+        (sum, doc) => doc['type'] == 'debit'
+            ? sum + (doc['amount'] as num).toDouble()
+            : sum,
       );
+
+      final transactionsThisMonth = await transactionsRef
+          .where('userId', isEqualTo: transaction.userId)
+          .where('date',
+              isGreaterThanOrEqualTo: DateTime(today.year, today.month, 1))
+          .get();
+
+      double monthlyTotal = transactionsThisMonth.docs.fold(
+        0.0,
+        (sum, doc) => doc['type'] == 'debit'
+            ? sum + (doc['amount'] as num).toDouble()
+            : sum,
+      );
+
+      if (monthlyTotal + transaction.amount > monthlyLimit) {
+        return const Left('Monthly transaction limit exceeded');
+      }
 
       // Check if the transaction would exceed the daily limit
       if (dailyTransactionTotal + transaction.amount > dailyLimit) {
@@ -102,7 +122,7 @@ class TransactionService {
     }
   }
 
-    Future<double> getUserMonthlyLimit(String userId) async {
+  Future<double> getUserMonthlyLimit(String userId) async {
     try {
       final userDoc = await usersRef.doc(userId).get();
       if (userDoc.exists) {
@@ -230,5 +250,4 @@ class TransactionService {
       return Left('Failed to perform payment transaction: $e');
     }
   }
-
 }
