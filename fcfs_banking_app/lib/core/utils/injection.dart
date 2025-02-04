@@ -6,6 +6,7 @@ import 'package:fcfs_banking_app/src/controllers/direct_debit_controller.dart';
 import 'package:fcfs_banking_app/src/controllers/idea_submission_controller.dart';
 import 'package:fcfs_banking_app/src/controllers/money_request_controller.dart';
 import 'package:fcfs_banking_app/src/controllers/notification_data_controller.dart';
+import 'package:fcfs_banking_app/src/controllers/product_controller.dart';
 import 'package:fcfs_banking_app/src/controllers/referral_controller.dart';
 import 'package:fcfs_banking_app/src/controllers/theme_controller.dart';
 import 'package:fcfs_banking_app/src/controllers/transaction_controller.dart';
@@ -38,5 +39,6 @@ class DependencyInjector {
     Get.lazyPut(() => CurrencyController(dio));
     Get.lazyPut(() => ThemeController());
     Get.lazyPut(() => PaymentController());
+    Get.lazyPut(() => ProductController());
   }
 }

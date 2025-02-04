@@ -197,7 +197,7 @@ class _MoreScreenState extends State<MoreScreen> {
                           onTap: () {
                             // Add action for tap
                             debugPrint(' Add products tapped');
-                            context.pushNamed(RoutesName.addProduct);
+                            context.pushNamed(RoutesName.productScreen);
                           },
                         ),
                       // if (user.role == 'Business')

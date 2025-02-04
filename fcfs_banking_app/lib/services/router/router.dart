@@ -10,8 +10,9 @@ import 'package:fcfs_banking_app/src/views/auth/password/create_new_password_scr
 import 'package:fcfs_banking_app/src/views/auth/password/forgot_password_screen.dart';
 import 'package:fcfs_banking_app/src/views/auth/register/register_complete.dart';
 import 'package:fcfs_banking_app/src/views/bottom_nav_page.dart';
+import 'package:fcfs_banking_app/src/views/business_user/add%20product/add_product_screen.dart';
 import 'package:fcfs_banking_app/src/views/business_user/add%20product/initial_product.dart';
-import 'package:fcfs_banking_app/src/views/business_user/add_product_screen.dart';
+import 'package:fcfs_banking_app/src/views/business_user/add%20product/product_billing.dart';
 import 'package:fcfs_banking_app/src/views/business_user/community%20funding/community_funding.dart';
 import 'package:fcfs_banking_app/src/views/business_user/community%20funding/idea_submission_form.dart';
 import 'package:fcfs_banking_app/src/views/business_user/community%20funding/pitch_details_view.dart';
@@ -256,7 +257,12 @@ final router = GoRouter(
       GoRoute(
         path: RoutesPath.productScreen,
         name: RoutesName.productScreen,
-        builder: (context, state) => ProductScreen(),
+        builder: (context, state) => const ProductScreen(),
+      ),
+      GoRoute(
+        path: RoutesPath.productBilling,
+        name: RoutesName.productBilling,
+        builder: (context, state) => const ProductBilling(),
       ),
       GoRoute(
         path: RoutesPath.communityFunding,

@@ -97,283 +97,246 @@ class _HomeScreenState extends State<HomeScreen> {
     final user = userController.user.value;
 
     return Scaffold(
-      body: Obx(() {
-        final selectedCurrencyRate =
-            currencyController.getExchangeRate(resultCurrency!);
-        return Stack(
-          children: [
-            // Top Section (Gradient Header)
-            CustomPaint(
-              size: Size(
-                MediaQuery.of(context).size.width,
-                MediaQuery.of(context).size.height,
-              ),
-              painter: themeController.themeMode == ThemeMode.dark
-                  ? DarkGradientBackgroundPainter()
-                  : GradientBackgroundPainter(),
-            ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final screenHeight = constraints.maxHeight;
+          final screenWidth = constraints.maxWidth;
 
-            Container(
-              constraints: BoxConstraints(
-                minHeight: MediaQuery.of(context).size.height * 0.37,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
+          return Stack(
+            children: [
+              // Gradient Background
+              Positioned.fill(
+                child: CustomPaint(
+                  painter: themeController.themeMode == ThemeMode.dark
+                      ? DarkGradientBackgroundPainter()
+                      : GradientBackgroundPainter(),
                 ),
-                gradient: themeController.themeMode == ThemeMode.dark
-                    ? AppColors.darkStackContainerBackground
-                    : AppColors.stackContainerBackground,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 10,
-                  )
-                ],
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Obx(() {
-                  final user = userController.user.value;
 
-                  return SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                            height: MediaQuery.of(context).padding.top + 10),
-                        // Header Icons
-                        Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                context.pushNamed(RoutesName.profileScreen);
-                              },
-                              child: CircleAvatar(
-                                radius: 5.w,
-                                backgroundColor: Colors.white24,
-                                backgroundImage: user?.profileImageUrl != null
-                                    ? CachedNetworkImageProvider(
-                                        user!.profileImageUrl!)
-                                    : const AssetImage(
-                                        AppAssetsConstant.profile2),
-                              ),
+              // Top Section (User Info & Tabs)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
+                    ),
+                    gradient: themeController.themeMode == ThemeMode.dark
+                        ? AppColors.darkStackContainerBackground
+                        : AppColors.stackContainerBackground,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 10,
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(height: MediaQuery.of(context).padding.top + 10),
+
+                      // Profile, QR, Notifications
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () =>
+                                context.pushNamed(RoutesName.profileScreen),
+                            child: CircleAvatar(
+                              radius: screenWidth * 0.07,
+                              backgroundColor: Colors.white24,
+                              backgroundImage: user?.profileImageUrl != null
+                                  ? CachedNetworkImageProvider(
+                                      user!.profileImageUrl!)
+                                  : const AssetImage(
+                                      AppAssetsConstant.profile2),
                             ),
-                            const Spacer(),
-                            GestureDetector(
-                              onTap: () {
-                                context.pushNamed(RoutesName.scanScreen);
-                              },
-                              child: Icon(Icons.qr_code,
-                                  color: Colors.white, size: 8.w),
-                            ),
-                            const Spacer(),
-                            IconButton(
-                              icon: Image.asset(
-                                AppAssetsConstant.notification,
-                                width: 6.w,
-                              ),
-                              onPressed: () {
-                                context
-                                    .pushNamed(RoutesName.notificationScreen);
-                              },
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 1.h),
-                        Text(
+                          ),
+                          const Spacer(),
+                          GestureDetector(
+                            onTap: () =>
+                                context.pushNamed(RoutesName.scanScreen),
+                            child: Icon(Icons.qr_code,
+                                color: Colors.white, size: screenWidth * 0.08),
+                          ),
+                          const Spacer(),
+                          IconButton(
+                            icon: Image.asset(AppAssetsConstant.notification,
+                                width: screenWidth * 0.06),
+                            onPressed: () => context
+                                .pushNamed(RoutesName.notificationScreen),
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(height: 1.h),
+
+                      // User Name & Phone
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
                           user?.role == "Business"
                               ? "${user?.businessName}"
                               : "${user?.firstName} ${user?.lastName}",
                           style: theme.textTheme.displayMedium?.copyWith(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
+                              fontSize: 18.sp, fontWeight: FontWeight.bold),
                         ),
-                        Text(
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
                           user?.phoneNumber ?? '',
-                          style: theme.textTheme.displayMedium?.copyWith(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.normal,
-                          ),
+                          style: theme.textTheme.displayMedium
+                              ?.copyWith(fontSize: 17.sp),
                         ),
-                        SizedBox(height: 1.h),
-                        Center(
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                _tabBox(0, tabselectedIndex == 0),
-                                const SizedBox(width: 8),
-                                _tabBox(1, tabselectedIndex == 1),
-                                const SizedBox(width: 8),
-                                _tabBox(2, tabselectedIndex == 2),
-                                const SizedBox(width: 8),
-                                _tabBox(3, tabselectedIndex == 3),
-                                // IconButton(
-                                //   onPressed: () {},
-                                //   icon: Icon(
-                                //     Icons.add_circle_outline,
-                                //     color: Colors.white,
-                                //     size: 21.sp,
-                                //   ),
-                                // )
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 1.h),
-                        Center(
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "\$${user?.balance.toStringAsFixed(2) ?? '0.00'}",
-                                    style:
-                                        theme.textTheme.displayMedium?.copyWith(
-                                      fontSize: 26.sp,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      _topUpMoneyBottomSheet(context);
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 8),
-                                      child: Icon(
-                                        Icons.add_circle_outline,
-                                        color: themeController.themeMode ==
-                                                ThemeMode.dark
-                                            ? AppColors.darkTransferBgColor2
-                                            : AppColors.purple,
-                                        size: 28,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 0.5.h),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "+32%",
-                                    style:
-                                        theme.textTheme.displayMedium?.copyWith(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.secondaryColor,
-                                    ),
-                                  ),
-                                  SizedBox(width: 1.5.w),
-                                  Text(
-                                    "LESS SPENDING THIS MONTH",
-                                    style:
-                                        theme.textTheme.displayMedium?.copyWith(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 1.h),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      ),
+
+                      SizedBox(height: 1.h),
+
+                      // Tabs
+                      Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _actionButton("SEND", Icons.upload, onpressed: () {
-                              // _transferSendBottomSheet(context);
-                              context.pushNamed(
-                                  RoutesName.newDirectDebitRequestScreen);
-                            }),
-                            _actionButton("RECEIVE", Icons.send, onpressed: () {
-                              // _transferReceiveBottomSheet(context);
-                              context.pushNamed(RoutesName.receiveInitial);
-                            }),
-                            _actionButton("CARDS", Icons.download,
-                                onpressed: () {
-                              context.pushNamed(RoutesName.creditCard);
-                            }),
+                            _tabBox(0, tabselectedIndex == 0),
+                            const SizedBox(width: 8),
+                            _tabBox(1, tabselectedIndex == 1),
+                            const SizedBox(width: 8),
+                            _tabBox(2, tabselectedIndex == 2),
+                            const SizedBox(width: 8),
+                            _tabBox(3, tabselectedIndex == 3),
                           ],
                         ),
-                      ],
-                    ),
-                  );
-                }),
-              ),
-            ),
-            SizedBox(height: 0.6.h),
+                      ),
 
-            // Lower Section with PageView
-            Positioned(
-              top: MediaQuery.of(context).size.height - 64.h,
-              left: 16,
-              right: 16,
-              child: SpendingLimitCard(
-                limit: user!.monthlyLimit,
-                remaining: transactionController
-                    .remainingMonthlyLimit.value, // Amount left
-                onTap: () {
-                  // _setLimitBottomSheet(context);
-                  context.pushNamed(RoutesName.setLimit);
-                },
-              ),
-            ),
-            SizedBox(height: 0.6.h),
-            Positioned(
-              top: MediaQuery.of(context).size.height - 56.h,
-              left: 16,
-              right: 16,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height - 56.h,
-                    child: PageView(
-                      physics: const BouncingScrollPhysics(),
-                      allowImplicitScrolling: true,
-                      controller: pageController,
-                      children: [
-                        // Page 1 - Transactions
-                        transactionBox(theme),
+                      SizedBox(height: 1.h),
 
-                        // Page 2 - Transactions Graph
-                        transactionGraph(theme),
+                      // Balance
+                      Center(
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "\$${user?.balance.toStringAsFixed(2) ?? '0.00'}",
+                                  style: theme.textTheme.displayMedium
+                                      ?.copyWith(
+                                          fontSize: 26.sp,
+                                          fontWeight: FontWeight.bold),
+                                ),
+                                GestureDetector(
+                                  onTap: () => _topUpMoneyBottomSheet(context),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 8),
+                                    child: Icon(
+                                      Icons.add_circle_outline,
+                                      color: themeController.themeMode ==
+                                              ThemeMode.dark
+                                          ? AppColors.darkTransferBgColor2
+                                          : AppColors.purple,
+                                      size: 28,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 0.5.h),
+                            Text(
+                              "+32% LESS SPENDING THIS MONTH",
+                              style: theme.textTheme.displayMedium
+                                  ?.copyWith(fontSize: 14.sp),
+                            ),
+                          ],
+                        ),
+                      ),
 
-                        // Page 3 - Exchange Rate
-                        exchangerateWidget(
-                            context, theme, selectedCurrencyRate),
-                      ],
-                    ),
+                      SizedBox(height: 1.h),
+
+                      // Action Buttons
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _actionButton("SEND", Icons.upload, onpressed: () {
+                            context.pushNamed(
+                                RoutesName.newDirectDebitRequestScreen);
+                          }),
+                          _actionButton("RECEIVE", Icons.send, onpressed: () {
+                            context.pushNamed(RoutesName.receiveInitial);
+                          }),
+                          _actionButton("CARDS", Icons.download, onpressed: () {
+                            context.pushNamed(RoutesName.creditCard);
+                          }),
+                        ],
+                      ),
+
+                      SizedBox(height: 0.7.h),
+                    ],
                   ),
-                  SizedBox(height: 1.2.h),
-                  SmoothPageIndicator(
-                    controller: pageController,
-                    count: 3,
-                    effect: WormEffect(
-                      dotHeight: 0.8.h,
-                      dotWidth: 3.w,
-                      activeDotColor:
-                          themeController.themeMode == ThemeMode.dark
-                              ? AppColors.darkBorderColor
-                              : AppColors.pinkGrey,
-                      dotColor: themeController.themeMode == ThemeMode.dark
-                          ? AppColors.white
-                          : AppColors.white.withOpacity(0.4),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
-        );
-      }),
+
+              // Spending Limit Card (Positioned Relative to the Header)
+              Positioned(
+                top: screenHeight * 0.4,
+                left: 16,
+                right: 16,
+                child: SpendingLimitCard(
+                  limit: user!.monthlyLimit,
+                  remaining: transactionController.remainingMonthlyLimit.value,
+                  onTap: () => context.pushNamed(RoutesName.setLimit),
+                ),
+              ),
+
+              // PageView for Transactions, Graph, Exchange Rates
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  height: screenHeight * 0.51,
+                  width: screenWidth - 24,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: PageView(
+                          physics: const BouncingScrollPhysics(),
+                          controller: pageController,
+                          children: [
+                            transactionBox(theme),
+                            transactionGraph(theme),
+                            exchangerateWidget(
+                                context,
+                                theme,
+                                currencyController
+                                    .getExchangeRate(resultCurrency!)),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 0.6.h),
+                      SmoothPageIndicator(
+                        controller: pageController,
+                        count: 3,
+                        effect: WormEffect(
+                          dotHeight: 5,
+                          dotWidth: 10,
+                          activeDotColor:
+                              themeController.themeMode == ThemeMode.dark
+                                  ? AppColors.darkBorderColor
+                                  : AppColors.pinkGrey,
+                          dotColor: AppColors.white.withOpacity(0.4),
+                        ),
+                      ),
+                      SizedBox(height: 0.6.h),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 

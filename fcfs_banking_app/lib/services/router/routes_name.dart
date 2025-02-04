@@ -36,6 +36,7 @@ class RoutesName {
   // products
   static const String addProduct = 'addProduct';
   static const String productScreen = 'productScreen';
+  static const String productBilling = 'productBilling';
 
 
   static const String communityFunding = 'communityFunding';

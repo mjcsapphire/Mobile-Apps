@@ -2,6 +2,7 @@ import 'package:fcfs_banking_app/core/theme/colors.dart';
 import 'package:fcfs_banking_app/src/controllers/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 class SpendingLimitCard extends StatelessWidget {
   final double limit;
@@ -51,7 +52,7 @@ class SpendingLimitCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 1.h),
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: LinearProgressIndicator(
