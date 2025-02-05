@@ -11,7 +11,10 @@ import 'package:fcfs_banking_app/src/views/auth/password/forgot_password_screen.
 import 'package:fcfs_banking_app/src/views/auth/register/register_complete.dart';
 import 'package:fcfs_banking_app/src/views/bottom_nav_page.dart';
 import 'package:fcfs_banking_app/src/views/business_user/add%20product/add_product_screen.dart';
+import 'package:fcfs_banking_app/src/views/business_user/add%20product/choose_payment.dart';
 import 'package:fcfs_banking_app/src/views/business_user/add%20product/initial_product.dart';
+import 'package:fcfs_banking_app/src/views/business_user/add%20product/payment/initial_terminal_payment.dart';
+import 'package:fcfs_banking_app/src/views/business_user/add%20product/payment/payment_status_page.dart';
 import 'package:fcfs_banking_app/src/views/business_user/add%20product/product_billing.dart';
 import 'package:fcfs_banking_app/src/views/business_user/community%20funding/community_funding.dart';
 import 'package:fcfs_banking_app/src/views/business_user/community%20funding/idea_submission_form.dart';
@@ -263,6 +266,21 @@ final router = GoRouter(
         path: RoutesPath.productBilling,
         name: RoutesName.productBilling,
         builder: (context, state) => const ProductBilling(),
+      ),
+      GoRoute(
+        path: RoutesPath.choosePayment,
+        name: RoutesName.choosePayment,
+        builder: (context, state) => const ChoosePaymentMethod(),
+      ),
+      GoRoute(
+        path: RoutesPath.externalTermialPayment,
+        name: RoutesName.externalTermialPayment,
+        builder: (context, state) => const InitialTerminalPayment(),
+      ),
+      GoRoute(
+        path: RoutesPath.paymentReceiptStatus,
+        name: RoutesName.paymentReceiptStatus,
+        builder: (context, state) =>  PaymentReceiptStatus(),
       ),
       GoRoute(
         path: RoutesPath.communityFunding,

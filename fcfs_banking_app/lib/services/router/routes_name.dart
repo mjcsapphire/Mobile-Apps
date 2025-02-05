@@ -37,6 +37,9 @@ class RoutesName {
   static const String addProduct = 'addProduct';
   static const String productScreen = 'productScreen';
   static const String productBilling = 'productBilling';
+  static const String choosePayment = 'choosePayment';
+  static const String externalTermialPayment = 'externalTermialPayment';
+  static const String paymentReceiptStatus = 'paymentReceiptStatus';
 
 
   static const String communityFunding = 'communityFunding';
