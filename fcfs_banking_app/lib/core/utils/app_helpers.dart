@@ -36,7 +36,7 @@ class AppHelpers {
   }
 
   static String formatDate(DateTime date) {
-    return DateFormat.yMMMd().format(date); // e.g., "Nov 8, 2024"
+    return DateFormat.yMMMd().format(date);
   }
 
   static String? validatePassword(String? value) {

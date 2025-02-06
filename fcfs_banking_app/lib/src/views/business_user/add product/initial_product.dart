@@ -47,7 +47,9 @@ class _ProductScreenState extends State<ProductScreen> {
                 : GradientBackgroundPainter(),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 40),
+            // padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 40),
+            padding:
+                const EdgeInsets.only(left: 8, right: 8, top: 50, bottom: 20),
             child: Column(
               children: [
                 Row(
@@ -106,7 +108,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   child: CarouselSlider(
                     options: CarouselOptions(
                       height: MediaQuery.of(context).size.height * 0.7,
-                      enableInfiniteScroll: false,
+                      enableInfiniteScroll: true,
                       viewportFraction: 0.85,
                       enlargeCenterPage: true,
                       enlargeStrategy: CenterPageEnlargeStrategy.scale,

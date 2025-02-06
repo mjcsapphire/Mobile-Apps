@@ -233,33 +233,4 @@ class PaymentReceiptStatus extends StatelessWidget {
       ),
     );
   }
-
-  Widget _emailReceiptButton() {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.grey[800],
-          padding: const EdgeInsets.symmetric(vertical: 16),
-        ),
-        onPressed: () {},
-        child:
-            const Text("Email receipt", style: TextStyle(color: Colors.white)),
-      ),
-    );
-  }
-
-  Widget _sendButton() {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.purple,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-        ),
-        onPressed: () {},
-        child: const Text("SEND", style: TextStyle(color: Colors.white)),
-      ),
-    );
-  }
 }

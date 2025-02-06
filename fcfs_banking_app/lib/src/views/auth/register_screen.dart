@@ -262,8 +262,10 @@ class _RegisterState extends State<Register> {
                                             .copyWith(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 17.sp,
-                                          color:themeController.themeMode == ThemeMode.dark
-                          ? AppColors.darkTileColor: AppColors.lightRed,
+                                          color: themeController.themeMode ==
+                                                  ThemeMode.dark
+                                              ? AppColors.darkTileColor
+                                              : AppColors.lightRed,
                                         ),
                                       ),
                                     ],
@@ -411,7 +413,6 @@ class _RegisterState extends State<Register> {
                 style: theme.textTheme.displayMedium!.copyWith(
                   fontWeight: FontWeight.w500,
                   fontSize: 17.sp,
-                  
                 ),
               ),
             ),
