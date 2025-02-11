@@ -280,7 +280,7 @@ final router = GoRouter(
       GoRoute(
         path: RoutesPath.paymentReceiptStatus,
         name: RoutesName.paymentReceiptStatus,
-        builder: (context, state) =>  PaymentReceiptStatus(),
+        builder: (context, state) => PaymentReceiptStatus(),
       ),
       GoRoute(
         path: RoutesPath.communityFunding,

@@ -5,7 +5,6 @@ import 'package:fcfs_banking_app/core/theme/radialBg.dart';
 import 'package:fcfs_banking_app/core/utils/constant/app_assets_constant.dart';
 import 'package:fcfs_banking_app/services/router/routes_name.dart';
 import 'package:fcfs_banking_app/src/controllers/theme_controller.dart';
-import 'package:fcfs_banking_app/src/views/bottom_nav_page.dart';
 import 'package:fcfs_banking_app/src/views/widget/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,10 +17,10 @@ class PaymentConfirmation extends StatefulWidget {
   });
 
   @override
-  _PaymentConfirmationState createState() => _PaymentConfirmationState();
+  PaymentConfirmationState createState() => PaymentConfirmationState();
 }
 
-class _PaymentConfirmationState extends State<PaymentConfirmation> {
+class PaymentConfirmationState extends State<PaymentConfirmation> {
   final themeController = Get.find<ThemeController>();
   int _countdown = 6;
   late Timer _timer;
@@ -46,14 +45,8 @@ class _PaymentConfirmationState extends State<PaymentConfirmation> {
   }
 
   void _navigateToMainPage() {
-    // Navigator.pushReplacement(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => const MainPage(initialIndex: 0),
-    //   ),
-    // );
-   GoRouter.of(context).goNamed(RoutesName.mainPage, pathParameters: {'initialIndex': '0'});
-
+    GoRouter.of(context)
+        .goNamed(RoutesName.mainPage, pathParameters: {'initialIndex': '0'});
   }
 
   @override

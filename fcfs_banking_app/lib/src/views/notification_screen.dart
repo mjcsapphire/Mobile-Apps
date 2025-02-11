@@ -130,62 +130,61 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 filteredNotifications[index];
 
                             return GestureDetector(
-                                onTap: () async {
-                                  // Mark as read on the backend
-                                  await _controller
-                                      .markNotificationAsRead(notification.id);
+                              onTap: () async {
+                                // Mark as read on the backend
+                                await _controller
+                                    .markNotificationAsRead(notification.id);
 
-                                  // Re-fetch notifications for real-time update
-                                  await _controller.fetchNotification();
+                                // Re-fetch notifications for real-time update
+                                await _controller.fetchNotification();
 
-                                  // Navigate to transaction screen
-                                  context
-                                      .pushNamed(RoutesName.transactionScreen);
-                                },
-                                child: themeController.themeMode ==
-                                        ThemeMode.light
-                                    ? NotificationCustomListTile(
-                                        readStatus: notification.readStatus
-                                            ? "Read"
-                                            : "Unread",
-                                        border: Border.all(
-                                          color: notification.readStatus
-                                              ? AppColors.transparent
-                                              : AppColors.white
-                                                  .withOpacity(0.5),
-                                          width: 1,
-                                        ),
-                                        tileColor: notification.readStatus
-                                            ? AppColors.white
-                                            : AppColors.pinkColor,
-                                        day: timeago
-                                            .format(notification.timestamp),
-                                        subtitle: notification.message,
-                                        textColor: notification.readStatus
-                                            ? AppColors.purple
-                                            : AppColors.white,
-                                      )
-                                    : NotificationCustomListTile(
-                                        readStatus: notification.readStatus
-                                            ? "Read"
-                                            : "Unread",
-                                        border: Border.all(
-                                          color: notification.readStatus
-                                              ? AppColors.white.withOpacity(0.5)
-                                              : AppColors.darkBorderColor,
-                                          width:
-                                              notification.readStatus ? 0.8 : 2,
-                                        ),
-                                        tileColor: notification.readStatus
+                                // Navigate to transaction screen
+                                context.pushNamed(RoutesName.transactionScreen);
+                              },
+                              child: themeController.themeMode ==
+                                      ThemeMode.light
+                                  ? NotificationCustomListTile(
+                                      readStatus: notification.readStatus
+                                          ? "Read"
+                                          : "Unread",
+                                      border: Border.all(
+                                        color: notification.readStatus
                                             ? AppColors.transparent
-                                            : AppColors.darkBgColor1,
-                                        day: timeago
-                                            .format(notification.timestamp),
-                                        subtitle: notification.message,
-                                        textColor: notification.readStatus
-                                            ? AppColors.white
-                                            : AppColors.white,
-                                      ));
+                                            : AppColors.white.withOpacity(0.5),
+                                        width: 1,
+                                      ),
+                                      tileColor: notification.readStatus
+                                          ? AppColors.white
+                                          : AppColors.pinkColor,
+                                      day: timeago
+                                          .format(notification.timestamp),
+                                      subtitle: notification.message,
+                                      textColor: notification.readStatus
+                                          ? AppColors.purple
+                                          : AppColors.white,
+                                    )
+                                  : NotificationCustomListTile(
+                                      readStatus: notification.readStatus
+                                          ? "Read"
+                                          : "Unread",
+                                      border: Border.all(
+                                        color: notification.readStatus
+                                            ? AppColors.white.withOpacity(0.5)
+                                            : AppColors.darkBorderColor,
+                                        width:
+                                            notification.readStatus ? 0.8 : 2,
+                                      ),
+                                      tileColor: notification.readStatus
+                                          ? AppColors.transparent
+                                          : AppColors.darkBgColor1,
+                                      day: timeago
+                                          .format(notification.timestamp),
+                                      subtitle: notification.message,
+                                      textColor: notification.readStatus
+                                          ? AppColors.white
+                                          : AppColors.white,
+                                    ),
+                            );
                           },
                         ),
                       );

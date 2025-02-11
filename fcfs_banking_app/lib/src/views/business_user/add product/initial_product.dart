@@ -125,8 +125,9 @@ class _ProductScreenState extends State<ProductScreen> {
                                     colors: [Colors.purple, Colors.pinkAccent],
                                   ),
                                   borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      topRight: Radius.circular(10)),
+                                    topLeft: Radius.circular(10),
+                                    topRight: Radius.circular(10),
+                                  ),
                                 ),
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 10),

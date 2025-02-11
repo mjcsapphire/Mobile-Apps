@@ -54,13 +54,16 @@ class CreateMemorableCodeScreenState extends State<CreateMemorableCodeScreen> {
           width: 6.w,
           height: 3.h,
           decoration: BoxDecoration(
-            color:
-                index < _enteredCode.length ? themeController.themeMode == ThemeMode.dark
+            color: index < _enteredCode.length
+                ? themeController.themeMode == ThemeMode.dark
                     ? AppColors.darkBorderColor
-                    : Colors.red : Colors.transparent,
+                    : Colors.red
+                : Colors.transparent,
             shape: BoxShape.circle,
             border: Border.all(
-              color: themeController.themeMode == ThemeMode.dark ?AppColors.darkBorderColor : Colors.red,
+              color: themeController.themeMode == ThemeMode.dark
+                  ? AppColors.darkBorderColor
+                  : Colors.red,
               width: 2,
             ),
           ),
@@ -147,9 +150,9 @@ class CreateMemorableCodeScreenState extends State<CreateMemorableCodeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        print(
+        debugPrint(
             "authController.isPasscodeEnabled.value: ${authController.isPasscodeEnabled.value}");
-        print(
+        debugPrint(
             "authController.biometricEnabled.value: ${authController.biometricEnabled.value}");
         return Container(
           decoration: BoxDecoration(
@@ -188,7 +191,9 @@ class CreateMemorableCodeScreenState extends State<CreateMemorableCodeScreen> {
                     AppAssetsConstant.applogo,
                     width: 20.w,
                     height: 20.w,
-                    color: themeController.themeMode == ThemeMode.dark ?AppColors.white : AppColors.red,
+                    color: themeController.themeMode == ThemeMode.dark
+                        ? AppColors.white
+                        : AppColors.red,
                   ),
                   const Spacer(),
                   if (authController.isPasscodeEnabled.value)
@@ -268,7 +273,7 @@ class CreateMemorableCodeScreenState extends State<CreateMemorableCodeScreen> {
                       context.goNamed(
                         RoutesName.mainPage,
                         pathParameters: {'initialIndex': '0'},
-                      ); // Navigate to the main page
+                      );
                     } else {
                       AppHelpers.toast("Incorrect Passcode");
                     }

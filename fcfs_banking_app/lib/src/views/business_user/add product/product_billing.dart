@@ -85,31 +85,33 @@ class _ProductBillingState extends State<ProductBilling> {
                       const Divider(color: Colors.white),
                       Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: Obx(() => Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Total',
-                                        style: theme.textTheme.displayMedium),
-                                    Text(
-                                      '\$${productController.totalAmount.toStringAsFixed(2)}',
-                                      style: theme.textTheme.displayMedium,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 2.h),
-                                TextButton(
-                                  onPressed: () {
-                                    context.pop();
-                                  },
-                                  child: Text('Amend',
+                        child: Obx(
+                          () => Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Total',
                                       style: theme.textTheme.displayMedium),
-                                ),
-                                //  SizedBox(height: 1.h),
-                              ],
-                            )),
+                                  Text(
+                                    '\$${productController.totalAmount.toStringAsFixed(2)}',
+                                    style: theme.textTheme.displayMedium,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 2.h),
+                              TextButton(
+                                onPressed: () {
+                                  context.pop();
+                                },
+                                child: Text('Amend',
+                                    style: theme.textTheme.displayMedium),
+                              ),
+                              //  SizedBox(height: 1.h),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),

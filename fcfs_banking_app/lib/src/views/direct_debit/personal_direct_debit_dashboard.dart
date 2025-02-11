@@ -61,10 +61,10 @@ class PersonalDirectDebitDashboard extends StatelessWidget {
                     );
                   }
                   if (controller.requests.isEmpty) {
-                    return const Center(
+                    return Center(
                       child: Text(
                         "No Direct Debit Requests",
-                        style: TextStyle(color: AppColors.white),
+                        style: theme.textTheme.displayMedium,
                       ),
                     );
                   }

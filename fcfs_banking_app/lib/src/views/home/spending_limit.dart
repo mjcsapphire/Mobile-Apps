@@ -13,7 +13,7 @@ class SpendingLimitCard extends StatelessWidget {
       {super.key,
       required this.limit,
       required this.remaining,
-      required this.onTap});
+      required this.onTap,});
 
   final themeController = Get.find<ThemeController>();
   @override
@@ -23,6 +23,7 @@ class SpendingLimitCard extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(15.0),
+      width: 90.w,
       decoration: BoxDecoration(
         color: AppColors.transparent,
         borderRadius: BorderRadius.circular(15),
