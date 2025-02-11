@@ -31,7 +31,7 @@ class GoalService {
     }
   }
 
-    Future<Either<Failure, List<GoalResponse>>> fetchBoughtGoals(
+  Future<Either<Failure, List<GoalResponse>>> fetchBoughtGoals(
       {required String email}) async {
     try {
       final response = await ApiServices.sendRequest(
@@ -51,6 +51,4 @@ class GoalService {
       return Left(ServerFailure(message: e.toString()));
     }
   }
-
-
 }

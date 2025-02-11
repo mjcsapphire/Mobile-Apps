@@ -12,22 +12,33 @@ class GoalController extends GetxController {
 
   final goals = <GoalResponse>[].obs;
   final boughtGoals = <GoalResponse>[].obs;
+  RxBool isLoading = false.obs;
 
   Future<void> fetchGoals({required String email}) async {
+    isLoading.value = true;
     final successOrFailure = await _services.fetchGoals(email: email);
     successOrFailure.fold(
-      (failure) => logger.e(failure),
+      (failure) {
+        isLoading.value = false;
+        logger.e(failure);
+      },
       (response) {
+        isLoading.value = false;
         goals.value = response;
       },
     );
   }
 
   Future<void> fetchBoughtGoals({required String email}) async {
+    isLoading.value = true;
     final successOrFailure = await _services.fetchGoals(email: email);
     successOrFailure.fold(
-      (failure) => logger.e(failure),
+      (failure) {
+        isLoading.value = false;
+        logger.e(failure);
+      },
       (response) {
+        isLoading.value = false;
         boughtGoals.value = response;
       },
     );

@@ -50,7 +50,7 @@ class _AppState extends State<App> {
               child: Stack(
                 children: [
                   Container(
-                    height: 12.h,
+                    height: 13.8.h,
                     width: 100.w,
                     padding: const EdgeInsets.all(12),
                     margin: EdgeInsets.only(top: 0.7.h),

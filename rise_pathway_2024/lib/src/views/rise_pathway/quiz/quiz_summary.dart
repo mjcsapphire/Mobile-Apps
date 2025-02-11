@@ -63,7 +63,7 @@ class _QuizSummaryState extends State<QuizSummary> {
                     Container(height: 40.h),
                     Container(
                       width: 100.w,
-                      height: 28.h,
+                      height: 30.h,
                       margin: EdgeInsets.only(top: 8.h, left: 24, right: 24),
                       decoration: BoxDecoration(
                         color: AppColors.white,

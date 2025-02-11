@@ -1,6 +1,9 @@
+import 'dart:io';
 import 'dart:math';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,12 +47,39 @@ class Helpers {
     borderRadius: BorderRadius.circular(8),
     shape: BoxShape.rectangle,
   );
+  static Future<File?> pickImage(ImageSource source) async {
+    File? image;
+    try {
+      final pickedImage = await ImagePicker().pickImage(source: source);
+
+      if (pickedImage != null) {
+        image = File(pickedImage.path);
+      }
+    } catch (e) {
+      Logger().e(e.toString());
+    }
+    return image;
+  }
+
+  // file picker
+  static Future<File?> pickFile() async {
+    File? file;
+    try {
+      final result = await FilePicker.platform.pickFiles();
+
+      if (result != null && result.files.single.path != null) {
+        file = File(result.files.single.path!);
+      }
+    } catch (e) {
+      Logger().e(e.toString());
+    }
+    return file;
+  }
 
   static String removeHtmlTags(String htmlString) {
     final RegExp exp = RegExp(r'<[^>]*>', multiLine: true, caseSensitive: true);
     return htmlString.replaceAll(exp, '');
   }
-
 
   static Future<String?> getString({required String key}) async {
     SharedPreferences sharedPref = await SharedPreferences.getInstance();

@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   final _dailyChallengePageController = PageController();
   final _goalPageController = PageController();
   final AuthController authController = Get.find<AuthController>();
-  final GoalController goalController = Get.find<GoalController>();
+  final goalController = Get.find<GoalController>();
 
   @override
   void initState() {
@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                     theme: theme,
                     homeController: homeController,
                   ),
-                  BuildDailyCallengesList(
+                  BuildDailyChallengesList(
                     theme: theme,
                     dailyChallengePageController: _dailyChallengePageController,
                     challengeController: challengeController,
@@ -136,8 +136,8 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class BuildDailyCallengesList extends StatelessWidget {
-  const BuildDailyCallengesList({
+class BuildDailyChallengesList extends StatelessWidget {
+  const BuildDailyChallengesList({
     super.key,
     required this.theme,
     required PageController dailyChallengePageController,
@@ -188,34 +188,36 @@ class BuildDailyCallengesList extends StatelessWidget {
           ),
         ),
         SizedBox(height: 1.h),
-        Obx(() => Container(
-              height: 29.h,
-              width: 100.w,
-              padding: EdgeInsets.symmetric(horizontal: 1.h),
-              child: challengeController.challenges.isEmpty
-                  ? Center(
-                      child: RiseText(
-                      'No Challenges Available',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: AppColors.primaryColor),
-                    ))
-                  : PageView.builder(
-                      itemCount: challengeController.challenges.length,
-                      controller: _dailyChallengePageController,
-                      itemBuilder: (context, index) {
-                        return ChallengesCard(
-                          height: 28.h,
-                          challenge: challengeController.challenges[index],
-                          margin: EdgeInsets.symmetric(
-                            horizontal: 1.h,
-                            vertical: 2.w,
-                          ),
-                        );
-                      },
-                    ),
-            )),
+        Obx(
+          () => Container(
+            height: 29.h,
+            width: 100.w,
+            padding: EdgeInsets.symmetric(horizontal: 1.h),
+            child: challengeController.challenges.isEmpty
+                ? Center(
+                    child: RiseText(
+                    'No Challenges Available',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: AppColors.primaryColor),
+                  ))
+                : PageView.builder(
+                    itemCount: challengeController.challenges.length,
+                    controller: _dailyChallengePageController,
+                    itemBuilder: (context, index) {
+                      return ChallengesCard(
+                        height: 28.h,
+                        challenge: challengeController.challenges[index],
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 1.h,
+                          vertical: 2.w,
+                        ),
+                      );
+                    },
+                  ),
+          ),
+        ),
       ],
     );
   }
@@ -277,29 +279,35 @@ class BuildGoalsList extends StatelessWidget {
               height: 29.h,
               width: 100.w,
               padding: EdgeInsets.symmetric(horizontal: 1.h),
-              child: goalController.goals.isEmpty
-                  ? Center(
-                      child: RiseText(
-                      'No Goals Available',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: AppColors.primaryColor),
+              child: goalController.isLoading.value
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation(AppColors.primaryColor),
                     ))
-                  : PageView.builder(
-                      itemCount: goalController.goals.length,
-                      controller: _goalsPageController,
-                      itemBuilder: (context, index) {
-                        return GoalsCard(
-                          height: 28.h,
-                          goal: goalController.goals[index],
-                          margin: EdgeInsets.symmetric(
-                            horizontal: 1.h,
-                            vertical: 2.w,
-                          ),
-                        );
-                      },
-                    ),
+                  : goalController.goals.isEmpty
+                      ? Center(
+                          child: RiseText(
+                          'No Goals Available',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: AppColors.primaryColor),
+                        ))
+                      : PageView.builder(
+                          itemCount: goalController.goals.length,
+                          controller: _goalsPageController,
+                          itemBuilder: (context, index) {
+                            return GoalsCard(
+                              height: 28.h,
+                              goal: goalController.goals[index],
+                              margin: EdgeInsets.symmetric(
+                                horizontal: 1.h,
+                                vertical: 2.w,
+                              ),
+                            );
+                          },
+                        ),
             )),
       ],
     );

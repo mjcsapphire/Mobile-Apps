@@ -28,7 +28,8 @@ class _GoalsState extends State<Goals> {
         theme: theme,
         title: 'Goals',
         onTap: () {
-          homeController.navIndex.value = 0;
+          // homeController.navIndex.value = 0;
+          context.pop();
         },
       ),
       body: Obx(

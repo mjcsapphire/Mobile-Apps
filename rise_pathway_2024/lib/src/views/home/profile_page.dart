@@ -50,17 +50,18 @@ class _ProfilePageState extends State<ProfilePage> {
         isAdd: false,
         suffixIcon: FluentIcons.arrow_exit_20_regular,
         suffixOnTap: () => showCupertinoModalPopup(
-            context: context,
-            builder: (context) => RiseDialog(
-                  buttonTextno: "no",
-                  buttonTextyes: "Yes",
-                  onTapYes: () {
-                    authController.signOut();
-                    context.go(login);
-                  },
-                  title: "Are you sure you want to logout?",
-                  image: "assets/png/logout.png",
-                )),
+          context: context,
+          builder: (context) => RiseDialog(
+            buttonTextno: "no",
+            buttonTextyes: "Yes",
+            onTapYes: () {
+              authController.signOut();
+              context.go(login);
+            },
+            title: "Are you sure you want to logout?",
+            image: "assets/png/logout.png",
+          ),
+        ),
       ),
       body: Obx(() {
         return Container(

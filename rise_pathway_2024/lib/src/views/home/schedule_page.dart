@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
@@ -18,8 +19,23 @@ class SchedulePage extends StatefulWidget {
 class _SchedulePageState extends State<SchedulePage> {
   final focusDate = DateTime.now().obs;
   final selectedTimeSlot = 0.obs;
+
+  // final selectedTimeSlot = 0.obs;
+
+// Generate time slots from 12:00 AM to 11:45 AM
+  List<String> generateTimeSlots() {
+    List<String> timeSlots = [];
+    DateTime time = DateTime(2023, 1, 1, 8, 0); // Start from 8:00 AM
+    for (int i = -1; i < 24; i++) {
+      timeSlots.add(DateFormat('hh:mm a').format(time));
+      time = time.add(const Duration(minutes: 30));
+    }
+    return timeSlots;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final List<String> timeSlots = generateTimeSlots();
     final theme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: RiseAppBar.riseAppBar(
@@ -122,6 +138,9 @@ class _SchedulePageState extends State<SchedulePage> {
                 crossAxisSpacing: 16,
                 mainAxisExtent: 48,
               ),
+              itemCount: timeSlots.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) => Obx(
                 () => GestureDetector(
                   onTap: () {
@@ -146,7 +165,7 @@ class _SchedulePageState extends State<SchedulePage> {
                       ],
                     ),
                     child: RiseText(
-                      '${1 + index}:${15 + index} AM',
+                      timeSlots[index],
                       style: theme.bodySmall!.copyWith(
                         color: index == selectedTimeSlot.value
                             ? AppColors.white
@@ -157,9 +176,6 @@ class _SchedulePageState extends State<SchedulePage> {
                   ),
                 ),
               ),
-              itemCount: 9,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
             ),
             SizedBox(
               height: 10.h,

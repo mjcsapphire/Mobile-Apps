@@ -33,7 +33,7 @@ class _ChallengesState extends State<Challenges> {
       ),
       body: Obx(
         () => challengeController.challenges.isEmpty
-            ?  Center(
+            ? Center(
                 child: RiseText(
                 'No Challenges Available',
                 style: Theme.of(context)

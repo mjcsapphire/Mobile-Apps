@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
@@ -140,7 +141,9 @@ class _ChatPageState extends State<ChatPage> {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _showMediaBottomSheet(context);
+                      },
                       icon: const Icon(
                         Icons.attach_file_rounded,
                         color: AppColors.primaryColor,
@@ -170,7 +173,7 @@ class _ChatPageState extends State<ChatPage> {
                             status: types.Status.delivered,
                           );
                           chatController.messages.add(message);
-                          messageController.value.text = '';
+                          messageController.value.clear();
                         },
                         color: AppColors.primaryColor,
                         icon: Obx(
@@ -199,6 +202,39 @@ class _ChatPageState extends State<ChatPage> {
           ),
         );
       }),
+    );
+  }
+
+  void _showMediaBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Wrap(
+          children: [
+            ListTile(
+                leading: const Icon(Icons.camera_alt, color: Colors.blue),
+                title: const Text("Camera"),
+                onTap: () => Helpers.pickImage(ImageSource.camera)),
+            ListTile(
+                leading: const Icon(Icons.image, color: Colors.green),
+                title: const Text("Gallery"),
+                onTap: () => Helpers.pickImage(ImageSource.gallery)),
+            ListTile(
+                leading:
+                    const Icon(Icons.insert_drive_file, color: Colors.orange),
+                title: const Text("Documents"),
+                onTap: () async {
+                  final file = await Helpers.pickFile();
+                  if (file != null) {
+                    print(file.path);
+                  }
+                }),
+          ],
+        );
+      },
     );
   }
 }

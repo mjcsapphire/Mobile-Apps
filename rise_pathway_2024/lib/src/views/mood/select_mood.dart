@@ -82,8 +82,10 @@ class _SelectMoodState extends State<SelectMood> {
               }
               List<Color> background = emojiBackground.reversed.toList();
               if (emojiIndex == 14) {
-                emojiIndex = 0;
-                homeController.emojiIndex.value = 0;
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  emojiIndex = 0;
+                  homeController.emojiIndex.value = 0;
+                });
               }
               return Container(
                 height: 14.h,
