@@ -258,6 +258,47 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
                 SizedBox(height: 2.h),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: RiseText(
+                    'Current Song',
+                    style: theme.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.black.withOpacity(0.5),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 2.h),
+                Container(
+                  height: 7.h,
+                  width: 100.w,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: AppColors.blue.withOpacity(0.1),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Image(
+                        image: AssetImage('assets/imgs/cd-player.png'),
+                        height: 40,
+                        width: 40,
+                      ),
+                      const RiseText("current song"),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.queue_music,
+                          color: AppColors.blue600,
+                          size: 40,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 2.h),
                 RiseTextField(
                   title: 'Firstname',
                   hintText: 'Melissa',

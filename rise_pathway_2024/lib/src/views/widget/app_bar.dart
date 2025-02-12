@@ -16,6 +16,7 @@ class RiseAppBar {
     Function()? suffixOnTap,
     Color? backgroundColor = AppColors.white,
     Color? iconColor = AppColors.primaryColor,
+    Color? suffixIconColor = AppColors.primaryColor,
   }) {
     return AppBar(
       toolbarHeight: 10.h,
@@ -78,8 +79,8 @@ class RiseAppBar {
               onPressed: suffixOnTap,
               icon: Icon(
                 suffixIcon,
-                color: AppColors.error,
-                size: 12.w,
+                color: suffixIconColor,
+                size: 11.w,
               ),
             ),
             SizedBox(width: 3.w)

@@ -43,6 +43,8 @@ class _SchedulePageState extends State<SchedulePage> {
         title: 'Calender',
         onTap: () => context.pop(),
         backgroundColor: AppColors.white,
+        suffixIcon: Icons.history_rounded,
+        suffixOnTap: () {},
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(

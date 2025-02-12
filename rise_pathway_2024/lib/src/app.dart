@@ -3,6 +3,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
+import 'package:rise_pathway/src/controllers/auth_controller.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
 import 'package:rise_pathway/src/views/challenges/challenges.dart';
 import 'package:rise_pathway/src/views/home/home.dart';
@@ -18,6 +19,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   final homeController = Get.find<HomeController>();
+  final moodController = Get.find<AuthController>();
   final navTab = [
     const HomePage(),
     const Challenges(),
@@ -44,201 +46,303 @@ class _AppState extends State<App> {
           children: [
             navTab[index],
             Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Stack(
-                children: [
-                  Container(
-                    height: 13.8.h,
-                    width: 100.w,
-                    padding: const EdgeInsets.all(12),
-                    margin: EdgeInsets.only(top: 0.7.h),
-                    decoration: BoxDecoration(
-                      gradient: AppColorsGredients.panicCardGradient,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(18),
-                        topRight: Radius.circular(18),
-                      ),
-                      border: Border(
-                        top: BorderSide(
-                          color: AppColors.black.withOpacity(0.1),
-                          width: 3,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Stack(
+                  children: [
+                    Container(
+                      height: isPlayerVisible ? 95.h : 11.h,
+                      width: 100.w,
+                      padding: const EdgeInsets.all(12),
+                      margin: EdgeInsets.only(top: 0.7.h),
+                      decoration: BoxDecoration(
+                        gradient: AppColorsGredients.panicCardGradient,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(18),
+                          topRight: Radius.circular(18),
                         ),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.black
-                              .withOpacity(isPlayerVisible ? 0.2 : 0.5),
-                          blurRadius: isPlayerVisible ? 6 : 16,
-                        )
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          height: 56,
-                          width: 56,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(14),
-                            child: Image.asset(
-                              'assets/png/nature.jpg',
-                              fit: BoxFit.cover,
-                            ),
+                        border: Border(
+                          top: BorderSide(
+                            color: AppColors.black.withOpacity(0.1),
+                            width: 3,
                           ),
                         ),
-                        SizedBox(width: 2.w),
-                        Column(
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.black
+                                .withOpacity(isPlayerVisible ? 0.2 : 0.5),
+                            blurRadius: isPlayerVisible ? 6 : 16,
+                          )
+                        ],
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
+                            SizedBox(height: 16.h),
+                            SizedBox(
+                              height: 40.h,
+                              // width: 56,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(14),
+                                child: Image.asset(
+                                  'assets/png/nature.jpg',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 8.h),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                RiseText(
-                                  'Out of my mine',
-                                  style: theme.bodySmall!.copyWith(
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/icons/music.png',
+                                      scale: 4,
+                                    ),
+                                    SizedBox(width: 2.w),
+                                    RiseText(
+                                      'Out of my mine',
+                                      style: theme.bodySmall!.copyWith(
+                                        color: AppColors.primaryColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(width: 2.w),
+                                    Image.asset(
+                                      'assets/icons/music.png',
+                                      scale: 4,
+                                    )
+                                  ],
+                                ),
+                                Obx(() {
+                                  return RiseText(
+                                    moodController.userData.value.mood ??
+                                        'Some Feeling',
+                                    style: theme.labelSmall!.copyWith(
+                                      color: AppColors.primaryColor,
+                                      fontSize: 9.sp,
+                                    ),
+                                  );
+                                }),
+                              ],
+                            ),
+                            SizedBox(height: 2.h),
+                            // Progress Bar with dot indicator
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: 10, left: 8.w, right: 8.w),
+                              child: LayoutBuilder(
+                                builder: (context, constraints) {
+                                  double progressBarWidth = constraints
+                                      .maxWidth; // Actual width of progress bar
+                                  double indicatorMaxLeft = progressBarWidth -
+                                      14; // Max left position for the circle
+
+                                  return Stack(
+                                    clipBehavior: Clip.none,
+                                    children: [
+                                      // Progress Bar
+                                      SizedBox(
+                                        width:
+                                            progressBarWidth, // Ensures correct width
+                                        child: LinearProgressIndicator(
+                                          value: progress.value,
+                                          color: AppColors.primaryColor,
+                                          minHeight: 4,
+                                          backgroundColor:
+                                              AppColors.primaryColor,
+                                        ),
+                                      ),
+                                      // Progress Indicator (circle)
+                                      Positioned(
+                                        left: (progress.value *
+                                                indicatorMaxLeft)
+                                            .clamp(0.0,
+                                                indicatorMaxLeft), // Restrict movement within progress bar
+                                        top: -5,
+                                        child: Container(
+                                          width: 14,
+                                          height: 14,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: AppColors.primaryColor,
+                                            border: Border.all(
+                                              color: Colors.white,
+                                              width: 0.2,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ),
+                            // .animate(target: isPlayerVisible ? 1 : 0).moveY(
+                            //       begin: isPlayerVisible ? 100 : 105,
+                            //       end: 0,
+                            //       duration: 700.ms,
+                            //       curve: isPlayerVisible
+                            //           ? Curves.easeInOut
+                            //           : Curves.easeIn,
+                            //     ),
+
+                            SizedBox(height: 2.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(
+                                      Icons.queue_music_outlined,
+                                      color: AppColors.primaryColor,
+                                      size: 30,
+                                    )),
+                                IconButton(
+                                  padding: EdgeInsets.zero,
+                                  onPressed: () async {
+                                    if (isPlay.value) {
+                                      isPlay.value = false;
+                                      await player.stop();
+                                    } else {
+                                      isPlay.value = true;
+                                      await player.setLoopMode(LoopMode.one);
+                                      duration.value = await player.setAsset(
+                                        'assets/music/relex_sound.mp3',
+                                      );
+                                      player
+                                          .createPositionStream()
+                                          .listen((event) {
+                                        progress.value = event.inMilliseconds /
+                                            duration.value!.inMilliseconds;
+                                      });
+
+                                      await player.play();
+                                    }
+                                  },
+                                  icon: Icon(
+                                    isPlay.value
+                                        ? Icons.pause_rounded
+                                        : Icons.play_arrow_rounded,
                                     color: AppColors.primaryColor,
-                                    fontWeight: FontWeight.bold,
+                                    size: 30,
                                   ),
                                 ),
-                                SizedBox(width: 2.w),
-                                Image.asset(
-                                  'assets/icons/music.png',
-                                  scale: 4,
+                                IconButton(
+                                  onPressed: () => homeController
+                                      .isPlayerVisible.value = false,
+                                  icon: const Icon(
+                                    Icons.clear_rounded,
+                                    color: AppColors.primaryColor,
+                                    size: 30,
+                                  ),
                                 )
                               ],
                             ),
-                            RiseText(
-                              'Some Feeling',
-                              style: theme.labelSmall!.copyWith(
-                                color: AppColors.primaryColor,
-                                fontSize: 9.sp,
-                              ),
-                            ),
                           ],
                         ),
-                        const Spacer(),
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: () async {
-                            if (isPlay.value) {
-                              isPlay.value = false;
-                              await player.stop();
-                            } else {
-                              isPlay.value = true;
-                              duration.value = await player.setAsset(
-                                'assets/music/relex_sound.mp3',
-                              );
-
-                              player.createPositionStream().listen((event) {
-                                progress.value = event.inMilliseconds /
-                                    duration.value!.inMilliseconds;
-                              });
-
-                              await player.play();
-                            }
-                          },
-                          icon: Icon(
-                            isPlay.value
-                                ? Icons.pause_rounded
-                                : Icons.play_arrow_rounded,
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () =>
-                              homeController.isPlayerVisible.value = false,
-                          icon: const Icon(
-                            Icons.clear_rounded,
-                            size: 20,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: 0.7.h,
-                      left: 5.w,
-                      right: 5.w,
-                    ),
-                    child: LinearProgressIndicator(
-                      value: progress.value,
-                      color: AppColors.primaryColor,
-                      minHeight: 3,
-                      backgroundColor: AppColors.lightSkyBlue.withOpacity(0),
-                    ),
-                  ),
-                  Container(
-                    width: 5.w,
-                    height: 24,
-                    margin: EdgeInsets.only(top: 0.7.h),
-                    decoration: const BoxDecoration(
-                      border: Border(
-                          top: BorderSide(
-                        color: AppColors.primaryColor,
-                        width: 3,
-                      )),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(18),
                       ),
                     ),
-                  ),
-                  Visibility(
-                    visible: 1.0 <= progress.value,
-                    child: Align(
-                      alignment: const Alignment(1, .9),
-                      child: Container(
-                        width: 5.w,
-                        height: 24,
-                        margin: EdgeInsets.only(top: 0.7.h),
-                        decoration: const BoxDecoration(
-                          border: Border(
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 0.7.h,
+                        left: 5.w,
+                        right: 5.w,
+                      ),
+                      child: LinearProgressIndicator(
+                        value: progress.value,
+                        color: AppColors.primaryColor,
+                        minHeight: 3,
+                        backgroundColor: AppColors.lightSkyBlue.withOpacity(0),
+                      ),
+                    ),
+                    Container(
+                      width: 5.w,
+                      height: 24,
+                      margin: EdgeInsets.only(top: 0.7.h),
+                      decoration: const BoxDecoration(
+                        border: Border(
                             top: BorderSide(
-                              color: AppColors.primaryColor,
-                              width: 3,
+                          color: AppColors.primaryColor,
+                          width: 3,
+                        )),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(18),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: 1.0 <= progress.value,
+                      child: Align(
+                        alignment: const Alignment(1, .9),
+                        child: Container(
+                          width: 5.w,
+                          height: 24,
+                          margin: EdgeInsets.only(top: 0.7.h),
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              top: BorderSide(
+                                color: AppColors.primaryColor,
+                                width: 3,
+                              ),
+                            ),
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(18),
                             ),
                           ),
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(18),
-                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      width: 95.w,
+                    Align(
+                      alignment: Alignment.center,
                       child: Container(
-                        width: 14,
-                        height: 14,
-                        margin: EdgeInsets.only(left: progress.value * 90.w),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColors.primaryColor.withOpacity(0.2),
-                            width: 2,
-                          ),
-                        ),
+                        alignment: Alignment.centerLeft,
+                        width: 95.w,
                         child: Container(
-                          decoration: const BoxDecoration(
-                            color: AppColors.primaryColor,
+                          width: 14,
+                          height: 14,
+                          margin: EdgeInsets.only(left: progress.value * 90.w),
+                          decoration: BoxDecoration(
                             shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppColors.primaryColor.withOpacity(0.2),
+                              width: 2,
+                            ),
+                          ),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: AppColors.primaryColor,
+                              shape: BoxShape.circle,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ).animate(target: isPlayerVisible ? 1 : 0).moveY(
-                    begin: isPlayerVisible ? 100 : 105,
-                    end: 0,
-                    duration: 700.ms,
-                    curve: isPlayerVisible ? Curves.easeInOut : Curves.easeIn,
-                  ),
-            ),
+                  ],
+                ).animate(target: isPlayerVisible ? 1 : 0).moveY(
+                      begin: isPlayerVisible ? 100.h : 10.h,
+                      end: 0,
+                      duration: 1000.ms,
+                      curve: Curves.easeInOut,
+                    )
+                // .scaleXY(
+                //   begin: 1, // Slight shrink effect when hiding
+                //   end: 1.0, // Normal size when fully expanded
+                //   duration: 700.ms,
+                //   curve: Curves.easeInOut,
+                // )
+                // .fade(
+                //   begin: 0.0, // Fade in when appearing
+                //   end: 1.0, // Fully visible when expanded
+                //   duration: 500.ms,
+                // ),
+                ),
           ],
         ),
         floatingActionButton: Padding(

@@ -1,0 +1,94 @@
+{
+  "songs": [
+    {
+      "id": "1",
+      "title": "Blinding Lights",
+      "artist": "The Weeknd",
+      "album": "After Hours",
+      "thumbnail": "https://example.com/thumbnails/blinding_lights.jpg",
+      "song_url": "https://example.com/music/blinding_lights.mp3",
+      "duration": "3:20"
+    },
+    {
+      "id": "2",
+      "title": "Levitating",
+      "artist": "Dua Lipa",
+      "album": "Future Nostalgia",
+      "thumbnail": "https://example.com/thumbnails/levitating.jpg",
+      "song_url": "https://example.com/music/levitating.mp3",
+      "duration": "3:23"
+    },
+    {
+      "id": "3",
+      "title": "Shape of You",
+      "artist": "Ed Sheeran",
+      "album": "Divide",
+      "thumbnail": "https://example.com/thumbnails/shape_of_you.jpg",
+      "song_url": "https://example.com/music/shape_of_you.mp3",
+      "duration": "3:53"
+    },
+    {
+      "id": "4",
+      "title": "Stay",
+      "artist": "The Kid LAROI & Justin Bieber",
+      "album": "Stay - Single",
+      "thumbnail": "https://example.com/thumbnails/stay.jpg",
+      "song_url": "https://example.com/music/stay.mp3",
+      "duration": "2:21"
+    },
+    {
+      "id": "5",
+      "title": "Peaches",
+      "artist": "Justin Bieber",
+      "album": "Justice",
+      "thumbnail": "https://example.com/thumbnails/peaches.jpg",
+      "song_url": "https://example.com/music/peaches.mp3",
+      "duration": "3:18"
+    },
+    {
+      "id": "6",
+      "title": "Good 4 U",
+      "artist": "Olivia Rodrigo",
+      "album": "SOUR",
+      "thumbnail": "https://example.com/thumbnails/good_4_u.jpg",
+      "song_url": "https://example.com/music/good_4_u.mp3",
+      "duration": "2:58"
+    },
+    {
+      "id": "7",
+      "title": "Montero (Call Me By Your Name)",
+      "artist": "Lil Nas X",
+      "album": "Montero",
+      "thumbnail": "https://example.com/thumbnails/montero.jpg",
+      "song_url": "https://example.com/music/montero.mp3",
+      "duration": "2:17"
+    },
+    {
+      "id": "8",
+      "title": "Save Your Tears",
+      "artist": "The Weeknd",
+      "album": "After Hours",
+      "thumbnail": "https://example.com/thumbnails/save_your_tears.jpg",
+      "song_url": "https://example.com/music/save_your_tears.mp3",
+      "duration": "3:35"
+    },
+    {
+      "id": "9",
+      "title": "Drivers License",
+      "artist": "Olivia Rodrigo",
+      "album": "SOUR",
+      "thumbnail": "https://example.com/thumbnails/drivers_license.jpg",
+      "song_url": "https://example.com/music/drivers_license.mp3",
+      "duration": "4:02"
+    },
+    {
+      "id": "10",
+      "title": "Heat Waves",
+      "artist": "Glass Animals",
+      "album": "Dreamland",
+      "thumbnail": "https://example.com/thumbnails/heat_waves.jpg",
+      "song_url": "https://example.com/music/heat_waves.mp3",
+      "duration": "3:58"
+    }
+  ]
+}
