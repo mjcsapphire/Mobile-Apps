@@ -11,6 +11,7 @@ import 'package:rise_pathway/src/views/challenges/challenge_page.dart';
 import 'package:rise_pathway/src/views/chat/chat_page.dart';
 import 'package:rise_pathway/src/views/goals/goals.dart';
 import 'package:rise_pathway/src/views/goals/goals_page.dart';
+import 'package:rise_pathway/src/views/home/booked_appointment.dart';
 import 'package:rise_pathway/src/views/home/home.dart';
 import 'package:rise_pathway/src/views/home/profile/change_password.dart';
 import 'package:rise_pathway/src/views/home/profile_page.dart';
@@ -189,6 +190,13 @@ class CustomRouter {
             path: 'goals',
             builder: (context, state) {
               return const Goals();
+            },
+          ),
+          GoRoute(
+            path: 'appointment',
+            builder: (context, state) {
+              return BookedAppointment(
+                );
             },
           ),
         ],

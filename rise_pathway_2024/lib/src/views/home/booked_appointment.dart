@@ -4,20 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
-import 'package:rise_pathway/core/routes/routes.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
-import 'package:rise_pathway/src/views/widget/rise_button.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class SchedulePage extends StatefulWidget {
-  const SchedulePage({super.key});
+class BookedAppointment extends StatefulWidget {
+  const BookedAppointment({super.key});
 
   @override
-  State<SchedulePage> createState() => _SchedulePageState();
+  State<BookedAppointment> createState() => _BookedAppointmentState();
 }
 
-class _SchedulePageState extends State<SchedulePage> {
+class _BookedAppointmentState extends State<BookedAppointment> {
   final focusDate = DateTime.now().obs;
   final selectedTimeSlot = 0.obs;
 
@@ -27,9 +25,9 @@ class _SchedulePageState extends State<SchedulePage> {
   List<String> generateTimeSlots() {
     List<String> timeSlots = [];
     DateTime time = DateTime(2023, 1, 1, 8, 0); // Start from 8:00 AM
-    for (int i = -1; i < 24; i++) {
+    for (int i = -1; i < 12; i++) {
       timeSlots.add(DateFormat('hh:mm a').format(time));
-      time = time.add(const Duration(minutes: 30));
+      time = time.add(const Duration(minutes: 60));
     }
     return timeSlots;
   }
@@ -41,13 +39,9 @@ class _SchedulePageState extends State<SchedulePage> {
     return Scaffold(
       appBar: RiseAppBar.riseAppBar(
         theme: Theme.of(context).textTheme,
-        title: 'Calender',
+        title: 'My Appointments',
         onTap: () => context.pop(),
         backgroundColor: AppColors.white,
-        suffixIcon: Icons.history_rounded,
-        suffixOnTap: () {
-          context.push(appointment);
-        },
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
@@ -129,7 +123,7 @@ class _SchedulePageState extends State<SchedulePage> {
             Align(
               alignment: Alignment.centerLeft,
               child: RiseText(
-                'Available Times',
+                'Appointment Times',
                 style: theme.bodyMedium!.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -187,12 +181,6 @@ class _SchedulePageState extends State<SchedulePage> {
             )
           ],
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: RiseButton(
-        width: 90.w,
-        title: 'Book Appointment',
-        onTap: () {},
       ),
     );
   }

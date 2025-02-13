@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/services/rise_pathway_services.dart';
 import 'package:rise_pathway/src/models/pathways/pathway_response.dart';
@@ -15,6 +16,11 @@ class RisePathwayController extends GetxController {
   final pathways = <PathwayResponse>[].obs;
   final quizs = <QuizResponse>[].obs;
   final quizTestResponse = QuizTestResponse().obs;
+  var selectedSong = Rxn<Map<String, String>>(); // Reactive variable
+  final AudioPlayer audioPlayer = AudioPlayer();
+  var isPlaying = false.obs;
+  var position = 0.0.obs;
+  var duration = 0.0.obs;
 
   Future<void> fetchPathways({required String email}) async {
     final successOrFailure = await _services.fetchPathways(email: email);

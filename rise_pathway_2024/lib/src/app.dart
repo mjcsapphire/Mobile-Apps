@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
 import 'package:rise_pathway/src/controllers/auth_controller.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
+import 'package:rise_pathway/src/controllers/song_controller.dart';
+import 'package:rise_pathway/src/dummy_song.dart';
 import 'package:rise_pathway/src/views/challenges/challenges.dart';
 import 'package:rise_pathway/src/views/home/home.dart';
 import 'package:rise_pathway/src/views/journal/journal.dart';
 import 'package:rise_pathway/src/views/reflection/reflection.dart';
+import 'package:rise_pathway/src/views/rise_pathway/rise_song.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -20,6 +22,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   final homeController = Get.find<HomeController>();
   final moodController = Get.find<AuthController>();
+  final musicController = Get.find<MusicController>();
   final navTab = [
     const HomePage(),
     const Challenges(),
@@ -27,19 +30,20 @@ class _AppState extends State<App> {
     const Reflection(),
   ];
 
-  final player = AudioPlayer();
-  final isPlay = false.obs;
-  Rx<Duration?> duration = const Duration().obs;
+  // final player = AudioPlayer();
+  // final isPlay = false.obs;
+  // Rx<Duration?> duration = const Duration().obs;
 
   @override
   Widget build(BuildContext context) {
-    final RxDouble progress = .0.obs;
+    // final RxDouble progress = .0.obs;
     const navIconPath = 'assets/nav_bar_icons/';
     final theme = Theme.of(context).textTheme;
 
     return Obx(() {
       final index = homeController.navIndex.value;
       final isPlayerVisible = homeController.isPlayerVisible.value;
+      final selectedSong = musicController.selectedSong.value;
 
       return Scaffold(
         body: Stack(
@@ -88,8 +92,13 @@ class _AppState extends State<App> {
                               // width: 56,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(14),
-                                child: Image.asset(
-                                  'assets/png/nature.jpg',
+                                child:
+                                    // Image.asset(
+                                    //   'assets/png/nature.jpg',
+                                    //   fit: BoxFit.cover,
+                                    // ),
+                                    Image.network(
+                                  selectedSong?["thumbnail"] ?? "",
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -107,7 +116,8 @@ class _AppState extends State<App> {
                                     ),
                                     SizedBox(width: 2.w),
                                     RiseText(
-                                      'Out of my mine',
+                                      selectedSong?["title"] ??
+                                          "No Song Selected",
                                       style: theme.bodySmall!.copyWith(
                                         color: AppColors.primaryColor,
                                         fontWeight: FontWeight.bold,
@@ -139,20 +149,18 @@ class _AppState extends State<App> {
                                   top: 10, left: 8.w, right: 8.w),
                               child: LayoutBuilder(
                                 builder: (context, constraints) {
-                                  double progressBarWidth = constraints
-                                      .maxWidth; // Actual width of progress bar
-                                  double indicatorMaxLeft = progressBarWidth -
-                                      14; // Max left position for the circle
-
+                                  double progressBarWidth =
+                                      constraints.maxWidth;
+                                  double indicatorMaxLeft =
+                                      progressBarWidth - 14;
                                   return Stack(
                                     clipBehavior: Clip.none,
                                     children: [
                                       // Progress Bar
                                       SizedBox(
-                                        width:
-                                            progressBarWidth, // Ensures correct width
+                                        width: progressBarWidth,
                                         child: LinearProgressIndicator(
-                                          value: progress.value,
+                                          value: musicController.progress.value,
                                           color: AppColors.primaryColor,
                                           minHeight: 4,
                                           backgroundColor:
@@ -161,10 +169,9 @@ class _AppState extends State<App> {
                                       ),
                                       // Progress Indicator (circle)
                                       Positioned(
-                                        left: (progress.value *
+                                        left: (musicController.progress.value *
                                                 indicatorMaxLeft)
-                                            .clamp(0.0,
-                                                indicatorMaxLeft), // Restrict movement within progress bar
+                                            .clamp(0.0, indicatorMaxLeft),
                                         top: -5,
                                         child: Container(
                                           width: 14,
@@ -184,66 +191,39 @@ class _AppState extends State<App> {
                                 },
                               ),
                             ),
-                            // .animate(target: isPlayerVisible ? 1 : 0).moveY(
-                            //       begin: isPlayerVisible ? 100 : 105,
-                            //       end: 0,
-                            //       duration: 700.ms,
-                            //       curve: isPlayerVisible
-                            //           ? Curves.easeInOut
-                            //           : Curves.easeIn,
-                            //     ),
-
-                            SizedBox(height: 2.h),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                IconButton(
-                                    onPressed: () {},
+                            SizedBox(height: 3.h),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 6.w),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                SongListScreen(songs: songs),
+                                          ),
+                                        );
+                                      },
+                                      icon: const Icon(
+                                        Icons.queue_music_outlined,
+                                        color: AppColors.primaryColor,
+                                        size: 30,
+                                      )),
+                                  IconButton(
+                                    onPressed: () => homeController
+                                        .isPlayerVisible.value = false,
                                     icon: const Icon(
-                                      Icons.queue_music_outlined,
+                                      Icons.clear_rounded,
                                       color: AppColors.primaryColor,
                                       size: 30,
-                                    )),
-                                IconButton(
-                                  padding: EdgeInsets.zero,
-                                  onPressed: () async {
-                                    if (isPlay.value) {
-                                      isPlay.value = false;
-                                      await player.stop();
-                                    } else {
-                                      isPlay.value = true;
-                                      await player.setLoopMode(LoopMode.one);
-                                      duration.value = await player.setAsset(
-                                        'assets/music/relex_sound.mp3',
-                                      );
-                                      player
-                                          .createPositionStream()
-                                          .listen((event) {
-                                        progress.value = event.inMilliseconds /
-                                            duration.value!.inMilliseconds;
-                                      });
-
-                                      await player.play();
-                                    }
-                                  },
-                                  icon: Icon(
-                                    isPlay.value
-                                        ? Icons.pause_rounded
-                                        : Icons.play_arrow_rounded,
-                                    color: AppColors.primaryColor,
-                                    size: 30,
+                                    ),
                                   ),
-                                ),
-                                IconButton(
-                                  onPressed: () => homeController
-                                      .isPlayerVisible.value = false,
-                                  icon: const Icon(
-                                    Icons.clear_rounded,
-                                    color: AppColors.primaryColor,
-                                    size: 30,
-                                  ),
-                                )
-                              ],
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -256,7 +236,7 @@ class _AppState extends State<App> {
                         right: 5.w,
                       ),
                       child: LinearProgressIndicator(
-                        value: progress.value,
+                        value: musicController.progress.value,
                         color: AppColors.primaryColor,
                         minHeight: 3,
                         backgroundColor: AppColors.lightSkyBlue.withOpacity(0),
@@ -278,7 +258,7 @@ class _AppState extends State<App> {
                       ),
                     ),
                     Visibility(
-                      visible: 1.0 <= progress.value,
+                      visible: 1.0 <= musicController.progress.value,
                       child: Align(
                         alignment: const Alignment(1, .9),
                         child: Container(
@@ -307,7 +287,8 @@ class _AppState extends State<App> {
                         child: Container(
                           width: 14,
                           height: 14,
-                          margin: EdgeInsets.only(left: progress.value * 90.w),
+                          margin: EdgeInsets.only(
+                              left: musicController.progress.value * 90.w),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
@@ -330,27 +311,22 @@ class _AppState extends State<App> {
                       end: 0,
                       duration: 1000.ms,
                       curve: Curves.easeInOut,
-                    )
-                // .scaleXY(
-                //   begin: 1, // Slight shrink effect when hiding
-                //   end: 1.0, // Normal size when fully expanded
-                //   duration: 700.ms,
-                //   curve: Curves.easeInOut,
-                // )
-                // .fade(
-                //   begin: 0.0, // Fade in when appearing
-                //   end: 1.0, // Fully visible when expanded
-                //   duration: 500.ms,
-                // ),
-                ),
+                    )),
           ],
         ),
         floatingActionButton: Padding(
           padding: EdgeInsets.only(bottom: 0.h),
           child: GestureDetector(
-            onTap: () {
+            onTap: () async {
               homeController.isPlayerVisible.value =
                   !homeController.isPlayerVisible.value;
+              if (homeController.isPlayerVisible.value) {
+                // Play the sound if visible
+                musicController.playSong(selectedSong?["song_url"] ?? "");
+              } else {
+                // Stop the sound if not visible
+                musicController.stopMusic();
+              }
             },
             child: Container(
               width: 64,

@@ -29,3 +29,4 @@ const String changePassword = '$app/profile_page/change_password';
 const String challengePage = '$app/challenge_page';
 const String goalPage = '$app/goal_page';
 const String goals = '$app/goals';
+const String appointment = '$app/appointment';

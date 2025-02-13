@@ -7,6 +7,9 @@ import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/routes/routes.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
 import 'package:rise_pathway/src/controllers/auth_controller.dart';
+import 'package:rise_pathway/src/controllers/song_controller.dart';
+import 'package:rise_pathway/src/dummy_song.dart';
+import 'package:rise_pathway/src/views/rise_pathway/rise_song.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 import 'package:rise_pathway/src/views/widget/rise_button.dart';
 import 'package:rise_pathway/src/views/widget/rise_dialog.dart';
@@ -26,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String image = '';
 
   final AuthController authController = Get.find();
-  // final UserController userController = Get.find();
+  final musicController = Get.find<MusicController>();
 
   @override
   void initState() {
@@ -68,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
           padding: const EdgeInsets.all(24),
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Stack(
                   alignment: Alignment.bottomRight,
@@ -286,9 +289,20 @@ class _ProfilePageState extends State<ProfilePage> {
                         height: 40,
                         width: 40,
                       ),
-                      const RiseText("current song"),
+                      RiseText(
+                        musicController.selectedSong.value?["title"] ??
+                            "Unknown",
+                      ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  SongListScreen(songs: songs),
+                            ),
+                          );
+                        },
                         icon: const Icon(
                           Icons.queue_music,
                           color: AppColors.blue600,
@@ -334,6 +348,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
+                SizedBox(height: 1.h),
               ],
             ),
           ),
