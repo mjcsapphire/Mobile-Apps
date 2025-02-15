@@ -18,9 +18,9 @@ class RisePathwayController extends GetxController {
   final quizTestResponse = QuizTestResponse().obs;
   var selectedSong = Rxn<Map<String, String>>(); // Reactive variable
   final AudioPlayer audioPlayer = AudioPlayer();
-  var isPlaying = false.obs;
-  var position = 0.0.obs;
-  var duration = 0.0.obs;
+  RxBool isPlaying = false.obs;
+  RxDouble position = 0.0.obs;
+  RxDouble duration = 0.0.obs;
 
   Future<void> fetchPathways({required String email}) async {
     final successOrFailure = await _services.fetchPathways(email: email);

@@ -21,9 +21,6 @@ class _SchedulePageState extends State<SchedulePage> {
   final focusDate = DateTime.now().obs;
   final selectedTimeSlot = 0.obs;
 
-  // final selectedTimeSlot = 0.obs;
-
-// Generate time slots from 12:00 AM to 11:45 AM
   List<String> generateTimeSlots() {
     List<String> timeSlots = [];
     DateTime time = DateTime(2023, 1, 1, 8, 0); // Start from 8:00 AM
