@@ -1,16 +1,19 @@
+import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
 import 'package:rise_pathway/src/controllers/auth_controller.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
-import 'package:rise_pathway/src/controllers/song_controller.dart';
-import 'package:rise_pathway/src/dummy_song.dart';
+import 'package:rise_pathway/src/controllers/media_controller.dart';
+import 'package:rise_pathway/src/models/risebutton/audio_response.dart';
+import 'package:rise_pathway/src/models/risebutton/video_response.dart';
 import 'package:rise_pathway/src/views/challenges/challenges.dart';
 import 'package:rise_pathway/src/views/home/home.dart';
 import 'package:rise_pathway/src/views/journal/journal.dart';
 import 'package:rise_pathway/src/views/reflection/reflection.dart';
 import 'package:rise_pathway/src/views/rise_pathway/rise_song.dart';
+// import 'package:video_player/video_player.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -22,7 +25,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   final homeController = Get.find<HomeController>();
   final moodController = Get.find<AuthController>();
-  final musicController = Get.find<MusicController>();
+  final musicController = Get.find<MediaController>();
   final navTab = [
     const HomePage(),
     const Challenges(),
@@ -43,7 +46,8 @@ class _AppState extends State<App> {
     return Obx(() {
       final index = homeController.navIndex.value;
       final isPlayerVisible = homeController.isPlayerVisible.value;
-      final selectedSong = musicController.selectedSong.value;
+      final selectedSong = musicController.selectedMedia.value;
+      final selectedMedia = musicController.selectedMedia.value;
 
       return Scaffold(
         body: Stack(
@@ -87,22 +91,42 @@ class _AppState extends State<App> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(height: 16.h),
-                            SizedBox(
-                              height: 40.h,
-                              // width: 56,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(14),
+                            // SizedBox(
+                            //   height: 40.h,
+                            //   // width: 56,
+                            //   child: ClipRRect(
+                            //     borderRadius: BorderRadius.circular(14),
+                            //     child:
+                            //         // Image.asset(
+                            //         //   'assets/png/nature.jpg',
+                            //         //   fit: BoxFit.cover,
+                            //         // ),
+                            //         Image.network(
+                            //       selectedSong?["thumbnail"] ?? "",
+                            //       fit: BoxFit.cover,
+                            //     ),
+                            //   ),
+                            // ),
+
+                            if (selectedMedia is VideoResponse &&
+                                musicController.videoPlayer != null)
+                              AspectRatio(
+                                aspectRatio: musicController
+                                    .videoPlayer!.value.aspectRatio,
                                 child:
-                                    // Image.asset(
-                                    //   'assets/png/nature.jpg',
-                                    //   fit: BoxFit.cover,
-                                    // ),
-                                    Image.network(
-                                  selectedSong?["thumbnail"] ?? "",
-                                  fit: BoxFit.cover,
+                                    CachedVideoPlayerPlus(musicController.videoPlayer!),
+                              )
+                            else if (selectedMedia is AudioResponse)
+                              SizedBox(
+                                height: 40.h,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(14),
+                                  child: Image.asset(
+                                    'assets/png/nature.jpg',
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                            ),
                             SizedBox(height: 8.h),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -115,14 +139,19 @@ class _AppState extends State<App> {
                                       scale: 4,
                                     ),
                                     SizedBox(width: 2.w),
-                                    RiseText(
-                                      selectedSong?["title"] ??
-                                          "No Song Selected",
-                                      style: theme.bodySmall!.copyWith(
-                                        color: AppColors.primaryColor,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                                    Obx(() {
+                                       final media =
+                                          musicController.selectedMedia.value;
+                                      return RiseText(
+                                          media != null && media.title != null
+                                            ? media.title!
+                                            : "No Song Selected",
+                                        style: theme.bodySmall!.copyWith(
+                                          color: AppColors.primaryColor,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      );
+                                    }),
                                     SizedBox(width: 2.w),
                                     Image.asset(
                                       'assets/icons/music.png',
@@ -204,7 +233,10 @@ class _AppState extends State<App> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                SongListScreen(songs: songs),
+                                                SongListScreen(
+                                                    songs: musicController
+                                                        .mediaList
+                                                        .cast<AudioResponse>()),
                                           ),
                                         );
                                       },
@@ -322,10 +354,10 @@ class _AppState extends State<App> {
                   !homeController.isPlayerVisible.value;
               if (homeController.isPlayerVisible.value) {
                 // Play the sound if visible
-                musicController.playSong(selectedSong?["song_url"] ?? "");
+                musicController.playMedia();
               } else {
                 // Stop the sound if not visible
-                musicController.stopMusic();
+                musicController.stopMedia();
               }
             },
             child: Container(

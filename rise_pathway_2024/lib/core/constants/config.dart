@@ -37,4 +37,7 @@ class Config {
 
   // Goal endpoints
   static const String fetchGoals = "/getGoals";
+
+  // rise audio/video
+  static const String fetchToolKit = "/getToolkit";
 }

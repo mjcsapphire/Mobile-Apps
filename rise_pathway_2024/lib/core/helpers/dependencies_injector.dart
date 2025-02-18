@@ -7,9 +7,9 @@ import 'package:rise_pathway/src/controllers/chat_controller.dart';
 import 'package:rise_pathway/src/controllers/goal_controller.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
 import 'package:rise_pathway/src/controllers/journal_controller.dart';
+import 'package:rise_pathway/src/controllers/media_controller.dart';
 import 'package:rise_pathway/src/controllers/network_controller.dart';
 import 'package:rise_pathway/src/controllers/rise_pathway_controller.dart';
-import 'package:rise_pathway/src/controllers/song_controller.dart';
 
 class DependenciesInjector {
   static Future<void> initializeController() async {
@@ -23,7 +23,7 @@ class DependenciesInjector {
     Get.put(RisePathwayController(dio: dio));
     Get.put(JournalController(dio: dio));
     Get.put(GoalController(dio: dio));
-    Get.put(MusicController());
+    Get.put(MediaController(dio: dio));
   }
 
   static void deleteControllers() {

@@ -7,8 +7,8 @@ import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/routes/routes.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
 import 'package:rise_pathway/src/controllers/auth_controller.dart';
-import 'package:rise_pathway/src/controllers/song_controller.dart';
-import 'package:rise_pathway/src/dummy_song.dart';
+import 'package:rise_pathway/src/controllers/media_controller.dart';
+import 'package:rise_pathway/src/models/risebutton/audio_response.dart';
 import 'package:rise_pathway/src/views/rise_pathway/rise_song.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 import 'package:rise_pathway/src/views/widget/rise_button.dart';
@@ -29,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String image = '';
 
   final AuthController authController = Get.find();
-  final musicController = Get.find<MusicController>();
+  final musicController = Get.find<MediaController>();
 
   @override
   void initState() {
@@ -289,17 +289,26 @@ class _ProfilePageState extends State<ProfilePage> {
                         height: 40,
                         width: 40,
                       ),
-                      RiseText(
-                        musicController.selectedSong.value?["title"] ??
-                            "Unknown",
-                      ),
+                      Obx(() {
+                        final media = musicController.selectedMedia.value;
+                        return RiseText(
+                          media != null && media.title != null
+                              ? media.title!
+                              : "Unknown",
+                          style: theme.bodySmall!.copyWith(
+                            color: AppColors.primaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
+                      }),
                       IconButton(
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  SongListScreen(songs: songs),
+                              builder: (context) => SongListScreen(
+                                  songs: musicController.mediaList
+                                      .cast<AudioResponse>()),
                             ),
                           );
                         },

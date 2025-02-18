@@ -23,4 +23,8 @@ class Environment {
     debugPrint("Running on ${dotenv.env['UPLOAD_URL']}");
     return dotenv.env['UPLOAD_URL'] ?? "UPLOAD_URL not found in environment";
   }
+  static String get mediaImageUrl {
+    debugPrint("Running on ${dotenv.env['IMAGE_URL']}");
+    return dotenv.env['IMAGE_URL'] ?? "IMAGE_URL not found in environment";
+  }
 }
