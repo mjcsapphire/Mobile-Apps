@@ -28,8 +28,7 @@ class MasterCardWidget extends StatelessWidget {
       width: cardWidth,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-                  colors: [AppColors.red, Color(0xFFF79E1B)],
-
+          colors: [AppColors.red, Color(0xFFF79E1B)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -201,7 +200,6 @@ class MasterCardWidget extends StatelessWidget {
   }
 }
 
-
 class MasterCardBackWidget extends StatelessWidget {
   final String cvv;
   final String terms;
@@ -212,13 +210,12 @@ class MasterCardBackWidget extends StatelessWidget {
     required this.cvv,
     required this.terms,
     required this.condition,
-
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-    padding: const EdgeInsets.only(top: 16, bottom: 16),
+      padding: const EdgeInsets.only(top: 16, bottom: 16),
       height: 240,
       width: 350,
       decoration: BoxDecoration(

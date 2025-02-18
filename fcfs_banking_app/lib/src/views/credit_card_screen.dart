@@ -209,7 +209,6 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
                         enlargeStrategy: CenterPageEnlargeStrategy.scale,
                         enableInfiniteScroll: false,
                         initialPage: 1,
-                        
                         onPageChanged: (index, reason) {
                           setState(() {
                             _currentIndex = index;

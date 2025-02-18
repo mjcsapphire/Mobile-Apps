@@ -27,8 +27,7 @@ class VisaCardWidget extends StatelessWidget {
       width: cardWidth,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-                   colors: [Color(0xFF9C2CF3), Color(0xFF3A49F9)],
-
+          colors: [Color(0xFF9C2CF3), Color(0xFF3A49F9)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -209,7 +208,6 @@ class VisaCardBackWidget extends StatelessWidget {
     super.key,
     required this.cvv,
     required this.terms,
-
     required this.condition,
   });
 

@@ -78,11 +78,12 @@ dependencies:
   flutter_local_notifications: ^18.0.1
   dio: ^5.7.0
   carousel_slider: ^5.0.0
-  file_picker: ^8.1.7
+  file_picker: ^9.0.0
   get_storage: ^2.1.1
   flutter_contacts: ^1.1.9+2
   flutter_slidable: ^3.1.2
   gradient_borders: ^1.0.1
+  universal_file_viewer: ^0.0.5
 
 dev_dependencies:
   flutter_test:

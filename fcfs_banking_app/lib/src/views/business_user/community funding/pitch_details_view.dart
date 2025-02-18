@@ -246,7 +246,9 @@ class PitchDetailsView extends StatelessWidget {
           ),
           child: Container(
             decoration: BoxDecoration(
-              gradient: themeController.themeMode == ThemeMode.dark ? AppColors.darkStackContainerBackground : AppColors.stackContainerBackground,
+              gradient: themeController.themeMode == ThemeMode.dark
+                  ? AppColors.darkStackContainerBackground
+                  : AppColors.stackContainerBackground,
             ),
             child: DraggableScrollableSheet(
               expand: false,
@@ -271,7 +273,7 @@ class PitchDetailsView extends StatelessWidget {
                           ),
                         ),
                       ),
-                       Padding(
+                      Padding(
                         padding: EdgeInsets.all(16.0),
                         child: Text(
                           'Invest Now',
@@ -312,14 +314,14 @@ class PitchDetailsView extends StatelessWidget {
                             onTap: () async {
                               double? investmentAmountValue = double.tryParse(
                                   investmentAmountController.text);
-            
+
                               if (investmentAmountValue! <
                                   idea.minimumInvestment) {
                                 AppHelpers.toast(
                                     "Minimum investment amount is ${idea.minimumInvestment}");
                                 return;
                               }
-            
+
                               if (investmentAmountController.text.isNotEmpty) {
                                 transactionController
                                     .addTransaction(TransactionModel(
@@ -337,17 +339,17 @@ class PitchDetailsView extends StatelessWidget {
                                   },
                                   fees: 0,
                                 ));
-            
+
                                 ideaSubmissionController.updateInvesters(
                                     idea.id, idea.totalInvestors + 1);
-            
+
                                 var senderUserData = await firestore
                                     .collection('users')
                                     .doc(user!.uid)
                                     .get();
                                 var senderUser =
                                     UserModel.fromMap(senderUserData.data()!);
-            
+
                                 var receiverUserData = await firestore
                                     .collection('users')
                                     .doc(idea.userId)
@@ -372,9 +374,10 @@ class PitchDetailsView extends StatelessWidget {
                             color: themeController.themeMode == ThemeMode.dark
                                 ? AppColors.darkBorderColor
                                 : AppColors.red,
-                            borderColor: themeController.themeMode == ThemeMode.dark
-                                ? AppColors.darkBorderColor
-                                : AppColors.red,
+                            borderColor:
+                                themeController.themeMode == ThemeMode.dark
+                                    ? AppColors.darkBorderColor
+                                    : AppColors.red,
                             width: MediaQuery.of(context).size.width * 0.88,
                             text: "invest now",
                             fontSize: 18.sp,

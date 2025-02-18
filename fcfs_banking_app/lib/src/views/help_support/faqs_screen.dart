@@ -34,15 +34,15 @@ class _FAQScreenState extends State<FAQScreen> {
       body: Stack(
         children: [
           // Background Gradient
-            CustomPaint(
-              size: Size(
-                MediaQuery.of(context).size.width,
-                MediaQuery.of(context).size.height,
-              ),
-              painter: themeController.themeMode == ThemeMode.dark
-                  ? DarkGradientBackgroundPainter()
-                  : GradientBackgroundPainter(),
+          CustomPaint(
+            size: Size(
+              MediaQuery.of(context).size.width,
+              MediaQuery.of(context).size.height,
             ),
+            painter: themeController.themeMode == ThemeMode.dark
+                ? DarkGradientBackgroundPainter()
+                : GradientBackgroundPainter(),
+          ),
 
           // Content
           Column(
@@ -133,10 +133,13 @@ class _FAQScreenState extends State<FAQScreen> {
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.w),
-            border:
-                isOpen ? Border.all(color: themeController.themeMode == ThemeMode.dark
+            border: isOpen
+                ? Border.all(
+                    color: themeController.themeMode == ThemeMode.dark
                         ? AppColors.darkBorderColor
-                        : AppColors.red, width: 3.0) : null,
+                        : AppColors.red,
+                    width: 3.0)
+                : null,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

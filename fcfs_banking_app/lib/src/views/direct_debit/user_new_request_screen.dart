@@ -422,7 +422,6 @@ class _NewDirectDebitRequestScreenState
                                 ),
                               ),
                             ),
-                          
                           ],
                         );
                       }),

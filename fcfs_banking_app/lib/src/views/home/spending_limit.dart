@@ -9,11 +9,12 @@ class SpendingLimitCard extends StatelessWidget {
   final double remaining;
   final VoidCallback onTap;
 
-  SpendingLimitCard(
-      {super.key,
-      required this.limit,
-      required this.remaining,
-      required this.onTap,});
+  SpendingLimitCard({
+    super.key,
+    required this.limit,
+    required this.remaining,
+    required this.onTap,
+  });
 
   final themeController = Get.find<ThemeController>();
   @override

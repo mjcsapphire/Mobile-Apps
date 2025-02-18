@@ -42,7 +42,7 @@ class SettingScreen extends StatelessWidget {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(top :10),
+                      padding: const EdgeInsets.only(top: 10),
                       child: TextButton(
                         onPressed: () => context.pop(),
                         child: Text(

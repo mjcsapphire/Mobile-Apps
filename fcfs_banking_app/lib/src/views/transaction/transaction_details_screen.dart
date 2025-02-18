@@ -38,15 +38,15 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
       ),
       body: Stack(
         children: [
-        CustomPaint(
-              size: Size(
-                MediaQuery.of(context).size.width,
-                MediaQuery.of(context).size.height,
-              ),
-              painter: themeController.themeMode == ThemeMode.dark
-                  ? DarkGradientBackgroundPainter()
-                  : GradientBackgroundPainter(),
+          CustomPaint(
+            size: Size(
+              MediaQuery.of(context).size.width,
+              MediaQuery.of(context).size.height,
             ),
+            painter: themeController.themeMode == ThemeMode.dark
+                ? DarkGradientBackgroundPainter()
+                : GradientBackgroundPainter(),
+          ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             // decoration: const BoxDecoration(
