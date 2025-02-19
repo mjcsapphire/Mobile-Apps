@@ -26,6 +26,7 @@ class _AppState extends State<App> {
   final homeController = Get.find<HomeController>();
   final moodController = Get.find<AuthController>();
   final musicController = Get.find<MediaController>();
+  final authController = Get.find<AuthController>();
   final navTab = [
     const HomePage(),
     const Challenges(),
@@ -46,7 +47,6 @@ class _AppState extends State<App> {
     return Obx(() {
       final index = homeController.navIndex.value;
       final isPlayerVisible = homeController.isPlayerVisible.value;
-      final selectedSong = musicController.selectedMedia.value;
       final selectedMedia = musicController.selectedMedia.value;
 
       return Scaffold(
@@ -113,18 +113,29 @@ class _AppState extends State<App> {
                               AspectRatio(
                                 aspectRatio: musicController
                                     .videoPlayer!.value.aspectRatio,
-                                child:
-                                    CachedVideoPlayerPlus(musicController.videoPlayer!),
+                                child: CachedVideoPlayerPlus(
+                                    musicController.videoPlayer!),
                               )
-                            else if (selectedMedia is AudioResponse)
+                            else if (selectedMedia is AudioResponse ||
+                                authController.userData.value.riseSound != null)
                               SizedBox(
                                 height: 40.h,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(14),
-                                  child: Image.asset(
-                                    'assets/png/nature.jpg',
-                                    fit: BoxFit.cover,
-                                  ),
+                                child: Center(
+                                  child: Obx(() {
+                                    String mediaName = authController
+                                        .userData.value.riseSound!;
+                                    final media =
+                                        musicController.selectedMedia.value;
+                                    return RiseText(
+                                      media != null && media.title != null
+                                          ? media.title!
+                                          : Helpers.getFileName(mediaName),
+                                      style: theme.displayMedium!.copyWith(
+                                        color: AppColors.primaryColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    );
+                                  }),
                                 ),
                               ),
                             SizedBox(height: 8.h),
@@ -140,12 +151,14 @@ class _AppState extends State<App> {
                                     ),
                                     SizedBox(width: 2.w),
                                     Obx(() {
-                                       final media =
+                                      String mediaName = authController
+                                          .userData.value.riseSound!;
+                                      final media =
                                           musicController.selectedMedia.value;
                                       return RiseText(
-                                          media != null && media.title != null
+                                        media != null && media.title != null
                                             ? media.title!
-                                            : "No Song Selected",
+                                            : Helpers.getFileName(mediaName),
                                         style: theme.bodySmall!.copyWith(
                                           color: AppColors.primaryColor,
                                           fontWeight: FontWeight.bold,
@@ -156,7 +169,7 @@ class _AppState extends State<App> {
                                     Image.asset(
                                       'assets/icons/music.png',
                                       scale: 4,
-                                    )
+                                    ),
                                   ],
                                 ),
                                 Obx(() {

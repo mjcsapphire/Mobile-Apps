@@ -10,9 +10,7 @@ class Config {
   static const String updateMood = "/updateMood";
   static const String updateUser = "/updateUser";
   static const String registerRise = "/registerRise";
-  static const String updateUserRiseImage = "/updateUserRiseImage";
-  static const String updateUserRiseSound = "/updateUserRiseSound";
-
+ 
   // Journal endpoints
   static const String fetchJournalEntries = "/getJournalEntries";
   static const String addJournalEntry = "/addJournalEntry";
@@ -40,4 +38,6 @@ class Config {
 
   // rise audio/video
   static const String fetchToolKit = "/getToolkit";
+  static const String updateUserImage = "/updateUserRiseImage";
+  static const String updateUserSound = "/updateUserRiseSound";
 }

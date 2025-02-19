@@ -294,7 +294,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         return RiseText(
                           media != null && media.title != null
                               ? media.title!
-                              : "Unknown",
+                              : Helpers.getFileName(
+                                  authController.userData.value.riseSound ??
+                                      'No media selected'),
                           style: theme.bodySmall!.copyWith(
                             color: AppColors.primaryColor,
                             fontWeight: FontWeight.bold,

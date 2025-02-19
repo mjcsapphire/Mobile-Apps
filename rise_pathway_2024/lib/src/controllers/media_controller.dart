@@ -5,9 +5,9 @@ import 'package:just_audio/just_audio.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/utils/environment.dart';
 import 'package:rise_pathway/services/rise_media_service.dart';
+import 'package:rise_pathway/src/controllers/auth_controller.dart';
 import 'package:rise_pathway/src/models/risebutton/audio_response.dart';
 import 'package:rise_pathway/src/models/risebutton/video_response.dart';
-import 'package:video_player/video_player.dart';
 
 class MediaController extends GetxController {
   final Dio dio;
@@ -15,6 +15,7 @@ class MediaController extends GetxController {
   MediaController({required this.dio});
 
   late final mediaService = RiseMediaService(dio: dio);
+  final authController = Get.find<AuthController>();
 
   final AudioPlayer audioPlayer = AudioPlayer();
   // VideoPlayerController? videoPlayer;
@@ -37,9 +38,7 @@ class MediaController extends GetxController {
   void onInit() {
     super.onInit();
     fetchMedia();
-    if (mediaList.isNotEmpty) {
-      selectedMedia.value = mediaList.first;
-    }
+    selectedMedia.value = authController.userData.value.riseSound;
   }
 
   /// Fetch media from API
@@ -56,9 +55,6 @@ class MediaController extends GetxController {
       (failure) => logger.e("Error fetching video: $failure"),
       (videos) => mediaList.addAll(videos),
     );
-
-    // Sort by a common timestamp if available
-    mediaList.refresh();
   }
 
   /// Select and play media
@@ -69,9 +65,11 @@ class MediaController extends GetxController {
     if (media is AudioResponse) {
       isAudio.value = true;
       await _loadAudio(media.path);
+      playMedia();
     } else if (media is VideoResponse) {
       isAudio.value = false;
       _loadVideo(media.path);
+      playMedia();
     }
   }
 
@@ -93,7 +91,7 @@ class MediaController extends GetxController {
       duration.value = audioPlayer.duration ?? Duration.zero;
       isPlaying.value = true;
       await audioPlayer.play();
-
+      audioPlayer.setLoopMode(LoopMode.one);
       audioPlayer.durationStream.listen((d) {
         if (d != null) duration.value = d;
       });
@@ -112,6 +110,7 @@ class MediaController extends GetxController {
     videoPlayer = CachedVideoPlayerPlusController.networkUrl(Uri.parse(fullUrl))
       ..initialize().then((_) {
         videoPlayer!.setLooping(true);
+        videoPlayer!.play();
         playMedia();
         duration.value = videoPlayer!.value.duration;
         togglePlayPause();
@@ -151,5 +150,28 @@ class MediaController extends GetxController {
     audioPlayer.dispose();
     videoPlayer?.dispose();
     super.onClose();
+  }
+
+  Future<void> updateUserMedia({required String email}) async {
+    if (selectedMedia.value is VideoResponse) {
+      final successOrFailure = await mediaService.setUserImageVideo(
+          email: email, path: selectedMedia.value.path);
+
+      successOrFailure.fold(
+        (failure) => logger.e(failure),
+        (success) {
+          logger.d("Successfully updated media: $success");
+        },
+      );
+    } else {
+      final successOrFailure = await mediaService.setUserAudio(
+          email: email, path: selectedMedia.value.path);
+      successOrFailure.fold(
+        (failure) => logger.e(failure),
+        (success) {
+          logger.d("Successfully updated media: $success");
+        },
+      );
+    }
   }
 }

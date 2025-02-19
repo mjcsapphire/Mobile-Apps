@@ -25,6 +25,10 @@ enum RequestType { get, post, delete, put }
 
 enum LoggerType { d, e, i, w }
 
+String getFileName(String path) {
+  return path.split('/').last.split('.').first;
+}
+
 List<String> moods = [
   'happy',
   'sad',
@@ -47,6 +51,11 @@ class Helpers {
     borderRadius: BorderRadius.circular(8),
     shape: BoxShape.rectangle,
   );
+
+  static String getFileName(String path) {
+    return path.split('/').last.split('.').first;
+  }
+
   static Future<File?> pickImage(ImageSource source) async {
     File? image;
     try {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
+import 'package:rise_pathway/src/controllers/auth_controller.dart';
 import 'package:rise_pathway/src/controllers/media_controller.dart';
 import 'package:rise_pathway/src/models/risebutton/audio_response.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
@@ -12,6 +13,7 @@ class SongListScreen extends StatelessWidget {
   SongListScreen({super.key, required this.songs});
 
   final musicController = Get.find<MediaController>();
+  final authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +47,9 @@ class SongListScreen extends StatelessWidget {
                   : null,
               onTap: () {
                 musicController.selectMedia(media);
+                musicController.playMedia();
+                musicController.updateUserMedia(
+                    email: authController.userData.value.userEmail!);
                 context.pop();
               },
             );

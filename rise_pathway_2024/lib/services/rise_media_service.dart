@@ -50,4 +50,60 @@ class RiseMediaService {
       return Left(ServerFailure(message: e.toString()));
     }
   }
+
+ 
+
+  Future<Either<Failure, String>> setUserImageVideo({
+    required String email,
+    required String path,
+  }) async {
+    try {
+      final response = await ApiServices.sendRequest(
+        dio,
+        RequestType.post,
+        Config.updateUserImage,
+        headers: {"Content-Type": "application/json"},
+        queryParams: {
+          "email": email,
+          "image": path,
+        },
+      );
+
+      if (response is Map<String, dynamic>) {
+        final message = response['message'] as String? ?? 'No message found';
+        return Right(message);
+      }
+
+      return Left(ServerFailure(message: 'Unexpected response format'));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<Failure, String>> setUserAudio({
+    required String email,
+    required String path,
+  }) async {
+    try {
+      final response = await ApiServices.sendRequest(
+        dio,
+        RequestType.post,
+        Config.updateUserSound,
+        headers: {"Content-Type": "application/json"},
+        queryParams: {
+          "email": email,
+          "sound": path,
+        },
+      );
+
+      if (response is Map<String, dynamic>) {
+        final message = response['message'] as String? ?? 'No message found';
+        return Right(message);
+      }
+
+      return Left(ServerFailure(message: 'Unexpected response format'));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
 }
