@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rise_pathway/core/constants/asset_constant.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
@@ -65,7 +66,7 @@ class RiseAppBar {
           SizedBox(
             width: 14.w,
             child: SvgPicture.asset(
-              'assets/svg/edit_icon.svg',
+              AppAssets.edit,
               width: 20.w,
               height: 20.w,
             ),

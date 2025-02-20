@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rise_pathway/core/constants/asset_constant.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
 
@@ -52,7 +53,7 @@ class _RiseButtonState extends State<RiseButton> {
           children: [
             if (widget.preffix ?? false)
               SvgPicture.asset(
-                widget.svgPath ?? 'assets/svg/success_complete.svg',
+                widget.svgPath ?? AppAssets.successComplete,
               ),
             RiseText(
               widget.title,

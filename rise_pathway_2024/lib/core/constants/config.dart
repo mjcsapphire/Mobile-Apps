@@ -10,7 +10,7 @@ class Config {
   static const String updateMood = "/updateMood";
   static const String updateUser = "/updateUser";
   static const String registerRise = "/registerRise";
- 
+
   // Journal endpoints
   static const String fetchJournalEntries = "/getJournalEntries";
   static const String addJournalEntry = "/addJournalEntry";

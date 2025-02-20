@@ -2,6 +2,7 @@
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:rise_pathway/core/constants/asset_constant.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/routes/routes.dart';
@@ -38,7 +39,7 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Column(
               children: [
                 SvgPicture.asset(
-                  'assets/svg/login_svgs/signup.svg',
+                  AppAssets.signUpSvg,
                 ),
                 RiseText('Sign Up', style: theme.headlineMedium),
                 SizedBox(height: 2.h),

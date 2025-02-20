@@ -1,5 +1,6 @@
 import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:rise_pathway/core/constants/asset_constant.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
@@ -146,7 +147,7 @@ class _AppState extends State<App> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Image.asset(
-                                      'assets/icons/music.png',
+                                      AppAssets.music,
                                       scale: 4,
                                     ),
                                     SizedBox(width: 2.w),
@@ -167,7 +168,7 @@ class _AppState extends State<App> {
                                     }),
                                     SizedBox(width: 2.w),
                                     Image.asset(
-                                      'assets/icons/music.png',
+                                      AppAssets.music,
                                       scale: 4,
                                     ),
                                   ],
@@ -381,7 +382,7 @@ class _AppState extends State<App> {
                 gradient: AppColorsGredients.primaryBottomToTop,
               ),
               child: Image.asset(
-                'assets/nav_bar_icons/user_stress.png',
+                AppAssets.stressButton,
                 height: 24,
                 width: 24,
                 scale: 3.5,

@@ -2,6 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rise_pathway/core/constants/asset_constant.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/routes/routes.dart';
@@ -285,7 +286,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Image(
-                        image: AssetImage('assets/imgs/cd-player.png'),
+                        image: AssetImage(AppAssets.cdimage),
                         height: 40,
                         width: 40,
                       ),

@@ -24,10 +24,7 @@ class MediaController extends GetxController {
   /// Combined Media List (Audio & Video)
   var mediaList = <dynamic>[].obs;
 
-  /// Selected Media
   RxBool isAudio = false.obs;
-
-  /// Playback states
   RxBool isPlaying = false.obs;
   var duration = Rx<Duration>(Duration.zero);
   RxDouble progress = 0.0.obs;
@@ -69,7 +66,6 @@ class MediaController extends GetxController {
     } else if (media is VideoResponse) {
       isAudio.value = false;
       _loadVideo(media.path);
-      playMedia();
     }
   }
 
@@ -78,7 +74,11 @@ class MediaController extends GetxController {
     if (isAudio.value) {
       audioPlayer.play();
     } else {
-      videoPlayer?.play();
+      if (videoPlayer != null && videoPlayer!.value.isInitialized) {
+        videoPlayer!.play();
+      } else {
+        logger.e("Video is not yet initialized.");
+      }
     }
     isPlaying.value = true;
   }
@@ -100,7 +100,7 @@ class MediaController extends GetxController {
         progress.value = p.inMilliseconds / (duration.value.inMilliseconds + 1);
       });
     } catch (e) {
-      print("Error loading audio: $e");
+      logger.e("Error loading audio: $e");
     }
   }
 
@@ -111,15 +111,17 @@ class MediaController extends GetxController {
       ..initialize().then((_) {
         videoPlayer!.setLooping(true);
         videoPlayer!.play();
-        playMedia();
         duration.value = videoPlayer!.value.duration;
-        togglePlayPause();
         update();
+      }).catchError((error) {
+        logger.e("Error initializing video: $error");
       });
 
     videoPlayer!.addListener(() {
-      progress.value = videoPlayer!.value.position.inMilliseconds /
-          (videoPlayer!.value.duration.inMilliseconds + 1);
+      if (videoPlayer!.value.isInitialized) {
+        progress.value = videoPlayer!.value.position.inMilliseconds /
+            (videoPlayer!.value.duration.inMilliseconds + 1);
+      }
     });
   }
 

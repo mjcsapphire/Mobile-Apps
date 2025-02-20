@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rise_pathway/core/constants/asset_constant.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/routes/routes.dart';
@@ -103,7 +104,7 @@ class _QuizPageState extends State<QuizPage> {
           SizedBox(
             height: 100.h,
             child: Image.asset(
-              'assets/png/quiz_background.png',
+              AppAssets.quizBackground,
               fit: BoxFit.cover,
               opacity: const AlwaysStoppedAnimation(0.3),
             ),

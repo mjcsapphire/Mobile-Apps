@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rise_pathway/core/constants/asset_constant.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
@@ -221,7 +222,7 @@ class _QuizSummaryState extends State<QuizSummary> {
                       ),
                     ),
                     Image.asset(
-                      'assets/png/trophy.png',
+                      AppAssets.trophy,
                       scale: 1.5,
                     ),
                   ],

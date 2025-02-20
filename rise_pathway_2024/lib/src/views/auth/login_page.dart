@@ -3,6 +3,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:rise_pathway/core/constants/asset_constant.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/routes/routes.dart';
@@ -37,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 children: [
                   SvgPicture.asset(
-                    'assets/svg/login_svgs/signin.svg',
+                    AppAssets.loginSvg,
                     height: 25.h,
                   ),
                   RiseText('Sign In', style: theme.headlineMedium),

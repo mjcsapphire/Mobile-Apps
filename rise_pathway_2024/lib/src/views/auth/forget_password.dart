@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:rise_pathway/core/constants/asset_constant.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/routes/routes.dart';
@@ -29,7 +30,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             child: Column(
               children: [
                 SvgPicture.asset(
-                  'assets/svg/forget_password.svg',
+                   AppAssets.forgotPassword,
                 ),
                 SizedBox(height: 2.h),
                 RiseText('Forget Password', style: theme.headlineMedium),

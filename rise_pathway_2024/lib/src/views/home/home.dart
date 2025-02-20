@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:rise_pathway/core/constants/asset_constant.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/routes/routes.dart';
@@ -425,7 +426,7 @@ class BuildHomeAppBar extends StatelessWidget {
                           AppColors.error,
                         ),
                         Image.asset(
-                          'assets/icons/arrow.png',
+                          AppAssets.arrowIcon,
                           scale: 10,
                         ),
                         SmallCards.smallCards(
@@ -600,7 +601,7 @@ class BuildAnalysisAndCoachDetails extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: Image.asset(
-                      'assets/icons/person.png',
+                      AppAssets.person,
                       scale: 2,
                     ),
                   ),
@@ -631,7 +632,7 @@ class BuildAnalysisAndCoachDetails extends StatelessWidget {
                       GestureDetector(
                         onTap: () => context.go(schedulePage),
                         child: Image.asset(
-                          'assets/icons/solar_calendar.png',
+                          AppAssets.calendar,
                           scale: 3,
                         ),
                       ),
@@ -639,7 +640,7 @@ class BuildAnalysisAndCoachDetails extends StatelessWidget {
                       GestureDetector(
                         onTap: () => context.go(chatPage),
                         child: Image.asset(
-                          'assets/icons/messaging.png',
+                          AppAssets.messaging,
                           scale: 3,
                         ),
                       ),
@@ -831,7 +832,7 @@ class RisepathwayCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      'assets/icons/risepathway_1.png',
+                      AppAssets.risepathway1,
                       scale: 3,
                     ),
                     SizedBox(width: 2.w),
@@ -853,7 +854,7 @@ class RisepathwayCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SvgPicture.asset(
-                  'assets/svg/heart_doctor.svg',
+                  AppAssets.heartDoctor,
                 ),
                 RiseText(
                   pathway.title,

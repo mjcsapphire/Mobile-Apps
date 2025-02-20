@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rise_pathway/core/constants/asset_constant.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/constants/strings.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
@@ -87,7 +88,7 @@ class _ReflectionState extends State<Reflection> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.asset(
-                                  'assets/icons/puzzle_icon.png',
+                                  AppAssets.puzzleIcon,
                                   scale: 4,
                                 ),
                                 SizedBox(height: 0.8.h),
@@ -120,7 +121,7 @@ class _ReflectionState extends State<Reflection> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.asset(
-                                  'assets/icons/group_messaging.png',
+                                  AppAssets.groupMessaging,
                                   scale: 4,
                                 ),
                                 SizedBox(height: 0.8.h),
@@ -150,7 +151,7 @@ class _ReflectionState extends State<Reflection> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.asset(
-                                  'assets/icons/friendship_icon.png',
+                                  AppAssets.friendship,
                                   scale: 4,
                                 ),
                                 SizedBox(height: 0.8.h),
@@ -246,6 +247,7 @@ class _ReflectionState extends State<Reflection> {
                         divider: false,
                       ),
                       SizedBox(height: 1.h),
+                      Helpers.customDivider(thickness: 2, secondThickness: 5),
                       RelectionStatusCard(
                         theme: theme,
                         title: 'Goals Achieved',
@@ -255,7 +257,8 @@ class _ReflectionState extends State<Reflection> {
                         secondTitle: 'Total Goals',
                         divider: false,
                       ),
-                      // SizedBox(height: 5.h)
+                      SizedBox(height: 1.h),
+                      Helpers.customDivider(thickness: 2, secondThickness: 5),
                     ],
                   )
                 ],
@@ -357,7 +360,7 @@ class RelectionStatusCard extends StatelessWidget {
                     ],
                   ),
                   SvgPicture.asset(
-                    'assets/svg/reflection_container.svg',
+                    AppAssets.reflectionContainer,
                     colorFilter: ColorFilter.mode(
                       AppColors.white.withOpacity(0.3),
                       BlendMode.srcIn,
