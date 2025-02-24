@@ -1,0 +1,38 @@
+import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:rise_pathway/core/constants/config.dart';
+import 'package:rise_pathway/core/errors/failures.dart';
+import 'package:rise_pathway/core/helpers/helpers.dart';
+import 'package:rise_pathway/services/api_services.dart';
+import 'package:rise_pathway/src/models/meeting/time_slot_model.dart';
+
+class MeetingServices {
+  final Dio dio;
+
+  MeetingServices({required this.dio});
+
+  Future<Either<Failure, List<TimeSlot>>> getAvailableTimeSlots(
+      {required String email, required String date}) async {
+    try {
+      final response = await ApiServices.sendRequest(
+        dio,
+        RequestType.get,
+        Config.getAvailableTimes,
+        headers: {"Content-Type": "application/json"},
+        queryParams: {"email": email, "date": date},
+      );
+
+      List<TimeSlot> timeSlots = [];
+
+      if (response != null) {
+        for (var element in response) {
+          timeSlots.add(TimeSlot.fromJson(element));
+        }
+      }
+
+      return Right(timeSlots);
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+}

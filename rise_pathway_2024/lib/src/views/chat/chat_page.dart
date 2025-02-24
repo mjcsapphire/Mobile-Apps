@@ -102,105 +102,107 @@ class _ChatPageState extends State<ChatPage> {
           },
           customBottomWidget: Container(
             padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
-            child: Obx(() => Row(
-                  children: [
-                    IconButton(
-                      onPressed: () async {
-                        String? emoji = await Helpers.pickEmoji(context);
-                        if (emoji != null) {
-                          messageController.value = TextEditingController(
-                            text: messageController.value.text + emoji,
-                          );
+            child: Obx(
+              () => Row(
+                children: [
+                  IconButton(
+                    onPressed: () async {
+                      String? emoji = await Helpers.pickEmoji(context);
+                      if (emoji != null) {
+                        messageController.value = TextEditingController(
+                          text: messageController.value.text + emoji,
+                        );
+                        isTextFieldEmpty.value = true;
+                        // messageController.value.selection =
+                        //     TextSelection.fromPosition(
+                        //   TextPosition(
+                        //       offset: messageController.value.text.length),
+                        // );
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.emoji_emotions_outlined,
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFormField(
+                      controller: messageController.value,
+                      style: theme.bodySmall,
+                      decoration: InputDecoration(
+                        hintText: 'Type a message',
+                        hintStyle: theme.bodySmall,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                      ),
+                      onChanged: (value) {
+                        if (value.isNotEmpty) {
                           isTextFieldEmpty.value = true;
-                          // messageController.value.selection =
-                          //     TextSelection.fromPosition(
-                          //   TextPosition(
-                          //       offset: messageController.value.text.length),
-                          // );
+                        } else {
+                          isTextFieldEmpty.value = false;
                         }
                       },
-                      icon: const Icon(
-                        Icons.emoji_emotions_outlined,
-                        color: AppColors.primaryColor,
-                      ),
                     ),
-                    Expanded(
-                      child: TextFormField(
-                        controller: messageController.value,
-                        style: theme.bodySmall,
-                        decoration: InputDecoration(
-                          hintText: 'Type a message...',
-                          hintStyle: theme.bodySmall,
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(
-                              color: AppColors.primaryColor,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(
-                              color: AppColors.primaryColor,
-                            ),
-                          ),
-                        ),
-                        onChanged: (value) {
-                          if (value.isNotEmpty) {
-                            isTextFieldEmpty.value = true;
-                          } else {
-                            isTextFieldEmpty.value = false;
-                          }
-                        },
-                      ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      _showMediaBottomSheet(context);
+                    },
+                    icon: const Icon(
+                      Icons.attach_file_rounded,
+                      color: AppColors.primaryColor,
                     ),
-                    IconButton(
+                  ),
+                  Container(
+                    height: 5.5.h,
+                    width: 5.5.h,
+                    margin: EdgeInsets.only(right: 2.w),
+                    decoration: const BoxDecoration(
+                      color: AppColors.primaryColor,
+                      shape: BoxShape.circle,
+                      gradient: AppColorsGredients.primaryTopToBottom,
+                    ),
+                    child: IconButton(
                       onPressed: () {
-                        _showMediaBottomSheet(context);
+                        if (!isTextFieldEmpty.value) {
+                          EasyLoading.showToast('Message can\'t be empty');
+                          return;
+                        }
+                        final types.TextMessage message = types.TextMessage(
+                          author: const types.User(id: '0'),
+                          id: Random().nextInt(100000).toString(),
+                          text: messageController.value.text,
+                          createdAt: DateTime.now().millisecondsSinceEpoch,
+                          showStatus: true,
+                          status: types.Status.delivered,
+                        );
+                        chatController.messages.add(message);
+                        messageController.value.clear();
                       },
-                      icon: const Icon(
-                        Icons.attach_file_rounded,
-                        color: AppColors.primaryColor,
-                      ),
-                    ),
-                    Container(
-                      height: 5.5.h,
-                      width: 5.5.h,
-                      margin: EdgeInsets.only(right: 2.w),
-                      decoration: const BoxDecoration(
-                        color: AppColors.primaryColor,
-                        shape: BoxShape.circle,
-                        gradient: AppColorsGredients.primaryTopToBottom,
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          if (!isTextFieldEmpty.value) {
-                            EasyLoading.showToast('Message can\'t be empty');
-                            return;
-                          }
-                          final types.TextMessage message = types.TextMessage(
-                            author: const types.User(id: '0'),
-                            id: Random().nextInt(100000).toString(),
-                            text: messageController.value.text,
-                            createdAt: DateTime.now().millisecondsSinceEpoch,
-                            showStatus: true,
-                            status: types.Status.delivered,
-                          );
-                          chatController.messages.add(message);
-                          messageController.value.clear();
-                        },
-                        color: AppColors.primaryColor,
-                        icon: Obx(
-                          () => Icon(
-                            isTextFieldEmpty.value ? Icons.send : Icons.mic,
-                            size: 2.5.h,
-                            color: AppColors.white,
-                            fill: .1,
-                          ),
+                      color: AppColors.primaryColor,
+                      icon: Obx(
+                        () => Icon(
+                          isTextFieldEmpty.value ? Icons.send : Icons.mic,
+                          size: 2.5.h,
+                          color: AppColors.white,
+                          fill: .1,
                         ),
                       ),
-                    )
-                  ],
-                )),
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
           onSendPressed: (value) {
             final types.TextMessage message = types.TextMessage(

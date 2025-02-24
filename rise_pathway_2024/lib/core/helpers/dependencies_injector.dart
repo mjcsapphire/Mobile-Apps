@@ -8,6 +8,7 @@ import 'package:rise_pathway/src/controllers/goal_controller.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
 import 'package:rise_pathway/src/controllers/journal_controller.dart';
 import 'package:rise_pathway/src/controllers/media_controller.dart';
+import 'package:rise_pathway/src/controllers/meeting_controller.dart';
 import 'package:rise_pathway/src/controllers/network_controller.dart';
 import 'package:rise_pathway/src/controllers/rise_pathway_controller.dart';
 
@@ -24,6 +25,7 @@ class DependenciesInjector {
     Get.put(JournalController(dio: dio));
     Get.put(GoalController(dio: dio));
     Get.put(MediaController(dio: dio));
+    Get.put(MeetingController(dio: dio));
   }
 
   static void deleteControllers() {

@@ -40,4 +40,9 @@ class Config {
   static const String fetchToolKit = "/getToolkit";
   static const String updateUserImage = "/updateUserRiseImage";
   static const String updateUserSound = "/updateUserRiseSound";
+
+  // meetings
+  static const String getAvailableTimes = "/getAvailableTimes";
+  static const String getBookings = "/getBookings";
+  static const String makeBooking = "/makeBooking";
 }
