@@ -270,7 +270,7 @@ class BuildGoalsList extends StatelessWidget {
                 const Icon(
                   Icons.arrow_forward,
                   color: AppColors.primaryColor,
-                )
+                ),
               ],
             ),
           ),
@@ -283,9 +283,10 @@ class BuildGoalsList extends StatelessWidget {
               child: goalController.isLoading.value
                   ? const Center(
                       child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation(AppColors.primaryColor),
-                    ))
+                        valueColor:
+                            AlwaysStoppedAnimation(AppColors.primaryColor),
+                      ),
+                    )
                   : goalController.goals.isEmpty
                       ? Center(
                           child: RiseText(

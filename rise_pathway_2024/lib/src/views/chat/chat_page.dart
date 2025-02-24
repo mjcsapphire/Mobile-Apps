@@ -105,7 +105,20 @@ class _ChatPageState extends State<ChatPage> {
             child: Obx(() => Row(
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        String? emoji = await Helpers.pickEmoji(context);
+                        if (emoji != null) {
+                          messageController.value = TextEditingController(
+                            text: messageController.value.text + emoji,
+                          );
+                          isTextFieldEmpty.value = true;
+                          // messageController.value.selection =
+                          //     TextSelection.fromPosition(
+                          //   TextPosition(
+                          //       offset: messageController.value.text.length),
+                          // );
+                        }
+                      },
                       icon: const Icon(
                         Icons.emoji_emotions_outlined,
                         color: AppColors.primaryColor,

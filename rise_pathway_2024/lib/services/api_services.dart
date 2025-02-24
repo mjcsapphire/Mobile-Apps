@@ -30,7 +30,7 @@ class ApiServices {
     }
 
     logger.i("""API Path: ${Config.baseURL}$path
-Payload: 
+  Payload: 
   Query Params: $queryParams 
   Data: $data
   ListData: $listData 

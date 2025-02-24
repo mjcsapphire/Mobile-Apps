@@ -43,16 +43,15 @@ class GoalResponse {
 
   String toRawJson() => json.encode(toJson());
 
- factory GoalResponse.fromJson(Map<String, dynamic> json) => GoalResponse(
+  factory GoalResponse.fromJson(Map<String, dynamic> json) => GoalResponse(
         id: json["id"] ?? "",
         title: json["title"] ?? "",
         price: json["price"] ?? "",
         description: json["description"] ?? "",
-        credit: json["credits_awarded"] ?? "", 
+        credit: json["credits_awarded"] ?? "",
         image: json["image"] ?? "",
         stripelink: json["stripe_link"] ?? "",
       );
-
 
   Map<String, dynamic> toJson() => {
         "id": id,

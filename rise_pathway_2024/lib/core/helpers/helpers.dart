@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -83,6 +84,31 @@ class Helpers {
       Logger().e(e.toString());
     }
     return file;
+  }
+
+// emoji picker
+  static Future<String?> pickEmoji(BuildContext context) async {
+    String? selectedEmoji;
+    try {
+      selectedEmoji = await showModalBottomSheet<String>(
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return EmojiPicker(
+            onEmojiSelected: (category, emoji) {
+              Navigator.pop(context, emoji.emoji);
+            },
+            config: Config(
+              height: 40.h,
+              checkPlatformCompatibility: true,
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    return selectedEmoji;
   }
 
   static String removeHtmlTags(String htmlString) {
