@@ -169,6 +169,7 @@ class _CommunityFundingScreenState extends State<CommunityFundingScreen> {
                           // Header Icons
                           Row(
                             children: [
+                              // Left section with user profile image
                               GestureDetector(
                                 onTap: () {
                                   context.pushNamed(RoutesName.profileScreen);
@@ -184,6 +185,7 @@ class _CommunityFundingScreenState extends State<CommunityFundingScreen> {
                                 ),
                               ),
                               const Spacer(),
+SizedBox(width: 17.w),
                               GestureDetector(
                                 onTap: () {
                                   context.pushNamed(RoutesName.scanScreen);
@@ -192,18 +194,36 @@ class _CommunityFundingScreenState extends State<CommunityFundingScreen> {
                                     color: Colors.white, size: 8.w),
                               ),
                               const Spacer(),
-                              IconButton(
-                                icon: Image.asset(
-                                  AppAssetsConstant.notification,
-                                  width: 6.w,
+
+                              Container(
+                                width: 30.w,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {
+                                        context.pop();
+                                      },
+                                      child: Text(
+                                        "Exit",
+                                        style: theme.textTheme.displayMedium,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      icon: Image.asset(
+                                        AppAssetsConstant.notification,
+                                        width: 6.w,
+                                      ),
+                                      onPressed: () {
+                                        context.pushNamed(
+                                            RoutesName.notificationScreen);
+                                      },
+                                    ),
+                                  ],
                                 ),
-                                onPressed: () {
-                                  context
-                                      .pushNamed(RoutesName.notificationScreen);
-                                },
                               ),
                             ],
-                          ),
+                          )
                         ],
                       ),
                     );
@@ -321,7 +341,7 @@ class _CommunityFundingScreenState extends State<CommunityFundingScreen> {
         left: BorderSide(color: Colors.white, width: 0.5),
         right: BorderSide(color: Colors.white, width: 0.5),
       )),
-      height: MediaQuery.of(context).size.height * 0.3,
+      height: MediaQuery.of(context).size.height * 0.32,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -384,7 +404,7 @@ class _CommunityFundingScreenState extends State<CommunityFundingScreen> {
                 right: BorderSide(color: Colors.white, width: 0.5),
               ),
             ),
-            height: MediaQuery.of(context).size.height * 0.3,
+            height: MediaQuery.of(context).size.height * 0.32,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

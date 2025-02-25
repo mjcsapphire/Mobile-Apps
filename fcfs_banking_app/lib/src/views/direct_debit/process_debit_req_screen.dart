@@ -164,7 +164,7 @@ class _ProcessDebitReqScreenState extends State<ProcessDebitReqScreen> {
                     SizedBox(height: 4.h),
 
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.7,
+                      width: MediaQuery.of(context).size.width * 0.8,
                       child: buildPermissionTile(
                         theme,
                         permission: 'Make a standing order',

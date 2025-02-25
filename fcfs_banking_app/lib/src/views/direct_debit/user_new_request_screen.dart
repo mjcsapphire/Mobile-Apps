@@ -58,7 +58,7 @@ class _NewDirectDebitRequestScreenState
                 : GradientBackgroundPainter(),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.36,
+            height: MediaQuery.of(context).size.height * 0.39,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(30),

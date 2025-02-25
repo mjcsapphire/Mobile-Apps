@@ -281,7 +281,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
               // Spending Limit Card (Positioned Relative to the Header)
               Positioned(
-                top: screenHeight * 0.4,
+                top: screenHeight * 0.45,
                 left: 16,
                 right: 16,
                 child: SpendingLimitCard(
@@ -295,7 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: SizedBox(
-                  height: screenHeight * 0.51,
+                  height: screenHeight * 0.45,
                   width: screenWidth - 24,
                   child: Column(
                     children: [
@@ -453,7 +453,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         children: [
           SizedBox(
-            height: 33.h,
+            height: 26.h,
             child: Container(
               decoration: BoxDecoration(
                 gradient: themeController.themeMode == ThemeMode.dark
@@ -704,7 +704,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.42,
+              height: MediaQuery.of(context).size.height * 0.35,
               // margin: const EdgeInsets.only(top: 10),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -771,13 +771,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 1.5.h),
+                  // SizedBox(height: 1.5.h),
                   IconButton(
                     onPressed: () {},
                     icon: const Icon(Icons.swap_vert,
                         color: AppColors.white, size: 30),
                   ),
-                  SizedBox(height: 1.5.h),
+                  // SizedBox(height: 1.5.h),
                   Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 16),

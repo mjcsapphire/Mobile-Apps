@@ -243,9 +243,9 @@ class MasterCardBackWidget extends StatelessWidget {
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w500,
                   )),
-          SizedBox(height: 2.h),
+          SizedBox(height: 1.h),
           Container(
-            height: 6.h,
+            height: 5.5.h,
             width: MediaQuery.of(context).size.width,
             color: Colors.white,
             child: Align(
