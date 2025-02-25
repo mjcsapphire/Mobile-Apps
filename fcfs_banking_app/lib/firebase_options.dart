@@ -66,7 +66,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '296052683450',
     projectId: 'fantasy-banking-app',
     storageBucket: 'fantasy-banking-app.appspot.com',
-    iosBundleId: 'com.example.fcfsBankingApp',
+    iosBundleId: 'co.uk.fantasy.app',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -75,6 +75,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '296052683450',
     projectId: 'fantasy-banking-app',
     storageBucket: 'fantasy-banking-app.appspot.com',
-    iosBundleId: 'com.example.fcfsBankingApp.RunnerTests',
+    iosBundleId: 'co.uk.fantasy.app.RunnerTests',
   );
 }
