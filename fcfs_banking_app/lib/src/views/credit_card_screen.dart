@@ -50,7 +50,7 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
         'back': const VisaCardBackWidget(
           cvv: "1234",
           terms:
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dumm",
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
           condition: "Terms & conditions applied. | FANTASY BANK",
         ),
       },
@@ -64,7 +64,7 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
         'back': const MasterCardBackWidget(
           cvv: "4567",
           terms:
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dumm",
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
           condition: "Terms & conditions applied. | FANTASY BANK",
         ),
       },
@@ -78,7 +78,7 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
         'back': const AmexCardBackWidget(
           cvv: "7890",
           terms:
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dumm",
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
           condition: "Terms & conditions applied. | FANTASY BANK",
         ),
       },

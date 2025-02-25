@@ -215,7 +215,7 @@ class VisaCardBackWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 16, bottom: 16),
-      height: 240,
+      height: 40.h,
       width: 350,
       decoration: BoxDecoration(
         gradient: const LinearGradient(

@@ -440,7 +440,7 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
     return Container(
       padding: const EdgeInsets.all(10),
       height: MediaQuery.of(context).size.height * 0.21,
-      width: MediaQuery.of(context).size.width * 0.31,
+      width: MediaQuery.of(context).size.width * 0.33,
       decoration: BoxDecoration(
         color: themeController.themeMode == ThemeMode.dark
             ? AppColors.darkBorderColor
