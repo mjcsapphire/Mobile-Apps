@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
@@ -47,6 +48,17 @@ List<String> moods = [
 ];
 
 class Helpers {
+  static toast(String text) {
+    return Fluttertoast.showToast(
+      msg: text,
+      toastLength: Toast.LENGTH_SHORT,
+      timeInSecForIosWeb: 5,
+      backgroundColor: AppColors.blue600,
+      textColor: AppColors.white,
+      fontSize: 16.0,
+    );
+  }
+
   static final calendarDecoration = BoxDecoration(
     color: AppColors.white,
     borderRadius: BorderRadius.circular(8),

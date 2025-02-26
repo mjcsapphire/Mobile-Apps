@@ -69,6 +69,7 @@ dependencies:
   video_player: ^2.9.2
   cached_video_player_plus: ^3.0.3
   emoji_picker_flutter: ^4.3.0
+  fluttertoast: ^8.2.12
 
 dev_dependencies:
   flutter_test:

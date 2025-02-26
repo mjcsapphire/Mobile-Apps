@@ -1,10 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
+import 'package:rise_pathway/src/controllers/auth_controller.dart';
+import 'package:rise_pathway/src/controllers/meeting_controller.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -19,19 +20,26 @@ class _BookedAppointmentState extends State<BookedAppointment> {
   final focusDate = DateTime.now().obs;
   final selectedTimeSlot = 0.obs;
 
-  List<String> generateTimeSlots() {
-    List<String> timeSlots = [];
-    DateTime time = DateTime(2023, 1, 1, 8, 0); // Start from 8:00 AM
-    for (int i = -1; i < 12; i++) {
-      timeSlots.add(DateFormat('hh:mm a').format(time));
-      time = time.add(const Duration(minutes: 60));
-    }
-    return timeSlots;
+  final meetingController = Get.find<MeetingController>();
+  final authController = Get.find<AuthController>();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getBookings();
+    });
+  }
+
+  final Map<DateTime, List<String>> bookedAppointments = {};
+
+  Future<void> getBookings() async {
+    await meetingController.getBookings(
+        email: authController.userData.value.userEmail!);
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<String> timeSlots = generateTimeSlots();
     final theme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: RiseAppBar.riseAppBar(
@@ -56,6 +64,7 @@ class _BookedAppointmentState extends State<BookedAppointment> {
                 daysOfWeekHeight: 45,
                 onDaySelected: (selectedDay, focusedDay) {
                   focusDate.value = selectedDay;
+                  getBookings();
                 },
                 selectedDayPredicate: (day) {
                   return isSameDay(day, focusDate.value);
@@ -79,6 +88,11 @@ class _BookedAppointmentState extends State<BookedAppointment> {
                   todayTextStyle: theme.bodyMedium!.copyWith(
                     color: AppColors.white,
                     fontWeight: FontWeight.w600,
+                  ),
+                  markerDecoration: const BoxDecoration(
+                    color:
+                        Colors.red, // Customize marker color for booked dates
+                    shape: BoxShape.circle,
                   ),
                   defaultTextStyle: theme.bodyMedium!.copyWith(
                     color: AppColors.black,
@@ -111,7 +125,7 @@ class _BookedAppointmentState extends State<BookedAppointment> {
                   rowDecoration: Helpers.calendarDecoration,
                   rangeEndDecoration: Helpers.calendarDecoration,
                   rangeStartDecoration: Helpers.calendarDecoration,
-                  markerDecoration: Helpers.calendarDecoration,
+                  // markerDecoration: Helpers.calendarDecoration,
                   withinRangeDecoration: Helpers.calendarDecoration,
                 ),
               );
@@ -134,7 +148,7 @@ class _BookedAppointmentState extends State<BookedAppointment> {
                 crossAxisSpacing: 16,
                 mainAxisExtent: 48,
               ),
-              itemCount: timeSlots.length,
+              itemCount: meetingController.meetings.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) => Obx(
@@ -161,7 +175,7 @@ class _BookedAppointmentState extends State<BookedAppointment> {
                       ],
                     ),
                     child: RiseText(
-                      timeSlots[index],
+                      meetingController.meetings[index].timeBooked.toString(),
                       style: theme.bodySmall!.copyWith(
                         color: index == selectedTimeSlot.value
                             ? AppColors.white

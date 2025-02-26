@@ -26,7 +26,9 @@ class _SchedulePageState extends State<SchedulePage> {
   @override
   void initState() {
     super.initState();
-    fetchTimeSlots();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      fetchTimeSlots();
+    });
   }
 
   Future<void> fetchTimeSlots() async {
@@ -209,7 +211,17 @@ class _SchedulePageState extends State<SchedulePage> {
       floatingActionButton: RiseButton(
         width: 90.w,
         title: 'Book Appointment',
-        onTap: () {},
+        onTap: () async {
+          String formattedDate =
+              DateFormat('yyyy-MM-dd').format(focusDate.value);
+          meetingController.bookMeeting(
+              email: authController.userData.value.userEmail!,
+              date: formattedDate,
+              time: meetingController.timeSlots[selectedTimeSlot.value].time
+                  .split(':')
+                  .sublist(0, 2)
+                  .join(':'));
+        },
       ),
     );
   }
