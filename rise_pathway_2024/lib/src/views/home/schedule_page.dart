@@ -20,7 +20,6 @@ class SchedulePage extends StatefulWidget {
 class _SchedulePageState extends State<SchedulePage> {
   final focusDate = DateTime.now().obs;
   final selectedTimeSlot = 0.obs;
-  final isLoading = false.obs;
   final meetingController = Get.find<MeetingController>();
   final authController = Get.find<AuthController>();
 
@@ -31,13 +30,10 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   Future<void> fetchTimeSlots() async {
-    isLoading.value = true;
     String formattedDate = DateFormat('yyyy-MM-dd').format(focusDate.value);
 
     await meetingController.getAvailableTimeSlots(
         email: authController.userData.value.userEmail!, date: formattedDate);
-
-    isLoading.value = false;
   }
 
   @override
@@ -141,7 +137,7 @@ class _SchedulePageState extends State<SchedulePage> {
 
             // Show loading indicator
             Obx(() {
-              if (isLoading.value) {
+              if (meetingController.isLoading.value) {
                 return Padding(
                   padding: EdgeInsets.only(top: 5.h),
                   child: const Center(child: CircularProgressIndicator()),
