@@ -104,7 +104,7 @@ class _MoreScreenState extends State<MoreScreen> {
                             // : context.pushNamed(RoutesName.businessDashboard);
                           },
                         ),
-                      if (user.role != 'Business')
+                      if (user.role != 'Personal')
                         CustomListTile(
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 0.5.h, horizontal: 4.w),
@@ -140,7 +140,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         titleStyle: theme.textTheme.displaySmall!.copyWith(
                           fontSize: 17.sp,
                         ),
-                        title: "Manage DD & Standing order",
+                        title: "Manage Standing Orders",
                         leading: Icon(
                           Icons.manage_accounts_outlined,
                           color: AppColors.white.withOpacity(0.9),

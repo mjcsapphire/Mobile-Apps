@@ -48,8 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   TextEditingController exchangeAmountController = TextEditingController();
   TextEditingController resultAmountController = TextEditingController();
-  String? selectedCurrency = 'INR';
-  String? resultCurrency = 'INR';
+  String? selectedCurrency = 'JMD';
+  String? resultCurrency = 'JMD';
   String currencyAmount = '';
   String resultAmount = '';
   final bool _showExchangeRate = true;
@@ -228,20 +228,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                           fontSize: 26.sp,
                                           fontWeight: FontWeight.bold),
                                 ),
-                                GestureDetector(
-                                  onTap: () => _topUpMoneyBottomSheet(context),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 8),
-                                    child: Icon(
-                                      Icons.add_circle_outline,
-                                      color: themeController.themeMode ==
-                                              ThemeMode.dark
-                                          ? AppColors.darkTransferBgColor2
-                                          : AppColors.purple,
-                                      size: 28,
-                                    ),
-                                  ),
-                                ),
+                                // GestureDetector(
+                                //   onTap: () => _topUpMoneyBottomSheet(context),
+                                //   child: Padding(
+                                //     padding: const EdgeInsets.only(left: 8),
+                                //     child: Icon(
+                                //       Icons.add_circle_outline,
+                                //       color: themeController.themeMode ==
+                                //               ThemeMode.dark
+                                //           ? AppColors.darkTransferBgColor2
+                                //           : AppColors.purple,
+                                //       size: 28,
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                             ),
                             SizedBox(height: 0.5.h),
@@ -827,7 +827,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 16.sp,
                             ),
                           ),
-                          items: ['INR', 'EUR', 'GBP', 'JPY', 'CAD']
+                          items: ['JMD', 'EUR', 'GBP', 'JPY', 'CAD']
                               .map((String value) => DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(

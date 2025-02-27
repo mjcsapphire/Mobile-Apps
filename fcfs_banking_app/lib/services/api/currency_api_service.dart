@@ -15,7 +15,7 @@ class CurrencyApiService {
     try {
       final queryParams = {
         'apikey': ApiConstant.currencyApiKey,
-        'currencies': 'INR,EUR,GBP,JPY,CAD',
+        'currencies': 'JMD,EUR,GBP,JPY,CAD',
         'base_currency': 'USD',
       };
       final response = await AppHelpers.sendRequest(

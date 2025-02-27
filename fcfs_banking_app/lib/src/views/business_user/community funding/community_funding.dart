@@ -185,7 +185,7 @@ class _CommunityFundingScreenState extends State<CommunityFundingScreen> {
                                 ),
                               ),
                               const Spacer(),
-SizedBox(width: 17.w),
+                              SizedBox(width: 17.w),
                               GestureDetector(
                                 onTap: () {
                                   context.pushNamed(RoutesName.scanScreen);
@@ -195,7 +195,7 @@ SizedBox(width: 17.w),
                               ),
                               const Spacer(),
 
-                              Container(
+                              SizedBox(
                                 width: 30.w,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
@@ -465,13 +465,29 @@ SizedBox(width: 17.w),
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text("Business owner : $businessOwner",
-                    style: Theme.of(context).textTheme.displayMedium),
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .displaySmall
+                        ?.copyWith(fontSize: 16.sp)),
                 Text("Max investment amount : \$$maxInvestmentAmount",
-                    style: Theme.of(context).textTheme.displayMedium),
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .displaySmall
+                        ?.copyWith(fontSize: 16.sp)),
                 Text("Min investment amount : \$$minInvestmentAmount",
-                    style: Theme.of(context).textTheme.displayMedium),
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .displaySmall
+                        ?.copyWith(fontSize: 16.sp)),
                 Text("Number of current investors: $numberOfCurrentInvestors",
-                    style: Theme.of(context).textTheme.displayMedium),
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .displaySmall
+                        ?.copyWith(fontSize: 16.sp)),
                 const SizedBox(height: 16),
                 Center(
                   child: CustomButtonWidget(
