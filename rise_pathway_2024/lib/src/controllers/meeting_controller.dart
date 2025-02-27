@@ -15,6 +15,7 @@ class MeetingController extends GetxController {
   final timeSlots = <TimeSlot>[].obs;
   final isLoading = false.obs;
   final meetings = <GetMeetingResponse>[].obs;
+  final filteredMeetings = <GetMeetingResponse>[].obs;
 
   Future<void> getAvailableTimeSlots({
     required String email,
@@ -63,6 +64,20 @@ class MeetingController extends GetxController {
         meetings.value = response;
       },
     );
+    isLoading.value = false;
+  }
+
+  // cancel Meeting
+  Future<void> cancelMeeting({required String email, required int id}) async {
+    isLoading.value = true;
+    final successOrFailure = await _services.cancelBooking(
+      email: email,
+      id: id,
+    );
+    successOrFailure.fold((failure) => logger.e(failure), (response) {
+      Helpers.toast('Meeting Cancelled');
+      return logger.i(response);
+    });
     isLoading.value = false;
   }
 }

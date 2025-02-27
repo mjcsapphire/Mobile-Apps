@@ -45,4 +45,5 @@ class Config {
   static const String getAvailableTimes = "/getAvailableTimes";
   static const String getBookings = "/getBookings";
   static const String makeBooking = "/makeBooking";
+  static const String cancelBooking = "/cancelBooking";
 }

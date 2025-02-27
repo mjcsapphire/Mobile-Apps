@@ -142,7 +142,10 @@ class _SchedulePageState extends State<SchedulePage> {
               if (meetingController.isLoading.value) {
                 return Padding(
                   padding: EdgeInsets.only(top: 5.h),
-                  child: const Center(child: CircularProgressIndicator()),
+                  child: const Center(
+                      child: CircularProgressIndicator(
+                    color: AppColors.blue600,
+                  )),
                 );
               }
               if (meetingController.timeSlots.isEmpty) {
@@ -221,6 +224,8 @@ class _SchedulePageState extends State<SchedulePage> {
                   .split(':')
                   .sublist(0, 2)
                   .join(':'));
+
+          fetchTimeSlots();
         },
       ),
     );

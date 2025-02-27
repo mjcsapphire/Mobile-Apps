@@ -81,4 +81,23 @@ class MeetingServices {
       return Left(ServerFailure(message: e.toString()));
     }
   }
+
+  // cancel Meeting
+
+  Future<Either<Failure, List<dynamic>>> cancelBooking(
+      {required String email, required int id}) async {
+    try {
+      final response = await ApiServices.sendRequest(
+        dio,
+        RequestType.post,
+        Config.cancelBooking,
+        headers: {"Content-Type": "application/json"},
+        queryParams: {"email": email, "id": id},
+      );
+
+      return Right(response);
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
 }
