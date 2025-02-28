@@ -19,7 +19,7 @@ class DependenciesInjector {
     Get.put(AuthController(dio: dio));
     Get.put(NetworkController());
     Get.put(HomeController());
-    Get.put(ChatController());
+    Get.put(ChatController(dio: dio));
     Get.put(ChallengeController(dio: dio));
     Get.put(RisePathwayController(dio: dio));
     Get.put(JournalController(dio: dio));

@@ -235,7 +235,7 @@ class _BookedAppointmentState extends State<BookedAppointment> {
                     email: authController.userData.value.userEmail!,
                     id: int.parse(selectedMeeting.id),
                   );
-                  print(selectedMeeting.id);
+                  debugPrint(selectedMeeting.id);
 
                   // Refresh bookings after cancellation
                   await getBookings();

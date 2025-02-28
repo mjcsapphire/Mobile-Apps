@@ -83,7 +83,6 @@ class MeetingServices {
   }
 
   // cancel Meeting
-
   Future<Either<Failure, List<dynamic>>> cancelBooking(
       {required String email, required int id}) async {
     try {

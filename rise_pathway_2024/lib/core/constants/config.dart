@@ -46,4 +46,8 @@ class Config {
   static const String getBookings = "/getBookings";
   static const String makeBooking = "/makeBooking";
   static const String cancelBooking = "/cancelBooking";
+
+  //chat message
+  static const String sendMessage = "/sendMessage";
+  static const String getMessages = "/getMessage";
 }

@@ -54,7 +54,6 @@ class MeetingController extends GetxController {
   }
 
   // get meetings
-
   Future<void> getBookings({required String email}) async {
     isLoading.value = true;
     final successOrFailure = await _services.getBookings(email: email);
