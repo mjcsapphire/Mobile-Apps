@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
@@ -9,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/utils/colors.dart';
+import 'package:rise_pathway/src/controllers/auth_controller.dart';
 import 'package:rise_pathway/src/controllers/chat_controller.dart';
 import 'package:rise_pathway/src/views/widget/app_bar.dart';
 
@@ -22,8 +21,16 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final chatController = Get.find<ChatController>();
   final messageController = TextEditingController().obs;
-
+  final authController = Get.find<AuthController>();
   final isTextFieldEmpty = false.obs;
+
+  @override
+  void initState() {
+    super.initState();
+    chatController.getMessages(
+        email: authController.userData.value.userEmail!, limit: 100, offset: 0);
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
@@ -40,26 +47,17 @@ class _ChatPageState extends State<ChatPage> {
               backgroundImage: NetworkImage('https://picsum.photos/1000/2000'),
               backgroundColor: AppColors.primaryColor,
             ),
-            SizedBox(width: 2.w),
+            const SizedBox(width: 8),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                RiseText(
-                  'Stephen Allen',
-                  style: theme.titleMedium!.copyWith(
-                    color: AppColors.primaryColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 1.w),
-                RiseText(
-                  'Active now',
-                  style: theme.bodySmall!.copyWith(
-                    color: AppColors.primaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 10.sp,
-                  ),
-                ),
+                RiseText('Stephen Allen',
+                    style: theme.titleSmall!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryColor,
+                    )),
+                // RiseText('Active now',
+                //     style: theme.bodySmall!.copyWith(fontSize: 10)),
               ],
             )
           ],
@@ -69,23 +67,34 @@ class _ChatPageState extends State<ChatPage> {
         return Chat(
           emojiEnlargementBehavior: EmojiEnlargementBehavior.multi,
           messageWidthRatio: 0.8,
-          messages: chatController.messages.reversed.toList(),
           dateHeaderThreshold: 24 * 60 * 60 * 60,
-          theme: DefaultChatTheme(
-            inputTextCursorColor: AppColors.primaryColor,
-            inputSurfaceTintColor: Colors.yellow,
+          messages: chatController.chats.map((chat) {
+            return types.TextMessage(
+              author: types.User(id: chat.id!),
+              id: chat.id!,
+              text: chat.message!,
+              createdAt: DateTime.parse(chat.dateSent!.toString())
+                  .toLocal()
+                  .millisecondsSinceEpoch,
+            );
+          }).toList(),
+          user: const types.User(id: '0'),
+          onSendPressed: (value) {
+            if (value.text.isNotEmpty) {
+              chatController.sendMessage(
+                  email: authController.userData.value.userEmail!,
+                  message: value.text);
+              messageController.value.clear();
+              isTextFieldEmpty.value = false;
+            }
+          },
+          theme: const DefaultChatTheme(
             inputBackgroundColor: Colors.white,
-            inputTextColor: Colors.white,
-            inputPadding: EdgeInsets.zero,
-            inputTextStyle: const TextStyle(
-              color: Colors.black,
-            ),
             primaryColor: AppColors.chatMessageColor,
-            messageMaxWidth: 100.w,
           ),
-          dateFormat: DateFormat('HH:mm'),
           dateIsUtc: false,
           avatarBuilder: (author) => const CircleAvatar(),
+          dateFormat: DateFormat('HH:mm'),
           customDateHeaderText: (p0) => DateFormat('yMMMd').format(p0),
           textMessageOptions: const TextMessageOptions(
             isTextSelectable: true,
@@ -94,10 +103,8 @@ class _ChatPageState extends State<ChatPage> {
               {required message, required nextMessageInGroup}) {
             return MessageTile(
               message: (child as TextMessage).message.text,
-              sendByMe: message.author.id == '0',
-              time: DateFormat('hh:mm a').format(
-                DateTime.fromMillisecondsSinceEpoch(message.createdAt ?? 0),
-              ),
+              sendByMe: true,
+              icon: Icons.check_sharp,
             );
           },
           customBottomWidget: Container(
@@ -113,11 +120,16 @@ class _ChatPageState extends State<ChatPage> {
                           text: messageController.value.text + emoji,
                         );
                         isTextFieldEmpty.value = true;
-                        // messageController.value.selection =
-                        //     TextSelection.fromPosition(
-                        //   TextPosition(
-                        //       offset: messageController.value.text.length),
-                        // );
+
+                        chatController.sendMessage(
+                            email: authController.userData.value.userEmail!,
+                            message: messageController.value.text);
+                        messageController.value.clear();
+                        isTextFieldEmpty.value = false;
+                        chatController.getMessages(
+                            email: authController.userData.value.userEmail!,
+                            limit: 100,
+                            offset: 0);
                       }
                     },
                     icon: const Icon(
@@ -178,16 +190,26 @@ class _ChatPageState extends State<ChatPage> {
                           EasyLoading.showToast('Message can\'t be empty');
                           return;
                         }
-                        final types.TextMessage message = types.TextMessage(
-                          author: const types.User(id: '0'),
-                          id: Random().nextInt(100000).toString(),
-                          text: messageController.value.text,
-                          createdAt: DateTime.now().millisecondsSinceEpoch,
-                          showStatus: true,
-                          status: types.Status.delivered,
-                        );
-                        chatController.messages.add(message);
+                        // final types.TextMessage message = types.TextMessage(
+                        //   author: const types.User(id: '0'),
+                        //   id: Random().nextInt(100000).toString(),
+                        //   text: messageController.value.text,
+                        //   createdAt: DateTime.now().millisecondsSinceEpoch,
+                        //   showStatus: true,
+                        //   status: types.Status.delivered,
+                        // );
+                        // chatController.messages.add(message);
+                        // messageController.value.clear();
+
+                        chatController.sendMessage(
+                            email: authController.userData.value.userEmail!,
+                            message: messageController.value.text);
                         messageController.value.clear();
+                        isTextFieldEmpty.value = false;
+                        chatController.getMessages(
+                            email: authController.userData.value.userEmail!,
+                            limit: 100,
+                            offset: 0);
                       },
                       color: AppColors.primaryColor,
                       icon: Obx(
@@ -203,17 +225,6 @@ class _ChatPageState extends State<ChatPage> {
                 ],
               ),
             ),
-          ),
-          onSendPressed: (value) {
-            final types.TextMessage message = types.TextMessage(
-              author: types.User(id: messageController.value.text),
-              id: value.text,
-              text: value.text,
-            );
-            chatController.messages.add(message);
-          },
-          user: const types.User(
-            id: '0',
           ),
         );
       }),
@@ -257,13 +268,13 @@ class _ChatPageState extends State<ChatPage> {
 class MessageTile extends StatelessWidget {
   final String message;
   final bool sendByMe;
-  final String time;
+  final IconData? icon;
 
   const MessageTile({
     super.key,
     required this.message,
     required this.sendByMe,
-    required this.time,
+    required this.icon,
   });
 
   @override
@@ -273,8 +284,11 @@ class MessageTile extends StatelessWidget {
       alignment: sendByMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         margin: EdgeInsets.zero,
-        padding:
-            const EdgeInsets.only(top: 12, bottom: 12, left: 20, right: 20),
+        padding: EdgeInsets.only(
+            top: 5,
+            bottom: 5,
+            left: sendByMe ? 30 : 10,
+            right: sendByMe ? 10 : 20),
         decoration: BoxDecoration(
           borderRadius: sendByMe
               ? const BorderRadius.only(
@@ -302,14 +316,19 @@ class MessageTile extends StatelessWidget {
               ),
             ),
             SizedBox(height: 1.w),
-            RiseText(
-              sendByMe ? time.toString() : time.toString(),
-              style: sendByMe
-                  ? theme.bodySmall!
-                      .copyWith(fontSize: 8.sp, color: AppColors.white)
-                  : theme.bodySmall!
-                      .copyWith(fontSize: 8.sp, color: AppColors.black),
-            ),
+            // RiseText(
+            //   sendByMe ? '' : '',
+            //   style: sendByMe
+            //       ? theme.bodySmall!
+            //           .copyWith(fontSize: 8.sp, color: AppColors.white)
+            //       : theme.bodySmall!
+            //           .copyWith(fontSize: 8.sp, color: AppColors.black),
+            // ),
+            Icon(
+              sendByMe ? icon : null,
+              color: AppColors.white,
+              size: 10.sp,
+            )
           ],
         ),
       ),

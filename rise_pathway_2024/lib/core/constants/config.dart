@@ -48,6 +48,6 @@ class Config {
   static const String cancelBooking = "/cancelBooking";
 
   //chat message
-  static const String sendMessage = "/sendMessage";
-  static const String getMessages = "/getMessage";
+  static const String sendMessage = "/sendMessage.php";
+  static const String getMessages = "/getMessage.php";
 }
