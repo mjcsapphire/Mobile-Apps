@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
@@ -66,10 +64,10 @@ class _BookedAppointmentState extends State<BookedAppointment> {
         child: Column(
           children: [
             Obx(() {
-              log(focusDate.value.toString());
+              logger.i(focusDate.value.toString());
               return TableCalendar(
                 focusedDay: focusDate.value,
-                firstDay: DateTime.now(),
+                firstDay: DateTime.utc(2021),
                 lastDay: DateTime.utc(3000),
                 rowHeight: 45,
                 daysOfWeekHeight: 45,

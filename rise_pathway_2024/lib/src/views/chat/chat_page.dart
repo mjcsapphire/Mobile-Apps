@@ -56,8 +56,8 @@ class _ChatPageState extends State<ChatPage> {
                       fontWeight: FontWeight.bold,
                       color: AppColors.primaryColor,
                     )),
-                // RiseText('Active now',
-                //     style: theme.bodySmall!.copyWith(fontSize: 10)),
+                RiseText('Active now',
+                    style: theme.bodySmall!.copyWith(fontSize: 10)),
               ],
             )
           ],
@@ -70,7 +70,7 @@ class _ChatPageState extends State<ChatPage> {
           dateHeaderThreshold: 24 * 60 * 60 * 60,
           messages: chatController.chats.map((chat) {
             return types.TextMessage(
-              author: types.User(id: chat.id!),
+              author: types.User(id: chat.sender!),
               id: chat.id!,
               text: chat.message!,
               createdAt: DateTime.parse(chat.dateSent!.toString())
@@ -103,7 +103,7 @@ class _ChatPageState extends State<ChatPage> {
               {required message, required nextMessageInGroup}) {
             return MessageTile(
               message: (child as TextMessage).message.text,
-              sendByMe: true,
+              sendByMe: message.author.id == authController.userData.value.id,
               icon: Icons.check_sharp,
             );
           },
@@ -127,9 +127,10 @@ class _ChatPageState extends State<ChatPage> {
                         messageController.value.clear();
                         isTextFieldEmpty.value = false;
                         chatController.getMessages(
-                            email: authController.userData.value.userEmail!,
-                            limit: 100,
-                            offset: 0);
+                          email: authController.userData.value.userEmail!,
+                          limit: 100,
+                          offset: 0,
+                        );
                       }
                     },
                     icon: const Icon(
@@ -166,15 +167,16 @@ class _ChatPageState extends State<ChatPage> {
                       },
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      _showMediaBottomSheet(context);
-                    },
-                    icon: const Icon(
-                      Icons.attach_file_rounded,
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
+                  // IconButton(
+                  //   onPressed: () {
+                  //     _showMediaBottomSheet(context);
+                  //   },
+                  //   icon: const Icon(
+                  //     Icons.attach_file_rounded,
+                  //     color: AppColors.primaryColor,
+                  //   ),
+                  // ),
+                  SizedBox(width: 2.w),
                   Container(
                     height: 5.5.h,
                     width: 5.5.h,
@@ -212,16 +214,19 @@ class _ChatPageState extends State<ChatPage> {
                             offset: 0);
                       },
                       color: AppColors.primaryColor,
-                      icon: Obx(
-                        () => Icon(
-                          isTextFieldEmpty.value ? Icons.send : Icons.mic,
-                          size: 2.5.h,
-                          color: AppColors.white,
-                          fill: .1,
-                        ),
+                      icon:
+                          //  Obx(
+                          //   () =>
+                          Icon(
+                        // isTextFieldEmpty.value ? Icons.send : Icons.mic,
+                        Icons.send,
+                        size: 2.5.h,
+                        color: AppColors.white,
+                        fill: .1,
                       ),
                     ),
-                  )
+                  ),
+                  // )
                 ],
               ),
             ),
@@ -285,10 +290,11 @@ class MessageTile extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.zero,
         padding: EdgeInsets.only(
-            top: 5,
-            bottom: 5,
-            left: sendByMe ? 30 : 10,
-            right: sendByMe ? 10 : 20),
+          top: 5,
+          bottom: 5,
+          left: sendByMe ? 30 : 10,
+          right: sendByMe ? 10 : 20,
+        ),
         decoration: BoxDecoration(
           borderRadius: sendByMe
               ? const BorderRadius.only(

@@ -52,5 +52,4 @@ class ChatServices {
       return Left(ServerFailure(message: e.toString()));
     }
   }
-
 }
