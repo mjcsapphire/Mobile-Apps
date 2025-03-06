@@ -1,5 +1,8 @@
 import 'package:fcfs_banking_app/core/theme/colors.dart';
 import 'package:fcfs_banking_app/src/controllers/theme_controller.dart';
+import 'package:fcfs_banking_app/src/controllers/transaction_controller.dart';
+import 'package:fcfs_banking_app/src/controllers/user_controller.dart';
+import 'package:fcfs_banking_app/src/models/transactions_model.dart';
 import 'package:fcfs_banking_app/src/views/widget/slider_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,6 +21,8 @@ class TopUpAccountScreenState extends State<TopUpAccountScreen> {
   String? _selectedToAccount;
   final TextEditingController _amountController = TextEditingController();
   final themeController = Get.find<ThemeController>();
+  final transactionController = Get.find<TransactionController>();
+  final userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +190,31 @@ class TopUpAccountScreenState extends State<TopUpAccountScreen> {
                     ),
                     // _buildSchedule(context),
                     const Spacer(),
-                    SlideButton(onPanEnd: (position) {}),
+                    SlideButton(onPanEnd: (position) async {
+                      double? topUpAmountValue =
+                          double.tryParse(_amountController.text);
+
+                      if (_amountController.text.isNotEmpty) {
+                        transactionController.addTransaction(TransactionModel(
+                          id: DateTime.now().toString(),
+                          userId: userController.user.value!.uid,
+                          amount: topUpAmountValue!,
+                          description: 'Wallet Recharge',
+                          date: DateTime.now(),
+                          type: 'credit',
+                          status: 'completed',
+                          recipient: {
+                            "id": userController.user.value!.uid,
+                          },
+                          fees: 0,
+                        ));
+                        // AppHelpers.toast(
+                        //     "${topUpAmountController.text} added ");
+                        print("Top Up Amount: $topUpAmountValue");
+                        _amountController.clear();
+                        context.pop();
+                      }
+                    }),
                     SizedBox(height: 5.h),
                   ],
                 ),

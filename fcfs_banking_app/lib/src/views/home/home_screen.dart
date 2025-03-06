@@ -218,31 +218,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       Center(
                         child: Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "\$${user?.balance.toStringAsFixed(2) ?? '0.00'}",
-                                  style: theme.textTheme.displayMedium
-                                      ?.copyWith(
-                                          fontSize: 26.sp,
-                                          fontWeight: FontWeight.bold),
-                                ),
-                                // GestureDetector(
-                                //   onTap: () => _topUpMoneyBottomSheet(context),
-                                //   child: Padding(
-                                //     padding: const EdgeInsets.only(left: 8),
-                                //     child: Icon(
-                                //       Icons.add_circle_outline,
-                                //       color: themeController.themeMode ==
-                                //               ThemeMode.dark
-                                //           ? AppColors.darkTransferBgColor2
-                                //           : AppColors.purple,
-                                //       size: 28,
-                                //     ),
-                                //   ),
-                                // ),
-                              ],
+                            Text(
+                              "\$${user?.balance.toStringAsFixed(2) ?? '0.00'}",
+                              style: theme.textTheme.displayMedium?.copyWith(
+                                  fontSize: 26.sp, fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 0.5.h),
                             Text(
@@ -403,26 +382,48 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: recentTransactions.length,
                   itemBuilder: (context, index) {
                     final transaction = recentTransactions[index];
-                    return _activityItem(
-                      transaction.description!,
-                      transaction.type == 'credit'
-                          ? '+ \$${transaction.amount}'
-                          : '- \$${transaction.amount}',
-                      transaction.type == 'credit'
-                          ? Colors.green
-                          : AppColors.white,
-                      transaction.type == 'credit'
-                          ? Icons.call_received
-                          : Icons.call_made,
-                      AppHelpers.formatDate(transaction.date),
-                      transaction.type == 'credit'
-                          ? Colors.green
-                          : AppColors.white,
-                      transaction.type == 'credit'
-                          ? Colors.green
-                          : themeController.themeMode == ThemeMode.dark
-                              ? AppColors.darkBorderColor
-                              : AppColors.red,
+
+                    final recipientId = transaction.recipient != null &&
+                            transaction.recipient!.entries.isNotEmpty
+                        ? transaction.recipient!.entries.first.value
+                        : '';
+                    return FutureBuilder<String>(
+                      future: userController.fetchReceiverNameById(recipientId),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(child: SizedBox());
+                        } else if (snapshot.hasError) {
+                          return Text("Error: ${snapshot.error}");
+                        }
+
+                        final userName = snapshot.data ?? 'Unknown';
+
+                        return _activityItem(
+                          userName ==
+                                  '${userController.user.value!.firstName} ${userController.user.value!.lastName}'
+                              ? 'Wallter Recharge - Self'
+                              : userName,
+                          transaction.type == 'credit'
+                              ? '+ \$${transaction.amount}'
+                              : '- \$${transaction.amount}',
+                          transaction.type == 'credit'
+                              ? Colors.green
+                              : AppColors.white,
+                          transaction.type == 'credit'
+                              ? Icons.call_received
+                              : Icons.call_made,
+                          AppHelpers.formatDate(transaction.date),
+                          transaction.type == 'credit'
+                              ? Colors.green
+                              : AppColors.white,
+                          transaction.type == 'credit'
+                              ? Colors.green
+                              : themeController.themeMode == ThemeMode.dark
+                                  ? AppColors.darkBorderColor
+                                  : AppColors.red,
+                        );
+                      },
                     );
                   },
                 ),

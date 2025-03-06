@@ -104,7 +104,7 @@ class _MoreScreenState extends State<MoreScreen> {
                             // : context.pushNamed(RoutesName.businessDashboard);
                           },
                         ),
-                      if (user.role != 'Personal')
+                      if (user.role == 'Personal')
                         CustomListTile(
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 0.5.h, horizontal: 4.w),
@@ -165,7 +165,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         titleStyle: theme.textTheme.displaySmall!.copyWith(
                           fontSize: 17.sp,
                         ),
-                        title: "Setting",
+                        title: "Settings",
                         leading: Icon(
                           Icons.settings,
                           color: AppColors.white.withOpacity(0.9),
@@ -223,28 +223,28 @@ class _MoreScreenState extends State<MoreScreen> {
                           context.pushNamed(RoutesName.communityFunding);
                         },
                       ),
-                      CustomListTile(
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 0.5.h, horizontal: 4.w),
-                        border: Border.all(
-                          color: AppColors.white,
-                          width: 1,
-                        ),
-                        titleStyle: theme.textTheme.displaySmall!.copyWith(
-                          fontSize: 17.sp,
-                        ),
-                        title: "Request Received",
-                        leading: Icon(
-                          Icons.request_page,
-                          color: AppColors.white.withOpacity(0.9),
-                        ),
-                        trailingIcon: Icons.arrow_forward_ios,
-                        onTap: () {
-                          // Add action for tap
+                      // CustomListTile(
+                      //   contentPadding: EdgeInsets.symmetric(
+                      //       vertical: 0.5.h, horizontal: 4.w),
+                      //   border: Border.all(
+                      //     color: AppColors.white,
+                      //     width: 1,
+                      //   ),
+                      //   titleStyle: theme.textTheme.displaySmall!.copyWith(
+                      //     fontSize: 17.sp,
+                      //   ),
+                      //   title: "Request Received",
+                      //   leading: Icon(
+                      //     Icons.request_page,
+                      //     color: AppColors.white.withOpacity(0.9),
+                      //   ),
+                      //   trailingIcon: Icons.arrow_forward_ios,
+                      //   onTap: () {
+                      //     // Add action for tap
 
-                          context.pushNamed(RoutesName.requestReceived);
-                        },
-                      ),
+                      //     context.pushNamed(RoutesName.requestReceived);
+                      //   },
+                      // ),
                       CustomListTile(
                         contentPadding: EdgeInsets.symmetric(
                             vertical: 0.5.h, horizontal: 4.w),

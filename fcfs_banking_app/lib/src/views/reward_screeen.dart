@@ -70,7 +70,7 @@ class _RewardScreeenState extends State<RewardScreeen> {
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    "Refferal Code",
+                    "Referral  Code",
                     style: theme.textTheme.displayMedium!.copyWith(
                       fontWeight: FontWeight.w500,
                       fontSize: 18.sp,
@@ -78,7 +78,7 @@ class _RewardScreeenState extends State<RewardScreeen> {
                   ),
                   SizedBox(height: 2.h),
                   TextfieldWidget(
-                    label: "Refferal Code",
+                    label: "Referral  Code",
                     keyboardType: TextInputType.name,
                     controller: rewardCouponController,
                   ),
