@@ -37,7 +37,7 @@ dependencies:
 
   # Network
   dio: ^5.7.0
-  connectivity_plus: ^6.0.5
+  # connectivity_plus: ^6.0.5
 
   # Config
   flutter_dotenv: ^5.1.0

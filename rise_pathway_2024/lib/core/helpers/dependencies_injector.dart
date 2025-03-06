@@ -9,7 +9,6 @@ import 'package:rise_pathway/src/controllers/home_controller.dart';
 import 'package:rise_pathway/src/controllers/journal_controller.dart';
 import 'package:rise_pathway/src/controllers/media_controller.dart';
 import 'package:rise_pathway/src/controllers/meeting_controller.dart';
-import 'package:rise_pathway/src/controllers/network_controller.dart';
 import 'package:rise_pathway/src/controllers/rise_pathway_controller.dart';
 
 class DependenciesInjector {
@@ -17,7 +16,7 @@ class DependenciesInjector {
     _injectDio();
     final dio = Get.find<Dio>();
     Get.put(AuthController(dio: dio));
-    Get.put(NetworkController());
+    // Get.put(NetworkController());
     Get.put(HomeController());
     Get.put(ChatController(dio: dio));
     Get.put(ChallengeController(dio: dio));
