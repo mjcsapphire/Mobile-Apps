@@ -461,7 +461,7 @@ class _AppState extends State<App> {
                         index: 3,
                         navIconPath: navIconPath,
                         theme: theme,
-                        label: 'Reflection',
+                        label: 'Reflections',
                         iconName: 'oui_stats',
                       ),
                     ),

@@ -57,7 +57,7 @@ class GoalsCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(24),
                       child: Image.network(
                         goal.image,
-                        fit: BoxFit.contain,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),

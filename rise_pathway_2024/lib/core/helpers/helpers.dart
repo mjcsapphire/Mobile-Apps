@@ -35,16 +35,11 @@ List<String> moods = [
   'happy',
   'sad',
   'angry',
-  'neutral',
-  'confused',
-  'laughing',
   'scared',
-  'wink',
-  'cry',
-  'sick',
-  'fear',
-  'surprise',
-  'enjoyment',
+  'excited',
+  'hopeful',
+  'meh',
+  'grateful'
 ];
 
 class Helpers {

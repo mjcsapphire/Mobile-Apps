@@ -38,7 +38,7 @@ class _ReflectionState extends State<Reflection> {
     return Scaffold(
       appBar: RiseAppBar.riseAppBar(
         theme: theme,
-        title: 'Reflection',
+        title: 'Reflections',
         onTap: () {
           homeController.navIndex.value = 0;
         },

@@ -214,6 +214,12 @@ class BuildDailyChallengesList extends StatelessWidget {
                           horizontal: 1.h,
                           vertical: 2.w,
                         ),
+                        onTap: () {
+                          context.go(
+                            challengePage,
+                            extra: challengeController.challenges[index],
+                          );
+                        },
                       );
                     },
                   ),
@@ -307,6 +313,12 @@ class BuildGoalsList extends StatelessWidget {
                                 horizontal: 1.h,
                                 vertical: 2.w,
                               ),
+                              onTap: () {
+                                context.go(
+                                  goalPage,
+                                  extra: goalController.goals[index],
+                                );
+                              },
                             );
                           },
                         ),

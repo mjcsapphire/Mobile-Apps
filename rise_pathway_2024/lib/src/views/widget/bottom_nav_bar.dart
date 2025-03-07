@@ -171,7 +171,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   ),
                   SizedBox(height: 1.w),
                   RiseText(
-                    'Reflection',
+                    'Reflections',
                     style: index == 3
                         ? theme.labelSmall!.copyWith(
                             color: AppColors.primaryColor,

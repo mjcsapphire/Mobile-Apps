@@ -57,7 +57,7 @@ class ChallengesCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(24),
                       child: Image.network(
                         challenge.image,
-                        fit: BoxFit.contain,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),

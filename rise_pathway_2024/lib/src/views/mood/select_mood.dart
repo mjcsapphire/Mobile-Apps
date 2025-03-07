@@ -95,7 +95,7 @@ class _SelectMoodState extends State<SelectMood> {
                 ),
                 child: Image.asset(
                   imagePaths[index],
-                  scale: 2,
+                  scale: 1.5,
                 ),
               );
             }),
@@ -342,6 +342,7 @@ class StrokeCirclePainter extends CustomPainter {
       paintImage(
         canvas: canvas,
         image: images[i],
+        scale: 2,
         rect: const Rect.fromLTWH(-30, -60, 60, 60),
         fit: BoxFit.contain,
       );
