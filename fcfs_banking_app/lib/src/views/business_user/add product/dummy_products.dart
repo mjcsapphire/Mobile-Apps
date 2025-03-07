@@ -40,31 +40,31 @@ final List<Map<String, dynamic>> categories = [
       {
         'name': 'Lays Chips',
         'price': 2.00,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Doritos',
         'price': 2.50,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Pringles',
         'price': 3.00,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Cheetos',
         'price': 1.80,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Popcorn',
         'price': 1.50,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
     ]
@@ -145,31 +145,31 @@ final List<Map<String, dynamic>> categories = [
       {
         'name': 'Apple',
         'price': 2.50,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Banana',
         'price': 1.00,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Orange',
         'price': 2.20,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Mango',
         'price': 3.50,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Grapes',
         'price': 4.00,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
     ]
@@ -180,31 +180,31 @@ final List<Map<String, dynamic>> categories = [
       {
         'name': 'Milk',
         'price': 2.00,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Cheese',
         'price': 4.50,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Yogurt',
         'price': 3.00,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Butter',
         'price': 3.80,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Cream',
         'price': 2.70,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
     ]
@@ -215,31 +215,31 @@ final List<Map<String, dynamic>> categories = [
       {
         'name': 'Chicken',
         'price': 7.00,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Beef',
         'price': 8.50,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Pork',
         'price': 6.50,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Lamb',
         'price': 9.00,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Fish',
         'price': 5.80,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
     ]
@@ -285,31 +285,31 @@ final List<Map<String, dynamic>> categories = [
       {
         'name': 'Frozen Pizza',
         'price': 5.50,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Frozen Fries',
         'price': 3.00,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Frozen Nuggets',
         'price': 4.50,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Frozen Berries',
         'price': 4.20,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Ice Cream',
         'price': 6.00,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
     ]
@@ -320,31 +320,31 @@ final List<Map<String, dynamic>> categories = [
       {
         'name': 'Dish Soap',
         'price': 3.00,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Laundry Detergent',
         'price': 8.00,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Toilet Paper',
         'price': 5.50,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Paper Towels',
         'price': 4.00,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
       {
         'name': 'Trash Bags',
         'price': 3.80,
-       'image': 'assets/images/can.png',
+        'image': 'assets/images/can.png',
         'quantity': 0
       },
     ]

@@ -562,8 +562,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color:
                                     themeController.themeMode == ThemeMode.dark
                                         ? AppColors.darkBgColor2
-                                        : Colors.orange.withOpacity(
-                                            0.3), // Gradient under line
+                                        : Colors.orange.withOpacity(0.3),
                               ),
                             ),
                           ],
@@ -597,19 +596,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 ];
 
                 return featureCard(
-                    title: titles[index],
-                    onTap: () {
-                      if (index == 0) {
-                        // _setLimitBottomSheet(context);
-                        context.pushNamed(RoutesName.setLimit);
-                      } else if (index == 1) {
-                        context.pushNamed(RoutesName.referralScreen);
-                      } else if (index == 2) {
-                        AppHelpers.toast("upcoming feature");
-                      } else {
-                        AppHelpers.toast("upcoming feature");
-                      }
-                    });
+                  title: titles[index],
+                  onTap: () {
+                    if (index == 0) {
+                      // _setLimitBottomSheet(context);
+                      context.pushNamed(RoutesName.setLimit);
+                    } else if (index == 1) {
+                      context.pushNamed(RoutesName.referralScreen);
+                    } else if (index == 2) {
+                      AppHelpers.toast("upcoming feature");
+                    } else {
+                      AppHelpers.toast("upcoming feature");
+                    }
+                  },
+                );
               },
             ),
           ),

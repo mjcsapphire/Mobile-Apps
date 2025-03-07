@@ -31,19 +31,17 @@ class _TermsConditionState extends State<TermsCondition> {
       ),
       body: Stack(
         children: [
-            CustomPaint(
-              size: Size(
-                MediaQuery.of(context).size.width,
-                MediaQuery.of(context).size.height,
-              ),
-              painter: themeController.themeMode == ThemeMode.dark
-                  ? DarkGradientBackgroundPainter()
-                  : GradientBackgroundPainter(),
+          CustomPaint(
+            size: Size(
+              MediaQuery.of(context).size.width,
+              MediaQuery.of(context).size.height,
             ),
-
+            painter: themeController.themeMode == ThemeMode.dark
+                ? DarkGradientBackgroundPainter()
+                : GradientBackgroundPainter(),
+          ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-           
             child: SingleChildScrollView(
               child: Column(
                 children: [

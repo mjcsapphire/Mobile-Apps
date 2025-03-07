@@ -45,7 +45,7 @@ class QRCodeScannerWidgetState extends State<QRCodeScannerWidget> {
               if (displayValue != null) {
                 widget.onScanCompleted(displayValue);
               } else {
-               AppHelpers.toast('Invalid QR code format.');
+                AppHelpers.toast('Invalid QR code format.');
               }
             }
           },

@@ -57,7 +57,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
       cursorColor: widget.cursorColor,
       enabled: widget.editable,
       maxLength: widget.maxLength,
-      
       decoration: InputDecoration(
         contentPadding:
             const EdgeInsets.symmetric(vertical: 15, horizontal: 10),

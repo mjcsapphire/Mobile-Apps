@@ -24,35 +24,40 @@ class Environment {
   static String get projectid {
     return dotenv.env['project_id'] ?? 'project_id not found!';
   }
+
   static String get privatekeyid {
     return dotenv.env['private_key_id'] ?? 'project_id not found!';
   }
+
   // static String get privatekey {
   //   return dotenv.env['private_key'] ?? 'project_id not found!';
   // }
   static String get clientEmail {
     return dotenv.env['client_email'] ?? 'project_id not found!';
   }
+
   static String get clientId {
     return dotenv.env['client_id'] ?? 'project_id not found!';
   }
+
   static String get authUri {
     return dotenv.env['auth_uri'] ?? 'project_id not found!';
   }
+
   static String get tokenUri {
     return dotenv.env['token_uri'] ?? 'project_id not found!';
   }
+
   static String get authproviderx509certurl {
     return dotenv.env['auth_provider_x509_cert_url'] ?? 'project_id not found!';
   }
+
   static String get clientx509certurl {
-    return dotenv.env['client_x509_cert_url'] ?? 'client_x509_cert_url not found!';
+    return dotenv.env['client_x509_cert_url'] ??
+        'client_x509_cert_url not found!';
   }
+
   static String get universeDomain {
     return dotenv.env['universe_domain'] ?? 'universe_domain not found!';
   }
-
-
-
-
 }

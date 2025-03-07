@@ -544,9 +544,7 @@ class _TransferScreenState extends State<TransferScreen> {
                         SlideButton(onPanEnd: (position) async {
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
-                              return const PaymentConfirmation(
-                              
-                              );
+                              return const PaymentConfirmation();
                             },
                           ));
                           await Future.delayed(const Duration(seconds: 1));
@@ -666,5 +664,4 @@ class _TransferScreenState extends State<TransferScreen> {
       },
     );
   }
-
 }

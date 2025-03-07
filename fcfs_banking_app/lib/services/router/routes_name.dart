@@ -28,8 +28,7 @@ class RoutesName {
   static const String helpSupportChatScreen = 'helpSupportChatScreen';
   static const String newDirectDebitRequestScreen =
       'newDirectDebitRequestScreen';
-  static const String processDebitRequestScreen =
-      'processDebitRequestScreen';
+  static const String processDebitRequestScreen = 'processDebitRequestScreen';
   static const String personalDashboard = 'personalDashboard';
   static const String businessDashboard = 'businessDashboard';
 
@@ -40,7 +39,6 @@ class RoutesName {
   static const String choosePayment = 'choosePayment';
   static const String externalTermialPayment = 'externalTermialPayment';
   static const String paymentReceiptStatus = 'paymentReceiptStatus';
-
 
   static const String communityFunding = 'communityFunding';
   static const String ideaSubmission = 'ideaSubmission';
@@ -56,5 +54,4 @@ class RoutesName {
   static const String topUpAccount = 'topUpAccount';
   static const String requestReceived = 'requestReceived';
   static const String setLimit = 'setLimit';
-
 }

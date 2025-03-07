@@ -85,21 +85,23 @@ class ChooseBillingMethod extends StatelessWidget {
               ? AppColors.darkStackContainerBackground
               : AppColors.stackContainerBackground2,
           borderRadius: BorderRadius.circular(8),
-          border: themeController.themeMode == ThemeMode.dark ?  const GradientBoxBorder(
-                      gradient: LinearGradient(
-                        colors: [AppColors.darkBgColor2, AppColors.purple],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
-                      width: 2,
-                    ) :  const GradientBoxBorder(
-            gradient: LinearGradient(
-              colors: [AppColors.white, AppColors.red],
-              end: Alignment.topLeft,
-              begin: Alignment.bottomRight,
-            ),
-            width: 2,
-          ),
+          border: themeController.themeMode == ThemeMode.dark
+              ? const GradientBoxBorder(
+                  gradient: LinearGradient(
+                    colors: [AppColors.darkBgColor2, AppColors.purple],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                  width: 2,
+                )
+              : const GradientBoxBorder(
+                  gradient: LinearGradient(
+                    colors: [AppColors.white, AppColors.red],
+                    end: Alignment.topLeft,
+                    begin: Alignment.bottomRight,
+                  ),
+                  width: 2,
+                ),
         ),
         child: Text(
           title,

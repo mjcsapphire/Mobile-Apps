@@ -127,6 +127,4 @@ class AuthService {
       return Left("Error signing out: $e");
     }
   }
-
- 
 }

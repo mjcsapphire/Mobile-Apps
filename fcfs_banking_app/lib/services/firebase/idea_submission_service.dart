@@ -98,9 +98,9 @@ class IdeaSubmissionService {
     }
   }
 
-    // update number of inverstors
+  // update number of inverstors
 
- Future<void> updateInvestors(String ideaId, int newInvestors) async {
+  Future<void> updateInvestors(String ideaId, int newInvestors) async {
     try {
       final docRef =
           FirebaseFirestore.instance.collection('ideaSubmissions').doc(ideaId);
@@ -121,7 +121,4 @@ class IdeaSubmissionService {
       throw Exception('Failed to update investors: $e');
     }
   }
-
-
 }
-

@@ -11,7 +11,7 @@ class ScanScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  CustomAppBar(
+      appBar: CustomAppBar(
         title: "Scan QR",
         showMoreVertIcon: false,
         showNotificationIcon: false,

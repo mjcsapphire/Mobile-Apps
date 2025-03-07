@@ -32,14 +32,14 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
       body: Stack(
         children: [
           CustomPaint(
-              size: Size(
-                MediaQuery.of(context).size.width,
-                MediaQuery.of(context).size.height,
-              ),
-              painter: themeController.themeMode == ThemeMode.dark
-                  ? DarkGradientBackgroundPainter()
-                  : GradientBackgroundPainter(),
+            size: Size(
+              MediaQuery.of(context).size.width,
+              MediaQuery.of(context).size.height,
             ),
+            painter: themeController.themeMode == ThemeMode.dark
+                ? DarkGradientBackgroundPainter()
+                : GradientBackgroundPainter(),
+          ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: Column(

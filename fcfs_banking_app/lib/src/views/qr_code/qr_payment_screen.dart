@@ -72,7 +72,7 @@ class _QrPaymentScreenState extends State<QrPaymentScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar:  CustomAppBar(
+      appBar: CustomAppBar(
         title: "Make Payment",
         showMoreVertIcon: false,
         showNotificationIcon: false,

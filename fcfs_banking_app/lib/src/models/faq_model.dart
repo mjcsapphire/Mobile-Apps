@@ -106,5 +106,4 @@ List<FAQ> faqs = [
     answer:
         'You can enable or disable push notifications from the “Notifications” section in the app settings.',
   ),
-  
 ];

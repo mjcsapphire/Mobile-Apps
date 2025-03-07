@@ -41,87 +41,86 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        toolbarHeight: 7.5.h,
-        backgroundColor: AppColors.transparent,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
+      toolbarHeight: 7.5.h,
+      backgroundColor: AppColors.transparent,
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
             gradient: themeController.themeMode == ThemeMode.light
                 ? AppColors.stackContainerBackground
                 : AppColors.darkAppBarGradient
             // color: AppColors.white,
-          ),
-        ),
-        title: Row(
-          children: [
-            if (showProfilePic && profilePicUrl != null)
-              GestureDetector(
-                onTap: onProfileTap,
-                child: CircleAvatar(
-                  backgroundColor: AppColors.white,
-                  backgroundImage: profilePicUrl != null
-                      ? CachedNetworkImageProvider(profilePicUrl!)
-                      : const AssetImage(AppAssetsConstant.profile2)
-                          as ImageProvider,
-                  child: profilePicUrl == null
-                      ? Image.asset(
-                          AppAssetsConstant.profile2,
-                          fit: BoxFit.cover,
-                        )
-                      : null,
-                ),
-              ),
-            if (showProfilePic) const SizedBox(width: 10),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 18.sp,
-                    fontFamily: "Montserrat",
-                  ),
             ),
-            const Spacer(),
-            if (showNotificationIcon)
-              IconButton(
-                icon: Image.asset(
-                  AppAssetsConstant.notification,
-                  height: 25,
-                  width: 25,
-                ),
-                onPressed: onNotificationTap,
+      ),
+      title: Row(
+        children: [
+          if (showProfilePic && profilePicUrl != null)
+            GestureDetector(
+              onTap: onProfileTap,
+              child: CircleAvatar(
+                backgroundColor: AppColors.white,
+                backgroundImage: profilePicUrl != null
+                    ? CachedNetworkImageProvider(profilePicUrl!)
+                    : const AssetImage(AppAssetsConstant.profile2)
+                        as ImageProvider,
+                child: profilePicUrl == null
+                    ? Image.asset(
+                        AppAssetsConstant.profile2,
+                        fit: BoxFit.cover,
+                      )
+                    : null,
               ),
-            if (showEditIcon)
-              IconButton(
+            ),
+          if (showProfilePic) const SizedBox(width: 10),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 18.sp,
+                  fontFamily: "Montserrat",
+                ),
+          ),
+          const Spacer(),
+          if (showNotificationIcon)
+            IconButton(
+              icon: Image.asset(
+                AppAssetsConstant.notification,
+                height: 25,
+                width: 25,
+              ),
+              onPressed: onNotificationTap,
+            ),
+          if (showEditIcon)
+            IconButton(
+              icon: const Icon(
+                Icons.edit,
+                color: AppColors.white,
+                size: 24,
+              ),
+              onPressed: onEditIconTap,
+            ),
+          if (showShareIcon)
+            IconButton(
+              icon: const Icon(
+                Icons.ios_share_outlined,
+                color: AppColors.white,
+                size: 24,
+              ),
+              onPressed: onShareTap,
+            ),
+          if (showMoreVertIcon)
+            GestureDetector(
+              onTap: onEditIconTap,
+              child: IconButton(
                 icon: const Icon(
-                  Icons.edit,
+                  Icons.more_vert,
                   color: AppColors.white,
-                  size: 24,
                 ),
-                onPressed: onEditIconTap,
+                onPressed: onMoreVertTap,
               ),
-            if (showShareIcon)
-              IconButton(
-                icon: const Icon(
-                  Icons.ios_share_outlined,
-                  color: AppColors.white,
-                  size: 24,
-                ),
-                onPressed: onShareTap,
-              ),
-            if (showMoreVertIcon)
-              GestureDetector(
-                onTap: onEditIconTap,
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.more_vert,
-                    color: AppColors.white,
-                  ),
-                  onPressed: onMoreVertTap,
-                ),
-              ),
-          ],
-        ),
-      );
-  
+            ),
+        ],
+      ),
+    );
   }
 
   @override
