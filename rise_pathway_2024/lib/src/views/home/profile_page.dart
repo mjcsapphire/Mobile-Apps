@@ -2,7 +2,6 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:rise_pathway/core/constants/asset_constant.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
 import 'package:rise_pathway/core/routes/routes.dart';
@@ -262,17 +261,18 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
                 SizedBox(height: 2.h),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: RiseText(
-                    'Current Song',
-                    style: theme.bodyMedium!.copyWith(
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.black.withOpacity(0.5),
-                    ),
-                  ),
-                ),
+                // Align(
+                //   alignment: Alignment.centerLeft,
+                //   child: RiseText(
+                //     'Current Song',
+                //     style: theme.bodyMedium!.copyWith(
+                //       fontWeight: FontWeight.w400,
+                //       color: AppColors.black.withOpacity(0.5),
+                //     ),
+                //   ),
+                // ),
                 SizedBox(height: 2.h),
+                // Current Song
                 Container(
                   height: 7.h,
                   width: 100.w,
@@ -281,47 +281,22 @@ class _ProfilePageState extends State<ProfilePage> {
                     borderRadius: BorderRadius.circular(8),
                     color: AppColors.blue.withOpacity(0.1),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Image(
-                        image: AssetImage(AppAssets.cdimage),
-                        height: 40,
-                        width: 40,
-                      ),
-                      Obx(() {
-                        final media = musicController.selectedMedia.value;
-                        return RiseText(
-                          media != null && media.title != null
-                              ? media.title!
-                              : Helpers.getFileName(
-                                  authController.userData.value.riseSound ??
-                                      'No media selected'),
-                          style: theme.bodySmall!.copyWith(
-                            color: AppColors.primaryColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        );
-                      }),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SongListScreen(
-                                  songs: musicController.mediaList
-                                      .cast<AudioResponse>()),
-                            ),
-                          );
-                        },
-                        icon: const Icon(
-                          Icons.queue_music,
-                          color: AppColors.blue600,
-                          size: 40,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SongListScreen(
+                              songs: musicController.mediaList
+                                  .cast<AudioResponse>()),
                         ),
-                      ),
-                    ],
+                      );
+                    },
+                    child: RiseText("Toolkit",
+                        style: theme.bodyLarge!.copyWith(
+                          color: AppColors.blue700,
+                          fontWeight: FontWeight.bold,
+                        )),
                   ),
                 ),
                 SizedBox(height: 2.h),

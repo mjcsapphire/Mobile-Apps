@@ -18,27 +18,24 @@ class MediaController extends GetxController {
   final authController = Get.find<AuthController>();
 
   final AudioPlayer audioPlayer = AudioPlayer();
-  // VideoPlayerController? videoPlayer;
   CachedVideoPlayerPlusController? videoPlayer;
 
-  /// Combined Media List (Audio & Video)
   var mediaList = <dynamic>[].obs;
 
-  RxBool isAudio = false.obs;
+  Rx<AudioResponse?> selectedAudio = Rx<AudioResponse?>(null);
+  Rx<VideoResponse?> selectedVideoImage = Rx<VideoResponse?>(null);
+
   RxBool isPlaying = false.obs;
   var duration = Rx<Duration>(Duration.zero);
   RxDouble progress = 0.0.obs;
   String baseUrl = Environment.mediaImageUrl;
-  var selectedMedia = Rx<dynamic>(null);
 
   @override
   void onInit() {
     super.onInit();
     fetchMedia();
-    selectedMedia.value = authController.userData.value.riseSound;
   }
 
-  /// Fetch media from API
   Future<void> fetchMedia() async {
     final audioResult = await mediaService.fetchAudios();
     final videoResult = await mediaService.fetchVideos();
@@ -54,126 +51,58 @@ class MediaController extends GetxController {
     );
   }
 
-  /// Select and play media
-  Future<void> selectMedia(dynamic media) async {
+  /// Select audio
+  Future<void> selectAudio(AudioResponse audio) async {
     stopMedia();
-    selectedMedia.value = media;
-
-    if (media is AudioResponse) {
-      isAudio.value = true;
-      await _loadAudio(media.path);
-      playMedia();
-    } else if (media is VideoResponse) {
-      isAudio.value = false;
-      _loadVideo(media.path);
-    }
+    selectedAudio.value = audio;
+    await _loadAudio(audio.path);
   }
 
-  /// Play media based on type (Audio or Video)
-  void playMedia() {
-    if (isAudio.value) {
+  /// Select video/image
+  Future<void> selectVideoImage(VideoResponse video) async {
+    stopMedia();
+    selectedVideoImage.value = video;
+    _loadVideo(video.path);
+  }
+
+  /// Play both media together
+  void playSelectedMedia() {
+    if (selectedAudio.value != null && selectedVideoImage.value != null) {
       audioPlayer.play();
+      videoPlayer?.play();
+      isPlaying.value = true;
     } else {
-      if (videoPlayer != null && videoPlayer!.value.isInitialized) {
-        videoPlayer!.play();
-      } else {
-        logger.e("Video is not yet initialized.");
-      }
+      logger.e("Both audio and video/image must be selected!");
     }
-    isPlaying.value = true;
   }
 
-  /// Load and play audio
   Future<void> _loadAudio(String url) async {
     String fullUrl = "$baseUrl$url";
     try {
       await audioPlayer.setUrl(fullUrl);
-      duration.value = audioPlayer.duration ?? Duration.zero;
-      isPlaying.value = true;
       await audioPlayer.play();
       audioPlayer.setLoopMode(LoopMode.one);
-      audioPlayer.durationStream.listen((d) {
-        if (d != null) duration.value = d;
-      });
-
-      audioPlayer.positionStream.listen((p) {
-        progress.value = p.inMilliseconds / (duration.value.inMilliseconds + 1);
-      });
     } catch (e) {
       logger.e("Error loading audio: $e");
     }
   }
 
-  /// Load and play video
   void _loadVideo(String url) {
     String fullUrl = "$baseUrl$url";
     videoPlayer = CachedVideoPlayerPlusController.networkUrl(Uri.parse(fullUrl))
       ..initialize().then((_) {
         videoPlayer!.setLooping(true);
         videoPlayer!.play();
-        duration.value = videoPlayer!.value.duration;
-        update();
       }).catchError((error) {
         logger.e("Error initializing video: $error");
       });
-
-    videoPlayer!.addListener(() {
-      if (videoPlayer!.value.isInitialized) {
-        progress.value = videoPlayer!.value.position.inMilliseconds /
-            (videoPlayer!.value.duration.inMilliseconds + 1);
-      }
-    });
   }
 
-  /// Play or Pause Media
-  void togglePlayPause() {
-    if (isAudio.value) {
-      audioPlayer.playing ? audioPlayer.pause() : audioPlayer.play();
-    } else {
-      videoPlayer!.value.isPlaying ? videoPlayer!.pause() : videoPlayer!.play();
-    }
-    isPlaying.toggle();
-  }
-
-  /// Stop Media
   void stopMedia() {
-    if (isAudio.value) {
-      audioPlayer.stop();
-    } else {
-      videoPlayer?.pause();
-      videoPlayer?.seekTo(Duration.zero);
-    }
+    audioPlayer.stop();
+    videoPlayer?.pause();
+    videoPlayer?.seekTo(Duration.zero);
     isPlaying.value = false;
     progress.value = 0.0;
-  }
-
-  @override
-  void onClose() {
-    audioPlayer.dispose();
-    videoPlayer?.dispose();
-    super.onClose();
-  }
-
-  Future<void> updateUserMedia({required String email}) async {
-    if (selectedMedia.value is VideoResponse) {
-      final successOrFailure = await mediaService.setUserImageVideo(
-          email: email, path: selectedMedia.value.path);
-
-      successOrFailure.fold(
-        (failure) => logger.e(failure),
-        (success) {
-          logger.d("Successfully updated media: $success");
-        },
-      );
-    } else {
-      final successOrFailure = await mediaService.setUserAudio(
-          email: email, path: selectedMedia.value.path);
-      successOrFailure.fold(
-        (failure) => logger.e(failure),
-        (success) {
-          logger.d("Successfully updated media: $success");
-        },
-      );
-    }
   }
 }

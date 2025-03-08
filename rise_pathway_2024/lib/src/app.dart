@@ -48,7 +48,7 @@ class _AppState extends State<App> {
     return Obx(() {
       final index = homeController.navIndex.value;
       final isPlayerVisible = homeController.isPlayerVisible.value;
-      final selectedMedia = musicController.selectedMedia.value;
+      final selectedMedia = musicController.selectedAudio.value;
 
       return Scaffold(
         body: Stack(
@@ -126,10 +126,10 @@ class _AppState extends State<App> {
                                     String mediaName = authController
                                         .userData.value.riseSound!;
                                     final media =
-                                        musicController.selectedMedia.value;
+                                        musicController.selectedAudio.value;
                                     return RiseText(
-                                      media != null && media.title != null
-                                          ? media.title!
+                                      media != null
+                                          ? media.title
                                           : Helpers.getFileName(mediaName),
                                       style: theme.displayMedium!.copyWith(
                                         color: AppColors.primaryColor,
@@ -154,11 +154,11 @@ class _AppState extends State<App> {
                                     Obx(() {
                                       String mediaName = authController
                                           .userData.value.riseSound!;
-                                      final media =
-                                          musicController.selectedMedia.value;
+                                      final media = musicController
+                                          .selectedVideoImage.value;
                                       return RiseText(
-                                        media != null && media.title != null
-                                            ? media.title!
+                                        media != null
+                                            ? media.title
                                             : Helpers.getFileName(mediaName),
                                         style: theme.bodySmall!.copyWith(
                                           color: AppColors.primaryColor,
@@ -260,8 +260,11 @@ class _AppState extends State<App> {
                                         size: 30,
                                       )),
                                   IconButton(
-                                    onPressed: () => homeController
-                                        .isPlayerVisible.value = false,
+                                    onPressed: () {
+                                      homeController.isPlayerVisible.value =
+                                          false;
+                                      musicController.stopMedia();
+                                    },
                                     icon: const Icon(
                                       Icons.clear_rounded,
                                       color: AppColors.primaryColor,
@@ -368,7 +371,7 @@ class _AppState extends State<App> {
                   !homeController.isPlayerVisible.value;
               if (homeController.isPlayerVisible.value) {
                 // Play the sound if visible
-                musicController.playMedia();
+                musicController.playSelectedMedia();
               } else {
                 // Stop the sound if not visible
                 musicController.stopMedia();
