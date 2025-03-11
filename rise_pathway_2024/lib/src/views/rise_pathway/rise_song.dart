@@ -42,7 +42,7 @@ class SongListScreen extends StatelessWidget {
             const Spacer(),
             ElevatedButton(
               onPressed: musicController.selectedAudio.value != null &&
-                      musicController.selectedVideoImage.value != null
+                      musicController.selectedGif.value != null
                   ? () {
                       musicController.playSelectedMedia();
                       context.pop();
@@ -64,15 +64,19 @@ class SongListScreen extends StatelessWidget {
         final media = mediaList[index];
         bool isSelected = isAudio
             ? musicController.selectedAudio.value == media
-            : musicController.selectedVideoImage.value == media;
+            : musicController.selectedGif.value == media;
 
         return ListTile(
-          leading: Icon(
-            isAudio ? Icons.audiotrack : Icons.videocam,
-            color: isAudio ? AppColors.secondryColor : AppColors.primaryColor,
-          ),
-          title: Text(media.title),
-          subtitle: Text(isAudio ? "Audio" : "Video/Image"),
+          leading: isAudio
+              ? const Icon(Icons.audiotrack, color: AppColors.secondryColor)
+              : Image.asset(
+                  media,
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
+                ),
+          title: Text(isAudio ? media.title : "GIF ${index + 1}"),
+          subtitle: Text(isAudio ? "Audio" : "GIF"),
           trailing: isSelected
               ? const Icon(Icons.check, color: AppColors.primaryColor)
               : null,
@@ -80,7 +84,7 @@ class SongListScreen extends StatelessWidget {
             if (isAudio) {
               musicController.selectAudio(media);
             } else {
-              musicController.selectVideoImage(media);
+              musicController.selectGif(media);
             }
           },
         );

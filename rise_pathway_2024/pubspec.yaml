@@ -70,6 +70,7 @@ dependencies:
   cached_video_player_plus: ^3.0.3
   emoji_picker_flutter: ^4.3.0
   fluttertoast: ^8.2.12
+  ffmpeg_kit_flutter: ^6.0.3
 
 dev_dependencies:
   flutter_test:
@@ -94,6 +95,7 @@ flutter:
     - .env.development
     - .env.production
     - assets/music/
+    - assets/media/
 
   fonts:
     - family: Urbanist

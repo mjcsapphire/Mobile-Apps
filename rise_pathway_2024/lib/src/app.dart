@@ -1,4 +1,3 @@
-import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:rise_pathway/core/constants/asset_constant.dart';
 import 'package:rise_pathway/core/constants/package_export.dart';
@@ -8,7 +7,6 @@ import 'package:rise_pathway/src/controllers/auth_controller.dart';
 import 'package:rise_pathway/src/controllers/home_controller.dart';
 import 'package:rise_pathway/src/controllers/media_controller.dart';
 import 'package:rise_pathway/src/models/risebutton/audio_response.dart';
-import 'package:rise_pathway/src/models/risebutton/video_response.dart';
 import 'package:rise_pathway/src/views/challenges/challenges.dart';
 import 'package:rise_pathway/src/views/home/home.dart';
 import 'package:rise_pathway/src/views/journal/journal.dart';
@@ -26,7 +24,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   final homeController = Get.find<HomeController>();
   final moodController = Get.find<AuthController>();
-  final musicController = Get.find<MediaController>();
+  final mediaController = Get.find<MediaController>();
   final authController = Get.find<AuthController>();
   final navTab = [
     const HomePage(),
@@ -48,319 +46,297 @@ class _AppState extends State<App> {
     return Obx(() {
       final index = homeController.navIndex.value;
       final isPlayerVisible = homeController.isPlayerVisible.value;
-      final selectedMedia = musicController.selectedAudio.value;
+      final selectedMedia = mediaController.selectedGif.value;
 
       return Scaffold(
         body: Stack(
           children: [
             navTab[index],
             Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Stack(
-                  children: [
-                    Container(
-                      height: isPlayerVisible ? 95.h : 11.h,
-                      width: 100.w,
-                      padding: const EdgeInsets.all(12),
-                      margin: EdgeInsets.only(top: 0.7.h),
-                      decoration: BoxDecoration(
-                        gradient: AppColorsGredients.panicCardGradient,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(18),
-                          topRight: Radius.circular(18),
-                        ),
-                        border: Border(
-                          top: BorderSide(
-                            color: AppColors.black.withOpacity(0.1),
-                            width: 3,
-                          ),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.black
-                                .withOpacity(isPlayerVisible ? 0.2 : 0.5),
-                            blurRadius: isPlayerVisible ? 6 : 16,
-                          )
-                        ],
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Stack(
+                children: [
+                  Container(
+                    height: isPlayerVisible ? 95.h : 11.h,
+                    width: 100.w,
+                    padding: const EdgeInsets.all(12),
+                    margin: EdgeInsets.only(top: 0.7.h),
+                    decoration: BoxDecoration(
+                      gradient: AppColorsGredients.panicCardGradient,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(18),
+                        topRight: Radius.circular(18),
                       ),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(height: 16.h),
-                            // SizedBox(
-                            //   height: 40.h,
-                            //   // width: 56,
-                            //   child: ClipRRect(
-                            //     borderRadius: BorderRadius.circular(14),
-                            //     child:
-                            //         // Image.asset(
-                            //         //   'assets/png/nature.jpg',
-                            //         //   fit: BoxFit.cover,
-                            //         // ),
-                            //         Image.network(
-                            //       selectedSong?["thumbnail"] ?? "",
-                            //       fit: BoxFit.cover,
-                            //     ),
-                            //   ),
-                            // ),
-
-                            if (selectedMedia is VideoResponse &&
-                                musicController.videoPlayer != null)
-                              AspectRatio(
-                                aspectRatio: musicController
-                                    .videoPlayer!.value.aspectRatio,
-                                child: CachedVideoPlayerPlus(
-                                    musicController.videoPlayer!),
-                              )
-                            else if (selectedMedia is AudioResponse ||
-                                authController.userData.value.riseSound != null)
-                              SizedBox(
-                                height: 40.h,
-                                child: Center(
-                                  child: Obx(() {
+                      border: Border(
+                        top: BorderSide(
+                          color: AppColors.black.withOpacity(0.1),
+                          width: 3,
+                        ),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.black
+                              .withOpacity(isPlayerVisible ? 0.2 : 0.5),
+                          blurRadius: isPlayerVisible ? 6 : 16,
+                        )
+                      ],
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 16.h),
+// video
+                          // if (selectedMedia is String) // Local GIF path
+                            Image.asset(
+                              selectedMedia!,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: 200, // Adjust as needed
+                            ),
+                          // else if (selectedMedia is AudioResponse ||
+                              // authController.userData.value.riseSound != null)
+                            SizedBox(
+                              height: 40.h,
+                              child: Center(
+                                child: Obx(() {
+                                  String mediaName =
+                                      authController.userData.value.riseSound!;
+                                  final media =
+                                      mediaController.selectedAudio.value;
+                                  return RiseText(
+                                    media != null
+                                        ? media.title
+                                        : Helpers.getFileName(mediaName),
+                                    style: theme.displayMedium!.copyWith(
+                                      color: AppColors.primaryColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  );
+                                }),
+                              ),
+                            ),
+                          SizedBox(height: 8.h),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    AppAssets.music,
+                                    scale: 4,
+                                  ),
+                                  SizedBox(width: 2.w),
+                                  Obx(() {
                                     String mediaName = authController
                                         .userData.value.riseSound!;
                                     final media =
-                                        musicController.selectedAudio.value;
+                                        mediaController.selectedGif.value;
                                     return RiseText(
                                       media != null
-                                          ? media.title
+                                          ? ""
                                           : Helpers.getFileName(mediaName),
-                                      style: theme.displayMedium!.copyWith(
+                                      style: theme.bodySmall!.copyWith(
                                         color: AppColors.primaryColor,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     );
                                   }),
-                                ),
-                              ),
-                            SizedBox(height: 8.h),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      AppAssets.music,
-                                      scale: 4,
-                                    ),
-                                    SizedBox(width: 2.w),
-                                    Obx(() {
-                                      String mediaName = authController
-                                          .userData.value.riseSound!;
-                                      final media = musicController
-                                          .selectedVideoImage.value;
-                                      return RiseText(
-                                        media != null
-                                            ? media.title
-                                            : Helpers.getFileName(mediaName),
-                                        style: theme.bodySmall!.copyWith(
-                                          color: AppColors.primaryColor,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      );
-                                    }),
-                                    SizedBox(width: 2.w),
-                                    Image.asset(
-                                      AppAssets.music,
-                                      scale: 4,
-                                    ),
-                                  ],
-                                ),
-                                Obx(() {
-                                  return RiseText(
-                                    moodController.userData.value.mood ??
-                                        'Some Feeling',
-                                    style: theme.labelSmall!.copyWith(
-                                      color: AppColors.primaryColor,
-                                      fontSize: 9.sp,
-                                    ),
-                                  );
-                                }),
-                              ],
-                            ),
-                            SizedBox(height: 2.h),
-                            // Progress Bar with dot indicator
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: 10, left: 8.w, right: 8.w),
-                              child: LayoutBuilder(
-                                builder: (context, constraints) {
-                                  double progressBarWidth =
-                                      constraints.maxWidth;
-                                  double indicatorMaxLeft =
-                                      progressBarWidth - 14;
-                                  return Stack(
-                                    clipBehavior: Clip.none,
-                                    children: [
-                                      // Progress Bar
-                                      SizedBox(
-                                        width: progressBarWidth,
-                                        child: LinearProgressIndicator(
-                                          value: musicController.progress.value,
-                                          color: AppColors.primaryColor,
-                                          minHeight: 4,
-                                          backgroundColor:
-                                              AppColors.primaryColor,
-                                        ),
-                                      ),
-                                      // Progress Indicator (circle)
-                                      Positioned(
-                                        left: (musicController.progress.value *
-                                                indicatorMaxLeft)
-                                            .clamp(0.0, indicatorMaxLeft),
-                                        top: -5,
-                                        child: Container(
-                                          width: 14,
-                                          height: 14,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: AppColors.primaryColor,
-                                            border: Border.all(
-                                              color: Colors.white,
-                                              width: 0.2,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
-                            ),
-                            SizedBox(height: 3.h),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 6.w),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                SongListScreen(
-                                                    songs: musicController
-                                                        .mediaList
-                                                        .cast<AudioResponse>()),
-                                          ),
-                                        );
-                                      },
-                                      icon: const Icon(
-                                        Icons.queue_music_outlined,
-                                        color: AppColors.primaryColor,
-                                        size: 30,
-                                      )),
-                                  IconButton(
-                                    onPressed: () {
-                                      homeController.isPlayerVisible.value =
-                                          false;
-                                      musicController.stopMedia();
-                                    },
-                                    icon: const Icon(
-                                      Icons.clear_rounded,
-                                      color: AppColors.primaryColor,
-                                      size: 30,
-                                    ),
+                                  SizedBox(width: 2.w),
+                                  Image.asset(
+                                    AppAssets.music,
+                                    scale: 4,
                                   ),
                                 ],
                               ),
+                              Obx(() {
+                                return RiseText(
+                                  moodController.userData.value.mood ??
+                                      'Please choose your mood',
+                                  style: theme.labelSmall!.copyWith(
+                                    color: AppColors.primaryColor,
+                                    fontSize: 9.sp,
+                                  ),
+                                );
+                              }),
+                            ],
+                          ),
+                          SizedBox(height: 2.h),
+                          // Progress Bar with dot indicator
+                          Padding(
+                            padding:
+                                EdgeInsets.only(top: 10, left: 8.w, right: 8.w),
+                            child: LayoutBuilder(
+                              builder: (context, constraints) {
+                                double progressBarWidth = constraints.maxWidth;
+                                double indicatorMaxLeft = progressBarWidth - 14;
+                                return Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    // Progress Bar
+                                    SizedBox(
+                                      width: progressBarWidth,
+                                      child: LinearProgressIndicator(
+                                        value: mediaController.progress.value,
+                                        color: AppColors.primaryColor,
+                                        minHeight: 4,
+                                        backgroundColor: AppColors.primaryColor,
+                                      ),
+                                    ),
+                                    // Progress Indicator (circle)
+                                    Positioned(
+                                      left: (mediaController.progress.value *
+                                              indicatorMaxLeft)
+                                          .clamp(0.0, indicatorMaxLeft),
+                                      top: -5,
+                                      child: Container(
+                                        width: 14,
+                                        height: 14,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: AppColors.primaryColor,
+                                          border: Border.all(
+                                            color: Colors.white,
+                                            width: 0.2,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
                             ),
-                          ],
-                        ),
+                          ),
+                          SizedBox(height: 3.h),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6.w),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                IconButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SongListScreen(
+                                              songs: mediaController.mediaList
+                                                  .cast<AudioResponse>()),
+                                        ),
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.queue_music_outlined,
+                                      color: AppColors.primaryColor,
+                                      size: 30,
+                                    )),
+                                IconButton(
+                                  onPressed: () {
+                                    homeController.isPlayerVisible.value =
+                                        false;
+                                    mediaController.stopMedia();
+                                  },
+                                  icon: const Icon(
+                                    Icons.clear_rounded,
+                                    color: AppColors.primaryColor,
+                                    size: 30,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 0.7.h,
-                        left: 5.w,
-                        right: 5.w,
-                      ),
-                      child: LinearProgressIndicator(
-                        value: musicController.progress.value,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 0.7.h,
+                      left: 5.w,
+                      right: 5.w,
+                    ),
+                    child: LinearProgressIndicator(
+                      value: mediaController.progress.value,
+                      color: AppColors.primaryColor,
+                      minHeight: 3,
+                      backgroundColor: AppColors.lightSkyBlue.withOpacity(0),
+                    ),
+                  ),
+                  Container(
+                    width: 5.w,
+                    height: 24,
+                    margin: EdgeInsets.only(top: 0.7.h),
+                    decoration: const BoxDecoration(
+                      border: Border(
+                          top: BorderSide(
                         color: AppColors.primaryColor,
-                        minHeight: 3,
-                        backgroundColor: AppColors.lightSkyBlue.withOpacity(0),
+                        width: 3,
+                      )),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(18),
                       ),
                     ),
-                    Container(
-                      width: 5.w,
-                      height: 24,
-                      margin: EdgeInsets.only(top: 0.7.h),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                            top: BorderSide(
-                          color: AppColors.primaryColor,
-                          width: 3,
-                        )),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(18),
-                        ),
-                      ),
-                    ),
-                    Visibility(
-                      visible: 1.0 <= musicController.progress.value,
-                      child: Align(
-                        alignment: const Alignment(1, .9),
-                        child: Container(
-                          width: 5.w,
-                          height: 24,
-                          margin: EdgeInsets.only(top: 0.7.h),
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              top: BorderSide(
-                                color: AppColors.primaryColor,
-                                width: 3,
-                              ),
-                            ),
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(18),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
+                  ),
+                  Visibility(
+                    visible: 1.0 <= mediaController.progress.value,
+                    child: Align(
+                      alignment: const Alignment(1, .9),
                       child: Container(
-                        alignment: Alignment.centerLeft,
-                        width: 95.w,
-                        child: Container(
-                          width: 14,
-                          height: 14,
-                          margin: EdgeInsets.only(
-                              left: musicController.progress.value * 90.w),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: AppColors.primaryColor.withOpacity(0.2),
-                              width: 2,
+                        width: 5.w,
+                        height: 24,
+                        margin: EdgeInsets.only(top: 0.7.h),
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            top: BorderSide(
+                              color: AppColors.primaryColor,
+                              width: 3,
                             ),
                           ),
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              color: AppColors.primaryColor,
-                              shape: BoxShape.circle,
-                            ),
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(18),
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ).animate(target: isPlayerVisible ? 1 : 0).moveY(
-                      begin: isPlayerVisible ? 100.h : 10.h,
-                      end: 0,
-                      duration: 1000.ms,
-                      curve: Curves.easeInOut,
-                    )),
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      width: 95.w,
+                      child: Container(
+                        width: 14,
+                        height: 14,
+                        margin: EdgeInsets.only(
+                            left: mediaController.progress.value * 90.w),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: AppColors.primaryColor.withOpacity(0.2),
+                            width: 2,
+                          ),
+                        ),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: AppColors.primaryColor,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ).animate(target: isPlayerVisible ? 1 : 0).moveY(
+                    begin: isPlayerVisible ? 100.h : 10.h,
+                    end: 0,
+                    duration: 1000.ms,
+                    curve: Curves.easeInOut,
+                  ),
+            ),
           ],
         ),
         floatingActionButton: Padding(
@@ -371,10 +347,10 @@ class _AppState extends State<App> {
                   !homeController.isPlayerVisible.value;
               if (homeController.isPlayerVisible.value) {
                 // Play the sound if visible
-                musicController.playSelectedMedia();
+                mediaController.playSelectedMedia();
               } else {
                 // Stop the sound if not visible
-                musicController.stopMedia();
+                mediaController.stopMedia();
               }
             },
             child: Container(
