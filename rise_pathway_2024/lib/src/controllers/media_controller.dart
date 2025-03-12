@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rise_pathway/core/helpers/helpers.dart';
+import 'package:rise_pathway/core/utils/environment.dart';
 import 'package:rise_pathway/services/rise_media_service.dart';
 import 'package:rise_pathway/src/controllers/auth_controller.dart';
 import 'package:rise_pathway/src/models/risebutton/audio_response.dart';
@@ -74,12 +75,35 @@ class MediaController extends GetxController {
   }
 
   Future<void> _loadAudio(String url) async {
+    final fullUrl = "${Environment.mediaImageUrl}$url";
     try {
-      await audioPlayer.setUrl(url);
+      await audioPlayer.setUrl(fullUrl);
       await audioPlayer.play();
+      _setupProgressTracking();
       audioPlayer.setLoopMode(LoopMode.one);
     } catch (e) {
       logger.e("Error loading audio: $e");
+    }
+  }
+
+  void _setupProgressTracking() {
+    audioPlayer.positionStream.listen((position) {
+      final totalDuration = audioPlayer.duration ?? Duration.zero;
+      if (totalDuration.inMilliseconds > 0) {
+        progress.value = position.inMilliseconds / totalDuration.inMilliseconds;
+      } else {
+        progress.value = 0.0;
+      }
+    });
+  }
+
+  Future<void> seekTo(double progressValue) async {
+    final totalDuration = audioPlayer.duration ?? Duration.zero;
+    final newPosition = Duration(
+        milliseconds: (totalDuration.inMilliseconds * progressValue).toInt());
+
+    if (totalDuration > Duration.zero) {
+      await audioPlayer.seek(newPosition);
     }
   }
 
@@ -87,6 +111,24 @@ class MediaController extends GetxController {
     audioPlayer.stop();
     isPlaying.value = false;
     progress.value = 0.0;
+  }
+
+  // set user image video
+  Future<void> setUserImageVideo(String email, String path) async {
+    try {
+      await mediaService.setUserImageVideo(email: email, path: path);
+    } catch (e) {
+      logger.e("Error setting user image video: $e");
+    }
+  }
+
+  // set user audio
+  Future<void> setUserAudio(String email, String path) async {
+    try {
+      await mediaService.setUserAudio(email: email, path: path);
+    } catch (e) {
+      logger.e("Error setting user audio: $e");
+    }
   }
 }
 

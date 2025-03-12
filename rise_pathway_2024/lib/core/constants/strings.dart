@@ -9,20 +9,20 @@ final List<String> challengeTitleList = [
 ];
 
 final List<String> imagePaths = [
-  'assets/icons/emotion.png',
+  'assets/icons/happy_mood.png',
   'assets/icons/happy_mood.png',
   'assets/icons/sad_mood.png',
-  'assets/icons/emotion.png',
+  'assets/icons/angry.png',
+  'assets/icons/scared_emo.png',
+  'assets/icons/excited_emo.png',
+  'assets/icons/Hopefull.png',
+  'assets/icons/Meh.png',
+  'assets/icons/greatfull.png',
   'assets/icons/happy_mood.png',
   'assets/icons/sad_mood.png',
-  'assets/icons/emotion.png',
-  'assets/icons/happy_mood.png',
-  'assets/icons/sad_mood.png',
-  'assets/icons/emotion.png',
-  'assets/icons/happy_mood.png',
-  'assets/icons/sad_mood.png',
-  'assets/icons/happy_mood.png',
-  'assets/icons/sad_mood.png',
+  'assets/icons/angry.png',
+  'assets/icons/scared_emo.png',
+  'assets/icons/excited_emo.png',
 ];
 
 const List<Color> emojiBackground = [

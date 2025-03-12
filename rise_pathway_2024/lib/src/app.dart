@@ -89,37 +89,40 @@ class _AppState extends State<App> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(height: 16.h),
-// video
-                          // if (selectedMedia is String) // Local GIF path
-                            Image.asset(
-                              selectedMedia!,
+                          SizedBox(height: 24.h),
+
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.asset(
+                              selectedMedia ?? 'assets/media/river.gif',
                               fit: BoxFit.cover,
                               width: double.infinity,
-                              height: 200, // Adjust as needed
+                              scale: 1,
+                              height: 30.h,
                             ),
+                          ),
                           // else if (selectedMedia is AudioResponse ||
-                              // authController.userData.value.riseSound != null)
-                            SizedBox(
-                              height: 40.h,
-                              child: Center(
-                                child: Obx(() {
-                                  String mediaName =
-                                      authController.userData.value.riseSound!;
-                                  final media =
-                                      mediaController.selectedAudio.value;
-                                  return RiseText(
-                                    media != null
-                                        ? media.title
-                                        : Helpers.getFileName(mediaName),
-                                    style: theme.displayMedium!.copyWith(
-                                      color: AppColors.primaryColor,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  );
-                                }),
-                              ),
-                            ),
+                          // authController.userData.value.riseSound != null)
+                          // SizedBox(
+                          //   height: 40.h,
+                          //   child: Center(
+                          //     child: Obx(() {
+                          //       String mediaName =
+                          //           authController.userData.value.riseSound!;
+                          //       final media =
+                          //           mediaController.selectedAudio.value;
+                          //       return RiseText(
+                          //         media != null
+                          //             ? media.title
+                          //             : Helpers.getFileName(mediaName),
+                          //         style: theme.displayMedium!.copyWith(
+                          //           color: AppColors.primaryColor,
+                          //           fontWeight: FontWeight.bold,
+                          //         ),
+                          //       );
+                          //     }),
+                          //   ),
+                          // ),
                           SizedBox(height: 8.h),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -139,8 +142,8 @@ class _AppState extends State<App> {
                                         mediaController.selectedGif.value;
                                     return RiseText(
                                       media != null
-                                          ? ""
-                                          : Helpers.getFileName(mediaName),
+                                          ? Helpers.getFileName(mediaName)
+                                          : '',
                                       style: theme.bodySmall!.copyWith(
                                         color: AppColors.primaryColor,
                                         fontWeight: FontWeight.bold,

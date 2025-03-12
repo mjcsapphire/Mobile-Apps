@@ -33,13 +33,19 @@ String getFileName(String path) {
 
 List<String> moods = [
   'happy',
+  'happy',
   'sad',
   'angry',
   'scared',
   'excited',
   'hopeful',
   'meh',
-  'grateful'
+  'grateful',
+  'happy',
+  'sad',
+  'angry',
+  'scared',
+  'excited',
 ];
 
 class Helpers {
