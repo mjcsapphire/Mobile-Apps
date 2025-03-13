@@ -58,11 +58,23 @@ class _SelectMoodState extends State<SelectMood> {
             SizedBox(height: 4.h),
             Obx(
               () {
-                final int safeIndex =
-                    homeController.emojiIndex.value % moods.length;
+                int emojiIndex = homeController.emojiIndex.value;
+                int index = 0;
+                if (emojiIndex <= 10) {
+                  index = (10 - emojiIndex);
+                } else {
+                  index = (10 - emojiIndex) + 14;
+                }
+
+                if (emojiIndex == 14) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    emojiIndex = 0;
+                    homeController.emojiIndex.value = 0;
+                  });
+                }
 
                 return RiseText(
-                  'I Feel ${moods[safeIndex]}',
+                  'I Feel ${moods[index]}',
                   textAlign: TextAlign.center,
                   style: theme.titleMedium!.copyWith(
                     color: AppColors.blue,

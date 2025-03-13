@@ -68,7 +68,7 @@ class AuthController extends GetxController {
               'Registration Successful',
               maskType: EasyLoadingMaskType.black,
             );
-            
+
             return true;
           } else {
             EasyLoading.showError(
