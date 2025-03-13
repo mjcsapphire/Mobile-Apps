@@ -71,12 +71,12 @@ class _QuestionsPageState extends State<QuestionsPage> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.chevron_left),
+          icon: const Icon(Icons.chevron_left),
         ),
         elevation: 0.0,
         titleSpacing: 0.0,
         iconTheme: const IconThemeData(color: Colors.white),
-        title: Text(
+        title: const Text(
           'Pathway Test',
           maxLines: 2,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
@@ -90,7 +90,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                 future: _fetchQuestions(),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (!snapshot.hasData) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else {
                     return Expanded(
                       child: PageView.builder(
@@ -140,7 +140,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
               'Question ${question.question_number}',
               style: const TextStyle(fontSize: 12),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Text(
@@ -192,24 +192,36 @@ class _QuestionsPageState extends State<QuestionsPage> {
                         //Process scores
 
                         //User ID, Pathway ID, Answers
-                        var user_email = FirebaseAuth.instance.currentUser?.email;
+                        var userEmail =
+                            FirebaseAuth.instance.currentUser?.email;
                         toasty(context, "Calculating Answers");
 
-                        await submitPathwayTest(user_email!, question.pathway_id as String, question1, question2, question3,
-                            question4, question5, question6, question7, question8,
-                            question9, question10)
+                        await submitPathwayTest(
+                                userEmail!,
+                                question.pathway_id as String,
+                                question1,
+                                question2,
+                                question3,
+                                question4,
+                                question5,
+                                question6,
+                                question7,
+                                question8,
+                                question9,
+                                question10)
                             .then((value) async {
                           String score = value['score'].toString();
                           String feedback = value['feedback'].toString();
 
                           toasty(context, "You scored $score out of 10");
-                          if(value['message'] == 'Success'){
+                          if (value['message'] == 'Success') {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => TestResultPage(score: score, feedback: feedback),),
-
+                              MaterialPageRoute(
+                                builder: (context) => TestResultPage(
+                                    score: score, feedback: feedback),
+                              ),
                             );
-
                           }
                           // finish(context);
                           // controller!.dispose();
@@ -264,24 +276,36 @@ class _QuestionsPageState extends State<QuestionsPage> {
                         //Process scores
 
                         //User ID, Pathway ID, Answers
-                        var user_email = FirebaseAuth.instance.currentUser?.email;
+                        var userEmail =
+                            FirebaseAuth.instance.currentUser?.email;
                         toasty(context, "Calculating Answers");
 
-                        await submitPathwayTest(user_email!, question.pathway_id as String, question1, question2, question3,
-                            question4, question5, question6, question7, question8,
-                            question9, question10)
+                        await submitPathwayTest(
+                                userEmail!,
+                                question.pathway_id as String,
+                                question1,
+                                question2,
+                                question3,
+                                question4,
+                                question5,
+                                question6,
+                                question7,
+                                question8,
+                                question9,
+                                question10)
                             .then((value) async {
-                              String score = value['score'].toString();
-                              String feedback = value['feedback'].toString();
+                          String score = value['score'].toString();
+                          String feedback = value['feedback'].toString();
 
                           toasty(context, "You scored $score out of 10");
-                          if(value['message'] == 'Success'){
+                          if (value['message'] == 'Success') {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => TestResultPage(score: score, feedback: feedback),),
-
+                              MaterialPageRoute(
+                                builder: (context) => TestResultPage(
+                                    score: score, feedback: feedback),
+                              ),
                             );
-
                           }
                           // finish(context);
                           // controller!.dispose();
@@ -321,7 +345,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                     label: const Text("Back"),
                     icon: const Icon(Icons.arrow_back),
                   )
-                : Text(" "),
+                : const Text(" "),
           ],
         ),
       ),

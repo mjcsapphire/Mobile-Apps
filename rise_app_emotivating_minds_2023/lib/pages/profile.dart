@@ -1,13 +1,13 @@
-import 'dart:convert';
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:accordion/accordion.dart';
 import 'package:accordion/controllers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rise_app_emotivating_minds_2023/pages/signin_screen.dart';
 import 'package:rise_app_emotivating_minds_2023/theme/colors.dart';
+
 import '../models/user_model.dart';
 import '../utils/api_calls.dart';
 import 'image_uploader.dart';
@@ -19,25 +19,25 @@ class ProfilePage extends StatelessWidget {
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: Text("No"),
-      onPressed:  () {
+      child: const Text("No"),
+      onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget continueButton = TextButton(
-      child: Text("Yes"),
-      onPressed:  () {
+      child: const Text("Yes"),
+      onPressed: () {
         FirebaseAuth.instance.signOut().then((value) {
           print("Signed Out");
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => SignInScreen()));
+              MaterialPageRoute(builder: (context) => const SignInScreen()));
         });
       },
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Confirmation Alert"),
-      content: Text("Would you like to logout?"),
+      title: const Text("Confirmation Alert"),
+      content: const Text("Would you like to logout?"),
       actions: [
         cancelButton,
         continueButton,
@@ -54,63 +54,62 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController firstname_controller = TextEditingController();
-    final TextEditingController surname_controller =
-    TextEditingController();
-    final TextEditingController email_controller =
-    TextEditingController();
+    final TextEditingController firstnameController = TextEditingController();
+    final TextEditingController surnameController = TextEditingController();
+    final TextEditingController emailController = TextEditingController();
 
-    firstname_controller.text = data.firstname!;
-    surname_controller.text = data.surname!;
-    email_controller.text = data.user_email!;
+    firstnameController.text = data.firstname!;
+    surnameController.text = data.surname!;
+    emailController.text = data.user_email!;
 
-    final destination = data.mobile_app_profile_pic?.toString() ?? 'https://www.sapphirearts.co.uk//clients//riseapp//uploads//images//default.png';
+    final destination = data.mobile_app_profile_pic?.toString() ??
+        'https://www.sapphirearts.co.uk//clients//riseapp//uploads//images//default.png';
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          Container(height: 250, child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(bottom: 50),
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [Colors.white, primaryColor]),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(50),
-                      bottomRight: Radius.circular(50),
-                    )),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: 150,
-                  height: 150,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Container(
-                          decoration: BoxDecoration(
+          SizedBox(
+              height: 250,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 50),
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: [Colors.white, primaryColor]),
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(50),
+                          bottomRight: Radius.circular(50),
+                        )),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SizedBox(
+                      width: 150,
+                      height: 150,
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          Container(
+                              decoration: BoxDecoration(
                             color: Colors.black,
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               image: NetworkImage(destination),
                             ),
-
-                          )
+                          )),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          )),
+                    ),
+                  )
+                ],
+              )),
           Expanded(
             flex: 1,
             child: SingleChildScrollView(
@@ -121,42 +120,42 @@ class ProfilePage extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     AppTextField(
-                      controller: firstname_controller,
+                      controller: firstnameController,
                       readOnly: false,
                       textFieldType: TextFieldType.NAME,
                       decoration: InputDecoration(
                         labelText: 'Firstname',
                         hintText: data.firstname,
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                       ),
                     ),
                     const SizedBox(
                       height: 20.0,
                     ),
                     AppTextField(
-                      controller: surname_controller,
+                      controller: surnameController,
                       readOnly: false,
                       textFieldType: TextFieldType.NAME,
                       decoration: InputDecoration(
                         labelText: 'Surname',
                         hintText: data.surname,
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                       ),
                     ),
                     const SizedBox(
                       height: 20.0,
                     ),
                     AppTextField(
-                      controller: email_controller,
+                      controller: emailController,
                       readOnly: true,
                       textFieldType: TextFieldType.NAME,
                       decoration: InputDecoration(
                         labelText: 'Email',
                         hintText: data.user_email,
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                       ),
                     ),
                     const SizedBox(
@@ -165,15 +164,18 @@ class ProfilePage extends StatelessWidget {
                     FloatingActionButton.extended(
                       backgroundColor: Colors.white,
                       onPressed: () async {
-                        if (firstname_controller.text.trim() == '') {
+                        if (firstnameController.text.trim() == '') {
                           toasty(context, 'Please enter a firstname');
-                        } else if (surname_controller.text.trim() == '') {
+                        } else if (surnameController.text.trim() == '') {
                           toasty(context, 'Please enter a surname');
                         } else {
-                          var user_email = FirebaseAuth.instance.currentUser?.email;
+                          var userEmail =
+                              FirebaseAuth.instance.currentUser?.email;
 
-                          await updateUser(user_email!, firstname_controller.text.trim(),
-                              surname_controller.text.trim())
+                          await updateUser(
+                                  userEmail!,
+                                  firstnameController.text.trim(),
+                                  surnameController.text.trim())
                               .then((value) async {
                             toasty(context, value['message']);
                             // if(value['message'] == 'Success'){
@@ -217,12 +219,14 @@ class ProfilePage extends StatelessWidget {
                       children: [
                         AccordionSection(
                           isOpen: false,
-                          leftIcon:
-                          const Icon(Icons.crisis_alert, color: Colors.white),
+                          leftIcon: const Icon(Icons.crisis_alert,
+                              color: Colors.white),
                           headerBackgroundColor: Colors.black,
-                          headerBackgroundColorOpened:
-                          primaryColor,
-                          header: Text('My Toolkit', style: TextStyle(color: Colors.white),),
+                          headerBackgroundColorOpened: primaryColor,
+                          header: const Text(
+                            'My Toolkit',
+                            style: TextStyle(color: Colors.white),
+                          ),
                           content: Column(
                             children: [
                               FloatingActionButton.extended(
@@ -246,7 +250,6 @@ class ProfilePage extends StatelessWidget {
                                 label: const Text("Change Rise Visual"),
                                 icon: const Icon(Icons.camera_alt),
                               ),
-
                             ],
                           ),
                           contentHorizontalPadding: 20,
@@ -268,12 +271,14 @@ class ProfilePage extends StatelessWidget {
                       children: [
                         AccordionSection(
                           isOpen: false,
-                          leftIcon:
-                          const Icon(Icons.pending_actions, color: Colors.white),
+                          leftIcon: const Icon(Icons.pending_actions,
+                              color: Colors.white),
                           headerBackgroundColor: Colors.black,
-                          headerBackgroundColorOpened:
-                          primaryColor,
-                          header: Text('Other Actions', style: TextStyle(color: Colors.white),),
+                          headerBackgroundColorOpened: primaryColor,
+                          header: const Text(
+                            'Other Actions',
+                            style: TextStyle(color: Colors.white),
+                          ),
                           content: Column(
                             children: [
                               FloatingActionButton.extended(
@@ -281,8 +286,9 @@ class ProfilePage extends StatelessWidget {
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => ImageUpload(data: data)),
-
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ImageUpload(data: data)),
                                   );
                                 },
                                 heroTag: 'picture',
@@ -342,7 +348,7 @@ class _TopPortion extends StatelessWidget {
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   colors: [Colors.white, primaryColor]),
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(50),
                 bottomRight: Radius.circular(50),
               )),
@@ -361,7 +367,8 @@ class _TopPortion extends StatelessWidget {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage('https://www.sapphirearts.co.uk//clients//riseapp//uploads//images//default.png'),
+                      image: NetworkImage(
+                          'https://www.sapphirearts.co.uk//clients//riseapp//uploads//images//default.png'),
                     ),
                   ),
                 ),

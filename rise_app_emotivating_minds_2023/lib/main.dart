@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:rise_app_emotivating_minds_2023/pages/checkin_screen.dart';
 import 'package:rise_app_emotivating_minds_2023/pages/contact_coach_page.dart';
 import 'package:rise_app_emotivating_minds_2023/pages/health_path_page.dart';
@@ -27,7 +27,6 @@ class RiseApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     // Get the firebase user
     User? firebaseUser = FirebaseAuth.instance.currentUser;
 
@@ -36,9 +35,9 @@ class RiseApp extends StatelessWidget {
 
     // Assign widget based on availability of currentUser
     if (firebaseUser != null) {
-      firstWidget = CheckInScreen();
+      firstWidget = const CheckInScreen();
     } else {
-      firstWidget = SignInScreen();
+      firstWidget = const SignInScreen();
     }
 
     return MaterialApp(
@@ -49,21 +48,20 @@ class RiseApp extends StatelessWidget {
       ),
       home: firstWidget,
       routes: {
-        '/checkin':(context) => CheckInScreen(),
-        '/home':(context) => Homepage(),
-        '/signin':(context) => SignInScreen(),
-        '/signup':(context) => SignUpScreen(),
-        '/resetpassword':(context) => ResetPassword(),
-        '/profile':(context) => ProfilePage(data: theuser[0],),
-        '/journal':(context) => JournalEntriesPage(),
-        '/toolkitSound':(context) => ToolkitSoundPage(),
-        '/toolkitImage':(context) => ToolkitPage(),
-        '/rise':(context) => RiseScreen(data: theuser[0]),
-        '/reflections':(context) => ReflectionsPage(data: theuser[0]),
-        '/contact':(context) => ContactCoachPage(),
-        '/health_path':(context) => HealthPathwayPage(),
+        '/checkin': (context) => const CheckInScreen(),
+        '/home': (context) => const Homepage(),
+        '/signin': (context) => const SignInScreen(),
+        '/signup': (context) => const SignUpScreen(),
+        '/resetpassword': (context) => const ResetPassword(),
+        '/profile': (context) => ProfilePage(data: theuser[0]),
+        '/journal': (context) => const JournalEntriesPage(),
+        '/toolkitSound': (context) => const ToolkitSoundPage(),
+        '/toolkitImage': (context) => const ToolkitPage(),
+        '/rise': (context) => RiseScreen(data: theuser[0]),
+        '/reflections': (context) => ReflectionsPage(data: theuser[0]),
+        '/contact': (context) => const ContactCoachPage(),
+        '/health_path': (context) => const HealthPathwayPage(),
       },
     );
   }
 }
-

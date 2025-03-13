@@ -12,7 +12,6 @@ class ReflectionsPage extends StatelessWidget {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         backgroundColor: Colors.grey[200],
-
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -20,33 +19,42 @@ class ReflectionsPage extends StatelessWidget {
           child: Container(
             child: Column(
               children: [
-
                 //Message
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child:
-                  Column(
+                const Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: Column(
                     children: [
-                      Text('My Rise Pathway Reflections', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blue)),
-                      Text('View all of your key rise information for the day, week, and month', style: TextStyle(fontSize: 14, color: Colors.grey)),
+                      Text('My Rise Pathway Reflections',
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue)),
+                      Text(
+                          'View all of your key rise information for the day, week, and month',
+                          style: TextStyle(fontSize: 14, color: Colors.grey)),
                     ],
                   ),
                 ),
 
                 const Padding(
-                  padding: const EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
-                  child: Divider(color: Colors.white,),
+                  padding: EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
+                  child: Divider(
+                    color: Colors.white,
+                  ),
                 ),
 
-                SizedBox(height: 30,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                const SizedBox(
+                  height: 30,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
+                    children: [
                       Text('Today\'s Reflections',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18)),
                       // Text('See more',
                       //     style: TextStyle(
                       //         fontWeight: FontWeight.bold, color: Colors.blue)),
@@ -54,7 +62,9 @@ class ReflectionsPage extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
 
                 //Message
                 Container(
@@ -65,36 +75,45 @@ class ReflectionsPage extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 15.0),
-                    child:
-                    Column(
+                    child: Column(
                       children: [
-                        Text('Number of rises: ${data.rises_day}.', style: TextStyle(fontSize: 14)),
-                        Text('Number of challenges completed: ${data.challenges_day}', style: TextStyle(fontSize: 14)),
+                        Text('Number of rises: ${data.rises_day}.',
+                            style: const TextStyle(fontSize: 14)),
+                        Text(
+                            'Number of challenges completed: ${data.challenges_day}',
+                            style: const TextStyle(fontSize: 14)),
                       ],
                     ),
                   ),
                 ),
 
                 const Padding(
-                  padding: const EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
-                  child: Divider(color: Colors.white,),
+                  padding: EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
+                  child: Divider(
+                    color: Colors.white,
+                  ),
                 ),
-                SizedBox(height: 10,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
+                    children: [
                       Text('This Week\'s Reflections',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18)),
                       // Text('See more',
                       //     style: TextStyle(
                       //         fontWeight: FontWeight.bold, color: Colors.blue)),
                     ],
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
 
                 //Message
                 Container(
@@ -105,36 +124,45 @@ class ReflectionsPage extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 15.0),
-                    child:
-                    Column(
+                    child: Column(
                       children: [
-                        Text('Number of rises:  ${data.rises_week}', style: TextStyle(fontSize: 14)),
-                        Text('Number of challenges completed: ${data.challenges_week}', style: TextStyle(fontSize: 14)),
+                        Text('Number of rises:  ${data.rises_week}',
+                            style: const TextStyle(fontSize: 14)),
+                        Text(
+                            'Number of challenges completed: ${data.challenges_week}',
+                            style: const TextStyle(fontSize: 14)),
                       ],
                     ),
                   ),
                 ),
 
                 const Padding(
-                  padding: const EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
-                  child: Divider(color: Colors.white,),
+                  padding: EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
+                  child: Divider(
+                    color: Colors.white,
+                  ),
                 ),
-                SizedBox(height: 10,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
+                    children: [
                       Text('This Month\'s Reflections',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18)),
                       // Text('See more',
                       //     style: TextStyle(
                       //         fontWeight: FontWeight.bold, color: Colors.blue)),
                     ],
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
 
                 //Message
                 Container(
@@ -145,39 +173,49 @@ class ReflectionsPage extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 15.0),
-                    child:
-                    Column(
+                    child: Column(
                       children: [
-                        Text('Number of rises:  ${data.rises_month}', style: TextStyle(fontSize: 14)),
-                        Text('Number of challenges completed: ${data.challenges_month}', style: TextStyle(fontSize: 14)),
+                        Text('Number of rises:  ${data.rises_month}',
+                            style: const TextStyle(fontSize: 14)),
+                        Text(
+                            'Number of challenges completed: ${data.challenges_month}',
+                            style: const TextStyle(fontSize: 14)),
                       ],
                     ),
                   ),
                 ),
 
-
-                SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
 
                 const Padding(
-                  padding: const EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
-                  child: Divider(color: Colors.white,),
+                  padding: EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
+                  child: Divider(
+                    color: Colors.white,
+                  ),
                 ),
-                SizedBox(height: 10,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
+                    children: [
                       Text('Rise Pathway Scores',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18)),
                       // Text('See more',
                       //     style: TextStyle(
                       //         fontWeight: FontWeight.bold, color: Colors.blue)),
                     ],
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
 
                 //Message
                 Container(
@@ -188,58 +226,87 @@ class ReflectionsPage extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 15.0),
-                    child:
-                    Column(
+                    child: Column(
                       children: [
-                        Text('Health & Wellbeing: ${data.health_pathway}/10', style: TextStyle(fontSize: 14)),
-                        SizedBox(height: 2),
-                        Divider(height: 2,),
-                        SizedBox(height: 2),
-                        Text('Relationships: ${data.relationships_pathway}/10', style: TextStyle(fontSize: 14)),
-                        SizedBox(height: 2),
-                        Divider(height: 2,),
-                        SizedBox(height: 2),
-                        Text('Adaptation & Transition: ${data.adaptation_pathway}/10', style: TextStyle(fontSize: 14)),
-                        SizedBox(height: 2),
-                        Divider(height: 2,),
-                        SizedBox(height: 2),
-                        Text('Personal Development: ${data.personal_pathway}/10', style: TextStyle(fontSize: 14)),
-                        SizedBox(height: 2),
-                        Divider(height: 2,),
-                        SizedBox(height: 2),
-                        Text('Wisdom in Communication: ${data.wisdom_pathway}/10', style: TextStyle(fontSize: 14)),
-                        SizedBox(height: 2),
-                        Divider(height: 2,),
-                        SizedBox(height: 2),
-                        Text('Coping Mechanisms: ${data.coping_pathway}/10', style: TextStyle(fontSize: 14)),
-                        SizedBox(height: 2),
-                        Divider(height: 2,),
-                        SizedBox(height: 2),
-                        Text('Engagement in Community: ${data.engagement_pathway}/10', style: TextStyle(fontSize: 14)),
-                        SizedBox(height: 2),
-                        Divider(height: 2,),
-                        SizedBox(height: 2),
-                        Text('Emotions: ${data.emotions_pathway}/10', style: TextStyle(fontSize: 14)),
-                        SizedBox(height: 2),
-                        Divider(height: 2,),
-                        SizedBox(height: 2),
-                        Text('Identity and Self Awareness: ${data.identity_pathway}/10', style: TextStyle(fontSize: 14)),
-                        SizedBox(height: 2),
-                        Divider(height: 2,),
-                        SizedBox(height: 2),
-                        Text('Thoughtful Decision Making: ${data.decision_pathway}/10', style: TextStyle(fontSize: 14)),
+                        Text('Health & Wellbeing: ${data.health_pathway}/10',
+                            style: const TextStyle(fontSize: 14)),
+                        const SizedBox(height: 2),
+                        const Divider(
+                          height: 2,
+                        ),
+                        const SizedBox(height: 2),
+                        Text('Relationships: ${data.relationships_pathway}/10',
+                            style: const TextStyle(fontSize: 14)),
+                        const SizedBox(height: 2),
+                        const Divider(
+                          height: 2,
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                            'Adaptation & Transition: ${data.adaptation_pathway}/10',
+                            style: const TextStyle(fontSize: 14)),
+                        const SizedBox(height: 2),
+                        const Divider(
+                          height: 2,
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                            'Personal Development: ${data.personal_pathway}/10',
+                            style: const TextStyle(fontSize: 14)),
+                        const SizedBox(height: 2),
+                        const Divider(
+                          height: 2,
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                            'Wisdom in Communication: ${data.wisdom_pathway}/10',
+                            style: const TextStyle(fontSize: 14)),
+                        const SizedBox(height: 2),
+                        const Divider(
+                          height: 2,
+                        ),
+                        const SizedBox(height: 2),
+                        Text('Coping Mechanisms: ${data.coping_pathway}/10',
+                            style: const TextStyle(fontSize: 14)),
+                        const SizedBox(height: 2),
+                        const Divider(
+                          height: 2,
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                            'Engagement in Community: ${data.engagement_pathway}/10',
+                            style: const TextStyle(fontSize: 14)),
+                        const SizedBox(height: 2),
+                        const Divider(
+                          height: 2,
+                        ),
+                        const SizedBox(height: 2),
+                        Text('Emotions: ${data.emotions_pathway}/10',
+                            style: const TextStyle(fontSize: 14)),
+                        const SizedBox(height: 2),
+                        const Divider(
+                          height: 2,
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                            'Identity and Self Awareness: ${data.identity_pathway}/10',
+                            style: const TextStyle(fontSize: 14)),
+                        const SizedBox(height: 2),
+                        const Divider(
+                          height: 2,
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                            'Thoughtful Decision Making: ${data.decision_pathway}/10',
+                            style: const TextStyle(fontSize: 14)),
                       ],
                     ),
                   ),
                 ),
 
-
-                SizedBox(height: 10,),
-
-
-
-
-
+                const SizedBox(
+                  height: 10,
+                ),
               ],
             ),
           ),

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,43 +15,37 @@ class ToolkitSoundPage extends StatefulWidget {
 }
 
 class _ToolkitSoundPageState extends State<ToolkitSoundPage> {
-
   showAlertDialog(BuildContext context, String sound) {
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: Text("No"),
-      onPressed:  () {
+      child: const Text("No"),
+      onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget continueButton = TextButton(
-      child: Text("Yes"),
-      onPressed:  () async {
-        var user_email = FirebaseAuth.instance.currentUser?.email;
-        await updateUserRiseSound(user_email!, sound)
-            .then((value) async {
+      child: const Text("Yes"),
+      onPressed: () async {
+        var userEmail = FirebaseAuth.instance.currentUser?.email;
+        await updateUserRiseSound(userEmail!, sound).then((value) async {
           toasty(context, value['message']);
-          if(value['message'] == 'Success'){
+          if (value['message'] == 'Success') {
             print("Deleted");
             Navigator.pop(context);
             cache.stop();
             Navigator.pushNamed(context, '/home');
-
           }
           // finish(context);
           // controller!.dispose();
         }).catchError((e) {
           toasty(context, e.toString());
         });
-
-
-
       },
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Confirmation Alert"),
-      content: Text("Are you sure you'd like to select this sound?"),
+      title: const Text("Confirmation Alert"),
+      content: const Text("Are you sure you'd like to select this sound?"),
       actions: [
         cancelButton,
         continueButton,
@@ -82,12 +78,12 @@ class _ToolkitSoundPageState extends State<ToolkitSoundPage> {
             onPressed: () {
               Navigator.pushNamed(context, '/home');
             },
-            icon: Icon(Icons.chevron_left),
+            icon: const Icon(Icons.chevron_left),
           ),
           elevation: 0.0,
           titleSpacing: 0.0,
           iconTheme: const IconThemeData(color: Colors.white),
-          title: Text(
+          title: const Text(
             'Rise Toolkit Sounds',
             maxLines: 2,
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
@@ -127,16 +123,18 @@ class _ToolkitSoundPageState extends State<ToolkitSoundPage> {
                                 // cache.stop();
                                 cache.play(AssetSource("sounds/waves.mp3"));
                               },
-                              child: Icon(Icons.play_arrow)),
+                              child: const Icon(Icons.play_arrow)),
                           const Text(
                             'Waves',
                             maxLines: 2,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
-                          GestureDetector(onTap: () {
-                            showAlertDialog(context, 'sounds/waves.mp3');
-                          },child: Icon(Icons.add)),
+                          GestureDetector(
+                              onTap: () {
+                                showAlertDialog(context, 'sounds/waves.mp3');
+                              },
+                              child: const Icon(Icons.add)),
                         ],
                       ),
                     ],

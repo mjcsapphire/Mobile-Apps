@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +14,7 @@ class ResetPassword extends StatefulWidget {
 }
 
 class _ResetPasswordState extends State<ResetPassword> {
-  TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,39 +31,39 @@ class _ResetPasswordState extends State<ResetPassword> {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-                primaryColor,
-                Colors.white
-              ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+              gradient: LinearGradient(
+                  colors: [primaryColor, Colors.white],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter)),
           child: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
-                child: Column(
-                  children: <Widget>[
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    reusableTextField("Enter Email", Icons.person_outline, false,
-                        _emailTextController),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    firebaseUIButton(context, "Reset Password", () {
-                      FirebaseAuth.instance
-                          .sendPasswordResetEmail(email: _emailTextController.text)
-                          .then((value) {
-
-                        Navigator.of(context).pop();
-                      }).onError((error, stackTrace) {
-                        print("Error ${error.toString()}");
-                        _showMyDialog("No account associated to this email found");
-                      });
-                    })
-                  ],
+            padding: const EdgeInsets.fromLTRB(20, 120, 20, 0),
+            child: Column(
+              children: <Widget>[
+                const SizedBox(
+                  height: 20,
                 ),
-              ))),
+                reusableTextField("Enter Email", Icons.person_outline, false,
+                    _emailTextController),
+                const SizedBox(
+                  height: 20,
+                ),
+                firebaseUIButton(context, "Reset Password", () {
+                  FirebaseAuth.instance
+                      .sendPasswordResetEmail(email: _emailTextController.text)
+                      .then((value) {
+                    Navigator.of(context).pop();
+                  }).onError((error, stackTrace) {
+                    print("Error ${error.toString()}");
+                    _showMyDialog("No account associated to this email found");
+                  });
+                })
+              ],
+            ),
+          ))),
     );
   }
+
   Future<void> _showMyDialog(String alert) async {
     return showDialog<void>(
       context: context,

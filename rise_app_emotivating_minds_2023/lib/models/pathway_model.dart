@@ -1,14 +1,12 @@
 import 'dart:convert';
-import 'dart:ui';
 
-List<PathwayModel> PathwayModelFromJson(String str) =>
-    List<PathwayModel>.from(
-        json.decode(str).map((x) => PathwayModel.fromJson(x)));
+List<PathwayModel> PathwayModelFromJson(String str) => List<PathwayModel>.from(
+    json.decode(str).map((x) => PathwayModel.fromJson(x)));
 
 String PathwayModelToJson(List<PathwayModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class PathwayModel{
+class PathwayModel {
   final String? id;
   final String? title;
   final String colour;
@@ -24,19 +22,18 @@ class PathwayModel{
   });
 
   factory PathwayModel.fromJson(Map<String, dynamic> json) => PathwayModel(
-    id: json["id"],
-    title: json["title"],
-    colour: json["colour"],
-    description: json["description"],
-    user_score: json["user_score"],
-  );
+        id: json["id"],
+        title: json["title"],
+        colour: json["colour"],
+        description: json["description"],
+        user_score: json["user_score"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "title": title,
-    "colour": colour,
-    "description": description,
-    "user_score": user_score,
-  };
-
+        "id": id,
+        "title": title,
+        "colour": colour,
+        "description": description,
+        "user_score": user_score,
+      };
 }

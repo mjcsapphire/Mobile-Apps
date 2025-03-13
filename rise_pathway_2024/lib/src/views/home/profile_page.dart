@@ -1,0 +1,358 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:rise_pathway/core/constants/package_export.dart';
+import 'package:rise_pathway/core/helpers/helpers.dart';
+import 'package:rise_pathway/core/routes/routes.dart';
+import 'package:rise_pathway/core/utils/colors.dart';
+import 'package:rise_pathway/src/controllers/auth_controller.dart';
+import 'package:rise_pathway/src/controllers/media_controller.dart';
+import 'package:rise_pathway/src/models/risebutton/audio_response.dart';
+import 'package:rise_pathway/src/views/rise_pathway/rise_song.dart';
+import 'package:rise_pathway/src/views/widget/app_bar.dart';
+import 'package:rise_pathway/src/views/widget/rise_button.dart';
+import 'package:rise_pathway/src/views/widget/rise_dialog.dart';
+import 'package:rise_pathway/src/views/widget/text_form_field.dart';
+
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  final firstnameController = TextEditingController(text: "Rishabh").obs;
+  final surnameController = TextEditingController(text: "Patel").obs;
+  final emailController = TextEditingController(text: "aL6z2@example.com").obs;
+  String image = '';
+
+  final AuthController authController = Get.find();
+  final musicController = Get.find<MediaController>();
+
+  @override
+  void initState() {
+    final userData = authController.userData.value;
+
+    firstnameController.value.text = "${userData.firstname}";
+    surnameController.value.text = "${userData.surname}";
+    emailController.value.text = userData.userEmail ?? '';
+    image = userData.mobileAppProfilePic ?? 'https://picsum.photos/200';
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
+    return Scaffold(
+      appBar: RiseAppBar.riseAppBar(
+        theme: theme,
+        title: 'Profile',
+        onTap: () => context.pop(),
+        isAdd: false,
+        suffixIcon: FluentIcons.arrow_exit_20_regular,
+        suffixOnTap: () => showCupertinoModalPopup(
+          context: context,
+          builder: (context) => RiseDialog(
+            buttonTextno: "no",
+            buttonTextyes: "Yes",
+            onTapYes: () {
+              authController.signOut();
+              context.go(login);
+            },
+            title: "Are you sure you want to logout?",
+            image: "assets/png/logout.png",
+          ),
+        ),
+      ),
+      body: Obx(() {
+        return Container(
+          padding: const EdgeInsets.all(24),
+          child: SingleChildScrollView(
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    Container(
+                      height: 16.h,
+                      width: 16.h,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5.h,
+                          color: AppColors.blue.withOpacity(0.2),
+                        ),
+                        shape: BoxShape.circle,
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.network(image, fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                          return Image.network(
+                            "https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png",
+                            fit: BoxFit.cover,
+                          );
+                        }),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => showModalBottomSheet<void>(
+                        context: context,
+                        elevation: 0,
+                        builder: (context) => Container(
+                          height: 26.h,
+                          width: 100.w,
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  height: 4,
+                                  width: 10.w,
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.primaryColor,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              RiseText(
+                                'Choose File',
+                                style: theme.bodyMedium!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () async {
+                                      final picker = ImagePicker();
+                                      final pickedFile = await picker.pickImage(
+                                        source: ImageSource.camera,
+                                        maxWidth: 800,
+                                        maxHeight: 800,
+                                        imageQuality: 85,
+                                      );
+
+                                      if (pickedFile != null) {
+                                        authController.updateProfileImage(
+                                          email: emailController.value.text,
+                                          imagePath: pickedFile.path,
+                                        );
+                                        setState(() {
+                                          image = pickedFile.path;
+                                        });
+                                      }
+                                      Navigator.pop(context);
+                                    },
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.all(2.h),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color: AppColors.primaryColor),
+                                          ),
+                                          child: ShaderMask(
+                                            shaderCallback: (Rect rect) {
+                                              return AppColorsGredients
+                                                  .primaryTopToBottom
+                                                  .createShader(rect);
+                                            },
+                                            blendMode: BlendMode.srcIn,
+                                            child: const Icon(
+                                              FluentIcons.camera_28_filled,
+                                              color: AppColors.primaryColor,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 1.h),
+                                        RiseText(
+                                          'Camera',
+                                          style: theme.bodyMedium!.copyWith(
+                                            color: AppColors.primaryColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      final picker = ImagePicker();
+                                      final pickedFile = await picker.pickImage(
+                                        source: ImageSource.gallery,
+                                        maxWidth: 800,
+                                        maxHeight: 800,
+                                        imageQuality: 85,
+                                      );
+
+                                      if (pickedFile != null) {
+                                        authController.updateProfileImage(
+                                          email: emailController.value.text,
+                                          imagePath: pickedFile.path,
+                                        );
+                                        setState(() {
+                                          image = pickedFile.path;
+                                        });
+                                      }
+                                      context.pop();
+                                    },
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.all(2.h),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color: AppColors.primaryColor),
+                                          ),
+                                          child: ShaderMask(
+                                            shaderCallback: (Rect rect) {
+                                              return AppColorsGredients
+                                                  .primaryTopToBottom
+                                                  .createShader(rect);
+                                            },
+                                            blendMode: BlendMode.srcIn,
+                                            child: const Icon(
+                                              FluentIcons.image_48_filled,
+                                              color: AppColors.primaryColor,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 1.h),
+                                        RiseText(
+                                          'Gallery',
+                                          style: theme.bodyMedium!.copyWith(
+                                            color: AppColors.primaryColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      child: Container(
+                        margin: const EdgeInsets.only(bottom: 4, right: 4),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/svg/edit.svg',
+                          height: 4.h,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 2.h),
+                // Align(
+                //   alignment: Alignment.centerLeft,
+                //   child: RiseText(
+                //     'Current Song',
+                //     style: theme.bodyMedium!.copyWith(
+                //       fontWeight: FontWeight.w400,
+                //       color: AppColors.black.withOpacity(0.5),
+                //     ),
+                //   ),
+                // ),
+                SizedBox(height: 2.h),
+                // Current Song
+                Container(
+                  height: 7.h,
+                  width: 100.w,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: AppColors.blue.withOpacity(0.1),
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SongListScreen(
+                              songs: musicController.mediaList
+                                  .cast<AudioResponse>()),
+                        ),
+                      );
+                    },
+                    child: RiseText("Toolkit",
+                        style: theme.bodyLarge!.copyWith(
+                          color: AppColors.blue700,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
+                ),
+                SizedBox(height: 2.h),
+                RiseTextField(
+                  title: 'Firstname',
+                  hintText: 'Melissa',
+                  readOnly: false,
+                  keyboardType: TextInputType.visiblePassword,
+                  controller: firstnameController.value,
+                ),
+                SizedBox(height: 2.h),
+                RiseTextField(
+                  title: 'Surname',
+                  hintText: 'Peters',
+                  readOnly: false,
+                  keyboardType: TextInputType.visiblePassword,
+                  controller: surnameController.value,
+                ),
+                SizedBox(height: 2.h),
+                RiseTextField(
+                  title: 'Email',
+                  hintText: 'melissapeters44@gmail.com',
+                  suffixIcon: FluentIcons.mail_48_regular,
+                  readOnly: true,
+                  keyboardType: TextInputType.emailAddress,
+                  controller: emailController.value,
+                ),
+                SizedBox(height: 1.h),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () => context.go(changePassword),
+                    child: RiseText(
+                      "Change Password",
+                      style: theme.bodySmall!.copyWith(color: AppColors.error),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 1.h),
+              ],
+            ),
+          ),
+        );
+      }),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: RiseButton(
+        width: 90.w,
+        title: 'Save',
+        onTap: () {
+          authController.updateUser(
+            email: emailController.value.text,
+            firstname: firstnameController.value.text,
+            surname: surnameController.value.text,
+          );
+        },
+      ),
+    );
+  }
+}

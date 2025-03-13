@@ -1,0 +1,111 @@
+{
+  "info": {
+    "name": "RisePathway API Collection Get",
+    "_postman_id": "12345678-abcd-1234-abcd-12345678abcd",
+    "description": "Collection of API endpoints for RisePathway",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Fetch User",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/connections/getUser?email={{email}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "connections", "getUser"],
+          "query": [{ "key": "email", "value": "{{email}}" }]
+        }
+      }
+    },
+    {
+      "name": "Fetch Journal Entries",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/connections/getJournalEntries?email={{email}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "connections", "getJournalEntries"],
+          "query": [{ "key": "email", "value": "{{email}}" }]
+        }
+      }
+    },
+    {
+      "name": "Fetch Challenges",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/connections/getChallenges?email={{email}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "connections", "getChallenges"],
+          "query": [{ "key": "email", "value": "{{email}}" }]
+        }
+      }
+    },
+    {
+      "name": "Fetch Related Challenges",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/connections/getRelatedChallenges?email={{email}}&id={{id}}&pathway={{pathway}}&paid=0",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "connections", "getRelatedChallenges"],
+          "query": [
+            { "key": "email", "value": "{{email}}" },
+            { "key": "id", "value": "{{id}}" },
+            { "key": "pathway", "value": "{{pathway}}" },
+            { "key": "paid", "value": "0" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Fetch Related Premium Challenges",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/connections/getRelatedChallenges?email={{email}}&id={{id}}&pathway={{pathway}}&paid=1",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "connections", "getRelatedChallenges"],
+          "query": [
+            { "key": "email", "value": "{{email}}" },
+            { "key": "id", "value": "{{id}}" },
+            { "key": "pathway", "value": "{{pathway}}" },
+            { "key": "paid", "value": "1" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Fetch Pathways",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/connections/getPathways?email={{email}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "connections", "getPathways"],
+          "query": [{ "key": "email", "value": "{{email}}" }]
+        }
+      }
+    },
+    {
+      "name": "Fetch Questions",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/connections/getPathwayQuestions?pathway={{pathway}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "connections", "getPathwayQuestions"],
+          "query": [{ "key": "pathway", "value": "{{pathway}}" }]
+        }
+      }
+    }
+  ]
+}

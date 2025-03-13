@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+
 import '../models/user_model.dart';
 import '../theme/colors.dart';
 import '../utils/api_calls.dart';
@@ -15,7 +16,6 @@ class RiseScreen extends StatefulWidget {
 }
 
 class _RiseScreenState extends State<RiseScreen> {
-
   late VideoPlayerController _controller;
   final cache = AudioPlayer();
 
@@ -32,8 +32,8 @@ class _RiseScreenState extends State<RiseScreen> {
 
     cache.play(AssetSource(widget.data.riseSound.toString()));
 
-    var user_email = FirebaseAuth.instance.currentUser?.email;
-    registerRise(user_email!);
+    var userEmail = FirebaseAuth.instance.currentUser?.email;
+    registerRise(userEmail!);
   }
 
   @override
@@ -46,7 +46,6 @@ class _RiseScreenState extends State<RiseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       // appBar: AppBar(
       //   backgroundColor: Colors.blue,
       //   leading: IconButton(
@@ -66,10 +65,11 @@ class _RiseScreenState extends State<RiseScreen> {
       // ),
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [
-            primaryColor,
-            Colors.white
-          ], begin: Alignment.topCenter, end: Alignment.bottomCenter),),
+          gradient: LinearGradient(
+              colors: [primaryColor, Colors.white],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

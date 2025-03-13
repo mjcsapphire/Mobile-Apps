@@ -1,52 +1,43 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:rise_app_emotivating_minds_2023/models/journal_model.dart';
 
-import '../theme/colors.dart';
 import '../utils/api_calls.dart';
 
 class EditJournal extends StatelessWidget {
   final JournalModel journal;
 
-
-  EditJournal({Key? key, required this.journal}) : super(key: key);
+  const EditJournal({Key? key, required this.journal}) : super(key: key);
 
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: Text("No"),
-      onPressed:  () {
+      child: const Text("No"),
+      onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget continueButton = TextButton(
-      child: Text("Yes"),
-      onPressed:  () async {
-
-        await deleteJournalEntry(journal.id!)
-            .then((value) async {
-        toasty(context, value['message']);
-        if(value['message'] == 'Success'){
-        print("Deleted");
-        Navigator.pop(context);
-        Navigator.pushNamed(context, '/journal');
-
-        }
-        // finish(context);
-        // controller!.dispose();
+      child: const Text("Yes"),
+      onPressed: () async {
+        await deleteJournalEntry(journal.id!).then((value) async {
+          toasty(context, value['message']);
+          if (value['message'] == 'Success') {
+            print("Deleted");
+            Navigator.pop(context);
+            Navigator.pushNamed(context, '/journal');
+          }
+          // finish(context);
+          // controller!.dispose();
         }).catchError((e) {
-        toasty(context, e.toString());
+          toasty(context, e.toString());
         });
-
-
-
       },
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Confirmation Alert"),
-      content: Text("Are you sure you'd like to delete this entry?"),
+      title: const Text("Confirmation Alert"),
+      content: const Text("Are you sure you'd like to delete this entry?"),
       actions: [
         cancelButton,
         continueButton,
@@ -63,13 +54,11 @@ class EditJournal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController titleController = TextEditingController();
+    final TextEditingController entryController = TextEditingController();
 
-    final TextEditingController title_controller = TextEditingController();
-    final TextEditingController entry_controller =
-    TextEditingController();
-
-    title_controller.text = journal.title!;
-    entry_controller.text = journal.entry!;
+    titleController.text = journal.title!;
+    entryController.text = journal.entry!;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -79,19 +68,16 @@ class EditJournal extends StatelessWidget {
         elevation: 0.0,
         titleSpacing: 0.0,
         iconTheme: const IconThemeData(color: Colors.white),
-        title: Text(
+        title: const Text(
           'Edit Entry',
           maxLines: 2,
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-
             Expanded(
               flex: 1,
               child: SingleChildScrollView(
@@ -102,28 +88,28 @@ class EditJournal extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       AppTextField(
-                        controller: title_controller,
+                        controller: titleController,
                         readOnly: false,
                         textFieldType: TextFieldType.NAME,
                         decoration: InputDecoration(
                           labelText: 'Title',
                           hintText: journal.title,
                           floatingLabelBehavior: FloatingLabelBehavior.always,
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                         ),
                       ),
                       const SizedBox(
                         height: 20.0,
                       ),
                       TextField(
-                        controller: entry_controller,
+                        controller: entryController,
                         readOnly: false,
                         maxLines: 20,
                         decoration: InputDecoration(
                           labelText: 'Entry',
                           hintText: journal.entry,
                           floatingLabelBehavior: FloatingLabelBehavior.always,
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                         ),
                       ),
                       const SizedBox(
@@ -132,20 +118,20 @@ class EditJournal extends StatelessWidget {
                       FloatingActionButton.extended(
                         backgroundColor: Colors.white,
                         onPressed: () async {
-                          if (title_controller.text.trim() == '') {
+                          if (titleController.text.trim() == '') {
                             toasty(context, 'Please enter a title');
-                          } else if (entry_controller.text.trim() == '') {
+                          } else if (entryController.text.trim() == '') {
                             toasty(context, 'Please enter a journal entry');
                           } else {
-
-                            await updateJournalEntry(journal.id!, title_controller.text.trim(),
-                                entry_controller.text.trim())
+                            await updateJournalEntry(
+                                    journal.id!,
+                                    titleController.text.trim(),
+                                    entryController.text.trim())
                                 .then((value) async {
                               toasty(context, value['message']);
-                              if(value['message'] == 'Success'){
+                              if (value['message'] == 'Success') {
                                 // Navigator.pop(context);
                                 Navigator.pushNamed(context, '/journal');
-
                               }
                               // finish(context);
                               // controller!.dispose();
@@ -180,7 +166,6 @@ class EditJournal extends StatelessWidget {
                         label: const Text("Delete Entry"),
                         icon: const Icon(Icons.delete),
                       ),
-
                     ],
                   ),
                 ),
